@@ -1,0 +1,24 @@
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+configurations {
+    detekt
+}
+
+task detektCheckProject(type: JavaExec) {
+    main = "io.gitlab.arturbosch.detekt.cli.Main"
+    classpath = configurations.detekt
+    def input = "$projectDir"
+    def config = "$projectDir/code_quality/detekt-ruleset.yml"
+    def filters = ".*/build/.*,.*/resources/.*"
+    def output = "html:${project.buildDir}/reports/detekt.html"
+    def baseline = "$project.rootDir/code_quality/detekt-baseline.xml"
+    def params = [
+            '-i', input,
+            '-c', config,
+            '-f', filters,
+            '-r', output,
+            '-b', baseline,
+            '--parallel',
+            '--fail-fast']
+    args(params)
+}

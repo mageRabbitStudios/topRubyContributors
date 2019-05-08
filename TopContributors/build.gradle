@@ -13,7 +13,6 @@ buildscript {
         classpath ClasspathxDependencies.kotlinGradlePlugin
         classpath ClasspathxDependencies.androidGradlePlugin
         classpath ClasspathxDependencies.detektGradlePlugin
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -29,3 +28,9 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+/* Runs the detekt once for all modules with unified report after every build script evaluation.
+ This is important, that it is not included in the modules scope, because otherwise it would run
+ report for each module instead for the entire project */
+apply from: rootProject.file('code_quality/detekt.gradle')
+detektCheckProject.exec()
