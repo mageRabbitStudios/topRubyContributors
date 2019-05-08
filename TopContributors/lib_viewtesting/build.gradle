@@ -1,0 +1,24 @@
+apply from: rootProject.file('common-library.gradle')
+
+dependencies {
+    implementation TestDependencies.androidxJunit
+    implementation TestDependencies.androidxTestRules
+    implementation TestDependencies.androidxTestCore
+    implementation TestDependencies.androidxFragmentTesting
+
+    implementation Dependencies.dagger
+    implementation Dependencies.daggerAndroidSupport
+
+    implementation TestDependencies.mockitoInline
+
+    implementation TestDependencies.espressoIntents
+
+    implementation Dependencies.navigationUI
+    implementation Dependencies.navigationFragment
+
+    implementation Dependencies.recyclerView
+    implementation Dependencies.androidXCore
+
+    implementation TestDependencies.assertJ
+    implementation TestDependencies.robolectric
+}

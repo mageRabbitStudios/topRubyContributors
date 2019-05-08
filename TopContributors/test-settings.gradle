@@ -1,0 +1,37 @@
+android {
+    defaultConfig {
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+            all {
+                testLogging {
+                    events 'passed', 'skipped', 'failed'
+                    showStackTraces = true
+                    exceptionFormat = "full"
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    testImplementation TestDependencies.assertJ
+    testImplementation TestDependencies.lifecycleTestHelpers
+    testImplementation(TestDependencies.mockito) { transitive = false  }
+    testImplementation(TestDependencies.mockitoCore) { transitive = false  }
+    testImplementation(TestDependencies.mockitoInline) { transitive = false  }
+
+    testImplementation ('net.bytebuddy:byte-buddy:1.8.22') {
+        force = true
+    }
+    testImplementation ('net.bytebuddy:byte-buddy-agent:1.8.22') {
+        force = true
+    }
+
+    testImplementation ('org.objenesis:objenesis:3.0.1') {
+        force = true
+    }
+}

@@ -18,14 +18,21 @@ android {
 }
 
 dependencies {
-    implementation Dependencies.kotlin
-    implementation Dependencies.appCompatsupportLibrary
-
     implementation project(":feature_list")
 
     implementation project(":lib_ui")
     implementation project(":lib_base")
 
+    implementation Dependencies.kotlin
+    implementation Dependencies.appCompatsupportLibrary
+
+    implementation Dependencies.dagger
+    implementation Dependencies.daggerAndroidSupport
+
+    kapt Dependencies.daggerCompiler
+    kapt Dependencies.daggerAndroidCompiler
+
     implementation Dependencies.navigationUI
     implementation Dependencies.navigationFragment
+    implementation Dependencies.coroutines
 }

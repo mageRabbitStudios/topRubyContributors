@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 apply from: rootProject.file('common-module.gradle')
+apply from: rootProject.file('test-settings.gradle')
 
 dependencies {
     implementation Dependencies.kotlin

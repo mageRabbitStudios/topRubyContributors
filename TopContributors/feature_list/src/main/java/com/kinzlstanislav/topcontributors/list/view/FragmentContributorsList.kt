@@ -7,4 +7,7 @@ class FragmentContributorsList : BaseFragment() {
 
     override val layoutResourceId = R.layout.fragment_contributors_list
 
+    override fun onFragmentCreated() {
+        showToast("Blablabla")
+    }
 }

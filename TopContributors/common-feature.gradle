@@ -1,11 +1,17 @@
 apply plugin: 'com.android.feature'
-apply plugin: 'kotlin-kapt'
 
 apply from: rootProject.file('common-module.gradle')
 
 dependencies {
     implementation project(":lib_ui")
     implementation project(":lib_base")
+
+    implementation Dependencies.dagger
+    implementation Dependencies.daggerAndroid
+    implementation Dependencies.daggerAndroidSupport
+
+    kapt Dependencies.daggerCompiler
+    kapt Dependencies.daggerAndroidCompiler
 
     implementation Dependencies.kotlin
     implementation Dependencies.materialComponents
@@ -23,4 +29,6 @@ dependencies {
 
     implementation Dependencies.navigationUI
     implementation Dependencies.navigationFragment
+
+    testImplementation project(":lib_viewtesting")
 }

@@ -1,0 +1,19 @@
+dependencies {
+    testImplementation TestDependencies.androidxJunit
+    testImplementation TestDependencies.robolectric
+
+    testImplementation TestDependencies.espressoCore
+    testImplementation TestDependencies.espressoIntents
+    testImplementation TestDependencies.espressoContrib
+
+    /* Adds great UI test assertions and helping methods for Robolectric fragment tests
+    List of commands can be found here:
+    https://github.com/SchibstedSpain/Barista
+    Barista is an alternative UI Espresso test asserting lib to: Cappuccino, Kappuccino, Kakao and more...
+    */
+    testImplementation (TestDependencies.barista) {
+        exclude group: 'com.android.support'
+        // Only if you already use Kotlin in your project
+        exclude group: 'org.jetbrains.kotlin'
+    }
+}

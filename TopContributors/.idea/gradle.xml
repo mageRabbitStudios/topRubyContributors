@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/feature_list" />
             <option value="$PROJECT_DIR$/lib_base" />
             <option value="$PROJECT_DIR$/lib_ui" />
+            <option value="$PROJECT_DIR$/lib_viewtesting" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
