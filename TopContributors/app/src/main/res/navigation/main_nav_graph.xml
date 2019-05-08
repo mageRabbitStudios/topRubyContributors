@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/main_nav_graph">
+            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/main_nav_graph" app:startDestination="@id/fragmentContributorsList">
+
+    <fragment android:id="@+id/fragmentContributorsList"
+              android:name="com.kinzlstanislav.topcontributors.list.view.FragmentContributorsList"
+              android:label="FragmentContributorsList"
+              tools:layout="@layout/fragment_contributors_list"/>
 
 </navigation>

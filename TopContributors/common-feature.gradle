@@ -1,0 +1,26 @@
+apply plugin: 'com.android.feature'
+apply plugin: 'kotlin-kapt'
+
+apply from: rootProject.file('common-module.gradle')
+
+dependencies {
+    implementation project(":lib_ui")
+    implementation project(":lib_base")
+
+    implementation Dependencies.kotlin
+    implementation Dependencies.materialComponents
+    implementation Dependencies.appCompatsupportLibrary
+
+    implementation Dependencies.coroutines
+    implementation Dependencies.coroutinesAndroidExtension
+
+    implementation Dependencies.androidXCore
+    implementation Dependencies.constraintLayout
+    implementation Dependencies.recyclerView
+
+    implementation Dependencies.lifecycleExtensions
+    implementation Dependencies.lifecycleCommon
+
+    implementation Dependencies.navigationUI
+    implementation Dependencies.navigationFragment
+}

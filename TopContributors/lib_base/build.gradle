@@ -2,5 +2,4 @@ apply from: rootProject.file('common-library.gradle')
 
 dependencies {
     implementation Dependencies.appCompatsupportLibrary
-    implementation Dependencies.materialComponents
 }

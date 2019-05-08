@@ -1,0 +1,20 @@
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion DefaultConfigurations.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion DefaultConfigurations.minimumSdkVersion
+        compileSdkVersion DefaultConfigurations.compileSdkVersion
+    }
+
+    compileOptions {
+        sourceCompatibility DefaultConfigurations.sourceCompatibilityVersion
+        targetCompatibility DefaultConfigurations.targetCompatibilityVersion
+    }
+}
+
+androidExtensions {
+    experimental = true
+}
