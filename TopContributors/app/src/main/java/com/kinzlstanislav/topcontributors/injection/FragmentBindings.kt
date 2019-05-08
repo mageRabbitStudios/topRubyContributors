@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.dependencyinjection
+package com.kinzlstanislav.topcontributors.injection
 
 import com.kinzlstanislav.topcontributors.base.annotation.PerFragment
 import com.kinzlstanislav.topcontributors.list.view.FragmentContributorsList

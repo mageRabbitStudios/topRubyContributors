@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.dependencyinjection
+package com.kinzlstanislav.topcontributors.injection
 
 import com.kinzlstanislav.topcontributors.base.annotation.PerActivity
 import com.kinzlstanislav.topcontributors.view.MainActivity

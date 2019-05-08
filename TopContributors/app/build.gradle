@@ -22,6 +22,9 @@ dependencies {
 
     implementation project(":lib_ui")
     implementation project(":lib_base")
+    implementation project(":lib_architecture_domain")
+    implementation project(":lib_architecture_repository")
+    implementation project(":lib_architecture_network")
 
     implementation Dependencies.kotlin
     implementation Dependencies.appCompatsupportLibrary
@@ -35,4 +38,7 @@ dependencies {
     implementation Dependencies.navigationUI
     implementation Dependencies.navigationFragment
     implementation Dependencies.coroutines
+
+    implementation Dependencies.okhttpLogging
+    implementation Dependencies.retrofit
 }

@@ -2,7 +2,7 @@ package com.kinzlstanislav.topcontributors
 
 import android.app.Activity
 import android.app.Application
-import com.kinzlstanislav.topcontributors.dependencyinjection.DaggerApplicationComponent
+import com.kinzlstanislav.topcontributors.injection.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector

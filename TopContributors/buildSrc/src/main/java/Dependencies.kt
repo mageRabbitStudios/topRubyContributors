@@ -62,6 +62,10 @@ object Versions {
     const val detektGradlePluginVersion = "1.0.0-RC14"
 
     const val moshiVersion = "1.8.0"
+
+    const val retrofitVersion = "2.5.0"
+    const val retrofitCoroutinesVersion = "0.9.2"
+    const val okHttpVersion = "3.12.1"
 }
 
 object DefaultConfigurations {
@@ -124,8 +128,17 @@ object Dependencies {
     const val ktlint = "com.github.shyiko:ktlint:${Versions.ktlintVersion}"
 
     // Moshi
-    const val moshiKotlin = "com.squareup.moshi:moshi-adapters:${Versions.moshiVersion}"
-    const val moshiAdapters = "com.squareup.moshi:moshi-kotlin:${Versions.moshiVersion}"
+    const val moshiAdapters = "com.squareup.moshi:moshi-adapters:${Versions.moshiVersion}"
+    const val moshi = "com.squareup.moshi:moshi-kotlin:${Versions.moshiVersion}"
+
+    //OkHttp
+    const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okHttpVersion}"
+    const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttpVersion}"
+
+    //Retrofit
+    const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofitVersion}"
+    const val retrofitCoroutineAdapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${Versions.retrofitCoroutinesVersion}"
+    const val retrofitMoshiAdapter = "com.squareup.retrofit2:converter-moshi:${Versions.retrofitVersion}"
 }
 
 @SuppressWarnings("MaxLineLength")
