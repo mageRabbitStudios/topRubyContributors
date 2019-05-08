@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- *************************************************************************************** -->
+    <!-- BASE APPLICATION THEME -->
+    <!-- *************************************************************************************** -->
+
+    <style name="ContributorsTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/app__status_bar_grey</item>
+        <item name="colorPrimary">@color/app__grey</item>
+    </style>
+
+    <!-- *************************************************************************************** -->
+    <!-- LAUNCH SCREEN THEME -->
+    <!-- *************************************************************************************** -->
+    <style name="ContributorsTheme.Launcher" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name ="android:windowBackground">@drawable/splash</item>
+    </style>
+
+</resources>
