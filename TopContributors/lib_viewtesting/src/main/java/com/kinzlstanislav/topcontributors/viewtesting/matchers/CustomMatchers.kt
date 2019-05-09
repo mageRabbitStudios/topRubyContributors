@@ -8,7 +8,9 @@ import org.assertj.core.api.Assertions.assertThat
 
 /**Matchers that are not included with Barista*/
 
-fun assertViewHolderOfItemAtPosition(recyclerView: RecyclerView, position: Int, type: Class<out RecyclerView.ViewHolder>) {
+fun assertViewHolderOfItemAtPosition(
+    recyclerView: RecyclerView, position: Int,
+    type: Class<out RecyclerView.ViewHolder>) {
     assertThat(recyclerView.findViewHolderForAdapterPosition(position))
             .isExactlyInstanceOf(type)
 }

@@ -1,1 +1,9 @@
 apply from: rootProject.file('common-library.gradle')
+
+dependencies {
+    implementation Dependencies.dagger
+    implementation Dependencies.glide
+    kapt Dependencies.glideCompiler
+
+    implementation project(':lib_architecture_core')
+}

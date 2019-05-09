@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.base.extension
+package com.kinzlstanislav.topcontributors.architecture.core.extension
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

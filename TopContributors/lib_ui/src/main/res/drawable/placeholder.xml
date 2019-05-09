@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="105dp"
+            android:height="105dp"
+            android:viewportWidth="105"
+            android:viewportHeight="105">
+            <group
+                android:name="rotationGroup"
+                android:pivotX="52.5"
+                android:pivotY="52.5">
+                <path
+                    android:pathData="M1.5 52.5c0 28.167 22.834 51 51 51 28.167 0 51-22.833 51-51 0-28.166-22.833-51-51-51"
+                    android:strokeWidth="3"
+                    android:strokeColor="@color/app__white" />
+            </group>
+            <group
+                android:name="rotationGroupReverse"
+                android:pivotX="52.5"
+                android:pivotY="52.5">
+                <path
+                    android:pathData="M52.5 20.5c-17.673 0-32 14.327-32 32 0 17.674 14.327 32 32 32 17.674 0 32-14.326 32-32"
+                    android:strokeWidth="3"
+                    android:strokeColor="@color/app__white" />
+            </group>
+        </vector>
+    </aapt:attr>
+
+    <target android:name="rotationGroup">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1000"
+                android:interpolator="@android:anim/linear_interpolator"
+                android:propertyName="rotation"
+                android:repeatCount="infinite"
+                android:repeatMode="restart"
+                android:valueFrom="0"
+                android:valueTo="360" />
+        </aapt:attr>
+    </target>
+
+    <target android:name="rotationGroupReverse">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1000"
+                android:interpolator="@android:anim/linear_interpolator"
+                android:propertyName="rotation"
+                android:repeatCount="infinite"
+                android:repeatMode="restart"
+                android:valueFrom="0"
+                android:valueTo="-360" />
+        </aapt:attr>
+    </target>
+
+</animated-vector>

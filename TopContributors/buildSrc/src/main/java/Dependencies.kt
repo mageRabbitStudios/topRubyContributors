@@ -13,7 +13,6 @@ object Versions {
     const val javaxInjectVersion = "1"
     const val javaxAnnotationVersion = "1.0"
 
-    const val ktlintVersion = "0.29.0"
     const val ktlintGradlePluginVersion = "1.20.1"
     const val androidXCore = "1.0.0"
     const val archComponentsVersion = "2.0.0"
@@ -23,23 +22,13 @@ object Versions {
 
     const val recyclerViewVersion = "1.0.0"
 
-    const val firebaseCore = "16.0.6"
-    const val firebaseAuth = "16.1.0"
-    const val firebaseFirestore = "17.1.5"
-    const val firebaseCrashlytics = "2.9.8"
-
-    const val playServicesAuth = "16.0.1"
 
     const val daggerVersion = "2.16"
 
     const val androidGradlePluginVersion = "3.3.2"
     const val supportLibraryVersion = "1.0.0"
 
-    const val picassoVersion = "2.71828"
-
-    const val circularImageViewVersion = "1.1"
-    const val biometrics = "1.0.0-alpha04"
-    const val insLoadingViewVersion = "1.1.0"
+    const val glideVersion = "4.8.0"
 
     const val robolectricVersion = "4.1"
     const val androidxTestVersion = "1.1.1"
@@ -124,6 +113,9 @@ object Dependencies {
     const val javaxInject = "javax.inject:javax.inject:${Versions.javaxInjectVersion}"
     const val javaxAnnotation = "javax.annotation:jsr250-api:${Versions.javaxAnnotationVersion}"
 
+    // Image Loaders
+    const val glide = "com.github.bumptech.glide:glide:${Versions.glideVersion}"
+    const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glideVersion}"
 
     // Moshi
     const val moshiAdapters = "com.squareup.moshi:moshi-adapters:${Versions.moshiVersion}"

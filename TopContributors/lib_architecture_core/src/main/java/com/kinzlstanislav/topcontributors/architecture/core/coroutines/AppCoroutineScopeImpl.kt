@@ -1,7 +1,10 @@
 package com.kinzlstanislav.topcontributors.architecture.core.coroutines
 
-import kotlinx.coroutines.*
-import javax.inject.Inject
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 class AppCoroutineScopeImpl(private val coroutineDispatcherProvider: DispatcherProvider) :

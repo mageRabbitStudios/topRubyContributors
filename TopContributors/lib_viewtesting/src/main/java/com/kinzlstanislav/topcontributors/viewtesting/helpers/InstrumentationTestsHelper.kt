@@ -57,15 +57,14 @@ object InstrumentationTestsHelper {
 
             if (v is ViewGroup) {
                 for (i in v.childCount - 1 downTo 0) {
-                    stack.push(Pair.create(pairedStack.first + if (isLastOnLevel) "    " else "│   ", v.getChildAt(i)))
+                    stack.push(Pair.create(pairedStack.first + if (isLastOnLevel) "    " +
+                            "" else "│   ", v.getChildAt(i)))
                 }
             }
         }
         println(output)
     }
 
-    /** @see [Lookup resource name](https://stackoverflow.com/questions/10137692/how-to-get-resource-name-from-resource-id)
-     */
     @NonNull
     internal fun resolveIdToName(@Nullable r: Resources?, @NonNull v: View): String {
         if (null == r) return ""

@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.base.extension
+package com.kinzlstanislav.topcontributors.architecture.core.extension
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment

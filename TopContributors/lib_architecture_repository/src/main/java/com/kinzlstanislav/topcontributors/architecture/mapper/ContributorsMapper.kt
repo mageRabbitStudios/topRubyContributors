@@ -12,9 +12,10 @@ class ContributorsMapper @Inject constructor() {
         response.forEach { contributorResponse ->
             mappedResult.add(Contributor(
                 authorName = contributorResponse.contributor?.name?: "",
-                numberOfCommits = contributorResponse.numberOfCommits?: 0))
+                numberOfCommits = contributorResponse.numberOfCommits?: 0,
+                avatarUrl = contributorResponse.contributor?.avatarUrl?: ""))
         }
         return mappedResult
     }
-    
+
 }

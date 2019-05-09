@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="app__grey">#cccccc</color>
+    <color name="app__white">#ffffff</color>
+    <color name="app__black">#000000</color>
     <color name="app__status_bar_grey">#d9d9d9</color>
 </resources>
