@@ -21,12 +21,12 @@ dependencies {
     implementation project(":feature_list")
 
     implementation project(":lib_ui")
-    implementation project(":lib_base")
+    implementation project(':lib_feature_base')
     implementation project(":lib_architecture_domain")
     implementation project(":lib_architecture_repository")
     implementation project(":lib_architecture_network")
+    implementation project(":lib_architecture_core")
 
-    implementation Dependencies.kotlin
     implementation Dependencies.appCompatsupportLibrary
 
     implementation Dependencies.dagger
@@ -37,7 +37,8 @@ dependencies {
 
     implementation Dependencies.navigationUI
     implementation Dependencies.navigationFragment
-    implementation Dependencies.coroutines
+
+    implementation Dependencies.lifecycleExtensions
 
     implementation Dependencies.okhttpLogging
     implementation Dependencies.retrofit

@@ -2,4 +2,7 @@ apply from: rootProject.file('common-library.gradle')
 
 dependencies {
     implementation Dependencies.dagger
+
+    implementation project(':lib_architecture_core')
+    implementation project(":lib_architecture_repository")
 }

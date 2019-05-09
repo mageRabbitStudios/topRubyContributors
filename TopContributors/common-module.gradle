@@ -19,3 +19,11 @@ android {
 androidExtensions {
     experimental = true
 }
+
+dependencies {
+    implementation Dependencies.kotlin
+    implementation Dependencies.coroutines
+    implementation Dependencies.coroutinesAndroidExtension
+    implementation Dependencies.lifecycleExtensions
+    implementation Dependencies.androidKtx
+}

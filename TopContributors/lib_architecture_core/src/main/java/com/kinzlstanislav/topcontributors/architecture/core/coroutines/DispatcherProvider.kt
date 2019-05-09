@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.base.coroutines
+package com.kinzlstanislav.topcontributors.architecture.core.coroutines
 
 import kotlinx.coroutines.CoroutineDispatcher
 

@@ -1,10 +1,10 @@
-package com.kinzlstanislav.topcontributors.base.coroutines
+package com.kinzlstanislav.topcontributors.architecture.core.coroutines
 
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class AppCoroutineScopeImpl @Inject constructor(private val coroutineDispatcherProvider: DispatcherProvider) :
+class AppCoroutineScopeImpl(private val coroutineDispatcherProvider: DispatcherProvider) :
     AppCoroutineScope {
 
     private val job: Job = Job()

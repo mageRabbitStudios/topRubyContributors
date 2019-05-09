@@ -4,7 +4,8 @@ apply from: rootProject.file('common-module.gradle')
 
 dependencies {
     implementation project(":lib_ui")
-    implementation project(":lib_base")
+    implementation project(":lib_feature_base")
+    implementation project(":lib_architecture_core")
     implementation project(":lib_architecture_domain")
 
     implementation Dependencies.dagger
@@ -14,12 +15,8 @@ dependencies {
     kapt Dependencies.daggerCompiler
     kapt Dependencies.daggerAndroidCompiler
 
-    implementation Dependencies.kotlin
     implementation Dependencies.materialComponents
     implementation Dependencies.appCompatsupportLibrary
-
-    implementation Dependencies.coroutines
-    implementation Dependencies.coroutinesAndroidExtension
 
     implementation Dependencies.androidXCore
     implementation Dependencies.constraintLayout

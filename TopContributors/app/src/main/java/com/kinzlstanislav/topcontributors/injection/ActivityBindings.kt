@@ -9,7 +9,7 @@ import dagger.android.ContributesAndroidInjector
 interface ActivityBindings {
 
     @PerActivity
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [MainActivityModule::class])
     fun bindMainActivity(): MainActivity
 
 }

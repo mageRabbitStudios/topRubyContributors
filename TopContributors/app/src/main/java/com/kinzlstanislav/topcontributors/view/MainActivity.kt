@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.kinzlstanislav.topcontributors.R
+import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -17,10 +18,18 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingFragmentInjector
 
+    @Inject
+    lateinit var contributorsListViewModel: ContributorsListViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
+        fetchDataOnAppStart()
+    }
+
+    private fun fetchDataOnAppStart() {
+        contributorsListViewModel.fetchRubyContributors()
     }
 }

@@ -1,9 +1,8 @@
-package com.kinzlstanislav.topcontributors.base.coroutines
+package com.kinzlstanislav.topcontributors.architecture.core.coroutines
 
 import kotlinx.coroutines.Dispatchers
-import javax.inject.Inject
 
-class AndroidDispatcherProvider @Inject constructor() : DispatcherProvider {
+class AndroidDispatcherProvider : DispatcherProvider {
 
     override val background = Dispatchers.Default
 

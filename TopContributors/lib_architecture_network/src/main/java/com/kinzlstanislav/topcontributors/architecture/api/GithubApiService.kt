@@ -8,6 +8,6 @@ interface GithubApiService {
 
     @GET("ruby/ruby/stats/contributors")
     @Throws(Exception::class)
-    fun getContributorsForRuby(): Deferred<List<GithubRepositoryContributorResponse>>
+    fun getContributorsForRubyAsync(): Deferred<List<GithubRepositoryContributorResponse>>
 
 }

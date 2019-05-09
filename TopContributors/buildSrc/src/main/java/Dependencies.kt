@@ -124,8 +124,6 @@ object Dependencies {
     const val javaxInject = "javax.inject:javax.inject:${Versions.javaxInjectVersion}"
     const val javaxAnnotation = "javax.annotation:jsr250-api:${Versions.javaxAnnotationVersion}"
 
-    // Ktlint
-    const val ktlint = "com.github.shyiko:ktlint:${Versions.ktlintVersion}"
 
     // Moshi
     const val moshiAdapters = "com.squareup.moshi:moshi-adapters:${Versions.moshiVersion}"

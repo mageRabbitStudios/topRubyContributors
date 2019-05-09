@@ -15,15 +15,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class NetworkModule {
 
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
-            Retrofit.Builder()
-                    .baseUrl(REST_GITHUB_BASE_URL)
-                    .addConverterFactory(MoshiConverterFactory.create())
-                    .addCallAdapterFactory(CoroutineCallAdapterFactory())
-                    .client(okHttpClient)
-                    .build()
-
-    @Provides
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         val okHttpBuilder = OkHttpClient.Builder()
         if (BuildConfig.DEBUG) {
@@ -37,6 +28,12 @@ class NetworkModule {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
     @Provides
-    fun provideGithubApiService(retrofit: Retrofit): GithubApiService =
-            retrofit.create(GithubApiService::class.java)
+    fun provideGithubApiService(okHttpClient: OkHttpClient): GithubApiService =
+        Retrofit.Builder()
+            .baseUrl(REST_GITHUB_BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .client(okHttpClient)
+            .build()
+            .create(GithubApiService::class.java)
 }
