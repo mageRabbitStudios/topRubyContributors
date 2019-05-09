@@ -1,19 +1,22 @@
-package com.kinzlstanislav.topcontributors.list.view
+package com.kinzlstanislav.topcontributors.feature.list.view
 
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
+import com.kinzlstanislav.topcontributors.base.Constants.EXTRAS_CONTRIBUTOR
 import com.kinzlstanislav.topcontributors.base.view.BaseFragment
+import com.kinzlstanislav.topcontributors.feature.list.view.adapter.ContributorItemClickListener
+import com.kinzlstanislav.topcontributors.feature.list.view.adapter.ContributorsAdapter
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsFetched
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsSorted
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.GenericError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.Loading
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.NetworkError
 import com.kinzlstanislav.topcontributors.list.R
-import com.kinzlstanislav.topcontributors.list.view.adapter.ContributorItemClickListener
-import com.kinzlstanislav.topcontributors.list.view.adapter.ContributorsAdapter
-import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel
-import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel.ContributorsListState
-import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsFetched
-import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsSorted
-import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel.ContributorsListState.GenericError
-import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel.ContributorsListState.Loading
-import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel.ContributorsListState.NetworkError
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
 import kotlinx.android.synthetic.main.fragment_contributors_list.*
 import javax.inject.Inject
@@ -23,7 +26,7 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
     private companion object {
         const val LOADING = 0
         const val LIST = 1
-        const val GENERIC_EROR = 2
+        const val GENERIC_ERROR = 2
         const val NETWORK_ERROR = 3
 
         const val DISPLAY_X_CONTRIBUTORS = 25
@@ -67,7 +70,7 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
         when (state) {
             is Loading -> contributors_list_flipper.displayedChild = LOADING
             is NetworkError -> contributors_list_flipper.displayedChild = NETWORK_ERROR
-            is GenericError -> contributors_list_flipper.displayedChild = GENERIC_EROR
+            is GenericError -> contributors_list_flipper.displayedChild = GENERIC_ERROR
             is ContributorsFetched -> contributorsListViewModel.sortByTopByCommits(state.contributors, DISPLAY_X_CONTRIBUTORS)
             is ContributorsSorted -> {
                 contributors_list_flipper.displayedChild = LIST
@@ -77,6 +80,8 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
     }
 
     override fun onContributorItemClicked(contributor: Contributor) {
-        showToast(contributor.toString())
+        findNavController().navigate(
+            R.id.action_fragmentContributorsList_to_fragmentContributorMap,
+            bundleOf(EXTRAS_CONTRIBUTOR to contributor))
     }
 }

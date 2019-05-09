@@ -19,6 +19,7 @@ android {
 
 dependencies {
     implementation project(":feature_list")
+    implementation project(":feature_map")
 
     implementation project(":lib_ui")
     implementation project(':lib_feature_base')

@@ -1,1 +1,1 @@
-include ':app', ':lib_ui', ':feature_list', ':lib_feature_base', ':lib_viewtesting', ':lib_architecture_domain', ':lib_architecture_repository', ':lib_architecture_network', ':lib_architecture_core'
+include ':app', ':lib_ui', ':feature_list', ':lib_feature_base', ':lib_viewtesting', ':lib_architecture_domain', ':lib_architecture_repository', ':lib_architecture_network', ':lib_architecture_core', ':feature_map'

@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.list.viewmodel
+package com.kinzlstanislav.topcontributors.feature.list.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

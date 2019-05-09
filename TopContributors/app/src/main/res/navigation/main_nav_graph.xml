@@ -4,8 +4,19 @@
             android:id="@+id/main_nav_graph" app:startDestination="@id/fragmentContributorsList">
 
     <fragment android:id="@+id/fragmentContributorsList"
-              android:name="com.kinzlstanislav.topcontributors.list.view.FragmentContributorsList"
+              android:name="com.kinzlstanislav.topcontributors.feature.list.view.FragmentContributorsList"
               android:label="FragmentContributorsList"
-              tools:layout="@layout/fragment_contributors_list"/>
+              tools:layout="@layout/fragment_contributors_list">
+        <action android:id="@+id/action_fragmentContributorsList_to_fragmentContributorMap"
+                app:destination="@id/fragmentContributorMap"/>
+    </fragment>
+
+    <fragment android:id="@+id/fragmentContributorMap"
+              android:name="com.kinzlstanislav.topcontributors.feature.map.view.FragmentContributorMap"
+              android:label="FragmentContributorMap"
+              tools:layout="@layout/fragment_contributor_map">
+    <argument android:name="arg_contributor"
+                  app:argType="com.kinzlstanislav.topcontributors.architecture.core.model.Contributor"/>
+    </fragment>
 
 </navigation>

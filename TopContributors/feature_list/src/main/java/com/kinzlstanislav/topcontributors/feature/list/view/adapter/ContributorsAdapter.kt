@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.list.view.adapter
+package com.kinzlstanislav.topcontributors.feature.list.view.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
