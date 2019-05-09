@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 data class GithubRepositoryContributorResponse(
     @field:Json(name = "author") val contributor: GithubRepositoryContributionAuthorResponse?,
     @field:Json(name = "total") val numberOfCommits: Int?,
-    @field:Json(name = "weeks") val weeks: GithubRepositoryContributorWeeksResponse?
+    @field:Json(name = "weeks") val weeks: List<GithubRepositoryContributorWeeksResponse>?
 )
 
 data class GithubRepositoryContributionAuthorResponse(

@@ -103,10 +103,10 @@ object Dependencies {
     const val materialComponents = "com.google.android.material:material:${Versions.materialComponentsVersion}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayoutVersion}"
     const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerViewVersion}"
-    const val androidXCore = "androidx.core:core-ktx:${Versions.androidXCore}"
+    const val androidXCoreKtx = "androidx.core:core-ktx:${Versions.androidXCore}"
 
     // Architecture Components
-    const val lifecycleCommon = "androidx.lifecycle:lifecycle-common-java8:${Versions.archComponentsVersion}"
+    const val lifecycleCommonJava8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.archComponentsVersion}"
     // lifeCycleExtension already contains LiveData & ViewModel dependencies
     const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.archComponentsVersion}"
 

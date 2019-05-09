@@ -25,7 +25,7 @@ class NetworkModule {
 
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
-            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
 
     @Provides
     fun provideGithubApiService(okHttpClient: OkHttpClient): GithubApiService =

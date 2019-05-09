@@ -17,7 +17,6 @@ dependencies {
     implementation Dependencies.navigationFragment
 
     implementation Dependencies.recyclerView
-    implementation Dependencies.androidXCore
 
     implementation TestDependencies.assertJ
     implementation TestDependencies.robolectric

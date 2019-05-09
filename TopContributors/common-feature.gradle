@@ -18,15 +18,14 @@ dependencies {
     implementation Dependencies.materialComponents
     implementation Dependencies.appCompatsupportLibrary
 
-    implementation Dependencies.androidXCore
     implementation Dependencies.constraintLayout
     implementation Dependencies.recyclerView
 
-    implementation Dependencies.lifecycleExtensions
-    implementation Dependencies.lifecycleCommon
-
     implementation Dependencies.navigationUI
     implementation Dependencies.navigationFragment
+
+    // for ViewModelProviders.of (modules with ViewModelFactories), also contains lifecycle dependency for LiveData
+    implementation Dependencies.lifecycleExtensions
 
     testImplementation project(":lib_viewtesting")
 }

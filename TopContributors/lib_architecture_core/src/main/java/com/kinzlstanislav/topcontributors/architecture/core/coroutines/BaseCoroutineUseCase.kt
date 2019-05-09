@@ -9,7 +9,6 @@ abstract class BaseCoroutineUseCase(appCoroutineScope: AppCoroutineScope) : AppC
     protected fun Exception.isConnectionError(): Boolean {
         return this is SocketTimeoutException ||
                 this is ConnectException ||
-                this is UnknownHostException
-    }
+                this is UnknownHostException }
 
 }

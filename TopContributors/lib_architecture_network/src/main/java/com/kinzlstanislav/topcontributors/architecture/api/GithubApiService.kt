@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface GithubApiService {
 
-    @GET("ruby/ruby/stats/contributors")
+    @GET("repos/ruby/ruby/stats/contributors")
     @Throws(Exception::class)
     fun getContributorsForRubyAsync(): Deferred<List<GithubRepositoryContributorResponse>>
 
