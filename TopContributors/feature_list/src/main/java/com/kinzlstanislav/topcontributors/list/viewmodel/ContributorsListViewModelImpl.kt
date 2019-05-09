@@ -12,8 +12,6 @@ class ContributorsListViewModelImpl(
 
     override val state = MutableLiveData<ContributorsListViewModel.ContributorsListState>()
 
-    override val fetchedContributors: List<Contributor> = emptyList()
-
     override fun fetchRubyContributors() = ioJob {
         state.postValue(ContributorsListState.Loading)
 
@@ -30,9 +28,9 @@ class ContributorsListViewModelImpl(
         }
     }
 
-    override fun getMeTopContributors(top: Int) {
-
+    override fun sortByTopByCommits(input: List<Contributor>, top: Int) {
+        val result = input.sortedBy { -it.numberOfCommits }.subList(0, top)
+        state.value = ContributorsListState.ContributorsSorted(result)
     }
-
 
 }

@@ -56,9 +56,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
+                        android:textSize="20sp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:textColor="@color/app__black"
+                        tools:text="Contributor Name XXXL"/>
+
+                <TextView
+                        android:id="@+id/item_contributor_commits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:textSize="20sp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        tools:text="This is an event space"/>
+                        tools:text="@string/item_contributor_commits"/>
 
             </LinearLayout>
 

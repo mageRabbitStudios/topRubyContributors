@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="item_contributor_commits">%1$s commits</string>
+</resources>

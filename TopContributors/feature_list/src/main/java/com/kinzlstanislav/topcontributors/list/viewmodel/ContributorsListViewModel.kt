@@ -9,10 +9,9 @@ abstract class ContributorsListViewModel(appCoroutineScope: AppCoroutineScope) :
 
     abstract val state: LiveData<ContributorsListState>
 
-    abstract val fetchedContributors: List<Contributor>?
-
     sealed class ContributorsListState {
         data class ContributorsFetched(val contributors: List<Contributor>) : ContributorsListState()
+        data class ContributorsSorted(val contributors: List<Contributor>) : ContributorsListState()
         object Loading : ContributorsListState()
         object NetworkError : ContributorsListState()
         object GenericError : ContributorsListState()
@@ -20,6 +19,6 @@ abstract class ContributorsListViewModel(appCoroutineScope: AppCoroutineScope) :
 
     abstract fun fetchRubyContributors()
 
-    abstract fun getMeTopContributors(top: Int)
+    abstract fun sortByTopByCommits(input: List<Contributor>, top: Int)
 
 }

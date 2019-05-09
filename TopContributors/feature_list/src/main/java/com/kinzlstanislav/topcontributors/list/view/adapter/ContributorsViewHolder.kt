@@ -3,6 +3,7 @@ package com.kinzlstanislav.topcontributors.list.view.adapter
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
+import com.kinzlstanislav.topcontributors.list.R
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
 import com.kinzlstanislav.topcontributors.ui.viewholder.ShrinkOnTouchTileViewHolder
 import com.kinzlstanislav.topcontributors.ui.viewholder.ShrinkOnTouchTileViewHolderImpl
@@ -18,6 +19,8 @@ class ContributorsViewHolder(
 
     fun bind(contributor: Contributor) {
         item_contributor_name.text = contributor.authorName
+        item_contributor_commits.text =
+            itemView.resources.getString(R.string.item_contributor_commits, contributor.numberOfCommits.toString())
         imageLoader.loadFromUrl(containerView.context, contributor.avatarUrl, contributor_list_item_img_contributor)
         touchUpAction = { itemOnClickListener.onContributorItemClicked(contributor) }
     }

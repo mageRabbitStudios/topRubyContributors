@@ -10,6 +10,7 @@ import com.kinzlstanislav.topcontributors.list.view.adapter.ContributorsAdapter
 import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel
 import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel.ContributorsListState
 import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsFetched
+import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsSorted
 import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel.ContributorsListState.GenericError
 import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel.ContributorsListState.Loading
 import com.kinzlstanislav.topcontributors.list.viewmodel.ContributorsListViewModel.ContributorsListState.NetworkError
@@ -24,6 +25,8 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
         const val LIST = 1
         const val GENERIC_EROR = 2
         const val NETWORK_ERROR = 3
+
+        const val DISPLAY_X_CONTRIBUTORS = 25
     }
 
     override val layoutResourceId = R.layout.fragment_contributors_list
@@ -65,7 +68,8 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
             is Loading -> contributors_list_flipper.displayedChild = LOADING
             is NetworkError -> contributors_list_flipper.displayedChild = NETWORK_ERROR
             is GenericError -> contributors_list_flipper.displayedChild = GENERIC_EROR
-            is ContributorsFetched -> {
+            is ContributorsFetched -> contributorsListViewModel.sortByTopByCommits(state.contributors, DISPLAY_X_CONTRIBUTORS)
+            is ContributorsSorted -> {
                 contributors_list_flipper.displayedChild = LIST
                 contributorsAdapter.updateItems(state.contributors)
             }
@@ -75,5 +79,4 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
     override fun onContributorItemClicked(contributor: Contributor) {
         showToast(contributor.toString())
     }
-
 }
