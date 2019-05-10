@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
-import com.kinzlstanislav.topcontributors.base.Constants.EXTRAS_CONTRIBUTOR
+import com.kinzlstanislav.topcontributors.base.Constants
 import com.kinzlstanislav.topcontributors.base.view.BaseFragment
 import com.kinzlstanislav.topcontributors.feature.list.view.adapter.ContributorItemClickListener
 import com.kinzlstanislav.topcontributors.feature.list.view.adapter.ContributorsAdapter
@@ -13,12 +13,17 @@ import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsLis
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsFetched
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsSorted
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.GenericError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.Loading
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.NetworkError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsGenericError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsNetworkError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.LoadingContributors
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.FetchingUserLocationGenericError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.FetchingUserLocationNetworkError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.ParsingLocationError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.UserLocationFetched
 import com.kinzlstanislav.topcontributors.list.R
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
 import kotlinx.android.synthetic.main.fragment_contributors_list.*
+import kotlinx.android.synthetic.main.view_location_loading.*
 import javax.inject.Inject
 
 class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
@@ -47,41 +52,50 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
     }
 
     override fun observeState() {
-
-        // Get the ContributorsListViewModel from the activity,
-        // I'm fetching data from MainActivity just to showcase how to fetch data before entering the fragment,
-        // so the content displays faster. Some Fragments can Inject their ViewModels and fetch data from inside.
-        // its better for user experience to fetch the data on launch in most of the cases.
         contributorsListViewModel = requireActivity().run {
             ViewModelProviders.of(this).get(ContributorsListViewModel::class.java)
+        }.apply {
+            contributorsListState.observe(viewLifecycleOwner, Observer { handleContributorsState(it) })
         }
-
-        // It's better practise that the Observer has viewLifecycleOwner rather than "this" as a Fragment,
-        // since if the fragment remains alive in the background, the LiveData would get emitted, which isn't desired.
-        contributorsListViewModel.state.observe(viewLifecycleOwner, Observer { handleState(it) })
-
-        // In cases like this it is important to call the handleState on launch to reflect the state on UI immediately,
-        // (if we do not delay the coroutine of fetchRubyContributors function in VM, the Loading wouldn't be caught in
-        // the fragment)
-        contributorsListViewModel.state.value?.let { handleState(it) }
     }
 
-    private fun handleState(state: ContributorsListState) {
-        when (state) {
-            is Loading -> contributors_list_flipper.displayedChild = LOADING
-            is NetworkError -> contributors_list_flipper.displayedChild = NETWORK_ERROR
-            is GenericError -> contributors_list_flipper.displayedChild = GENERIC_ERROR
-            is ContributorsFetched -> contributorsListViewModel.sortByTopByCommits(state.contributors, DISPLAY_X_CONTRIBUTORS)
-            is ContributorsSorted -> {
-                contributors_list_flipper.displayedChild = LIST
-                contributorsAdapter.updateItems(state.contributors)
-            }
+    private fun handleContributorsState(state: ContributorsListState) = when (state) {
+        is LoadingContributors -> contributors_list_flipper.displayedChild = LOADING
+        is FetchingContributorsNetworkError -> contributors_list_flipper.displayedChild = NETWORK_ERROR
+        is FetchingContributorsGenericError -> contributors_list_flipper.displayedChild = GENERIC_ERROR
+        is ContributorsFetched -> contributorsListViewModel.sortByCommitsFromTop(
+            state.contributors,
+            DISPLAY_X_CONTRIBUTORS
+        )
+        is ContributorsSorted -> {
+            contributors_list_flipper.displayedChild = LIST
+            contributorsAdapter.updateItems(state.contributors)
         }
     }
 
     override fun onContributorItemClicked(contributor: Contributor) {
-        findNavController().navigate(
-            R.id.action_fragmentContributorsList_to_fragmentContributorMap,
-            bundleOf(EXTRAS_CONTRIBUTOR to contributor))
+        showLoadingLocationView()
+        contributorsListViewModel.getUserLocationResultState.observe(viewLifecycleOwner, Observer {
+            hideLoadingLocationView()
+            when (it) {
+                is UserLocationFetched -> findNavController().navigate(R.id.action_fragmentContributorsList_to_fragmentContributorMap,
+                    bundleOf(Constants.EXTRAS_LOCATION to it.location, Constants.EXTRAS_USER to it.user))
+                is FetchingUserLocationNetworkError -> showToast("FetchingUserLocationNetworkError")
+                is FetchingUserLocationGenericError -> showToast("FetchingUserLocationGenericError")
+                is ParsingLocationError -> showToast("ParsingLocationError")
+            }
+            contributorsListViewModel.getUserLocationResultState.removeObservers(viewLifecycleOwner)
+        })
+        contributorsListViewModel.fetchContributorLocation(contributor)
+    }
+
+    private fun showLoadingLocationView() {
+        disableTouch()
+        contributor_location_loading_view.animate().alpha(1f).duration = 400
+    }
+
+    private fun hideLoadingLocationView() {
+        enableTouch()
+        contributor_location_loading_view.animate().alpha(0f).duration = 400
     }
 }

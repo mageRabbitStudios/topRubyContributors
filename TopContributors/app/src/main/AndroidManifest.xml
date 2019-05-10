@@ -3,7 +3,6 @@
           xmlns:tools="http://schemas.android.com/tools" package="com.kinzlstanislav.topcontributors">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
             android:name=".TopContributorsApp"
             android:allowBackup="true"
@@ -12,6 +11,10 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/ContributorsTheme" tools:ignore="GoogleAppIndexingWarning">
+
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="@string/map_key"/>
 
         <activity
                 android:name=".view.MainActivity"

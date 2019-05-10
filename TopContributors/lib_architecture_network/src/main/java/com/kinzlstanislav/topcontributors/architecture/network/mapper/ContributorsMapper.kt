@@ -1,8 +1,7 @@
-package com.kinzlstanislav.topcontributors.architecture.mapper
+package com.kinzlstanislav.topcontributors.architecture.network.mapper
 
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
-import com.kinzlstanislav.topcontributors.architecture.response.GithubRepositoryContributionAuthorResponse
-import com.kinzlstanislav.topcontributors.architecture.response.GithubRepositoryContributorResponse
+import com.kinzlstanislav.topcontributors.architecture.network.response.GithubRepositoryContributorResponse
 import javax.inject.Inject
 
 class ContributorsMapper @Inject constructor() {
@@ -11,7 +10,7 @@ class ContributorsMapper @Inject constructor() {
         val mappedResult: MutableList<Contributor> = mutableListOf()
         response.forEach { contributorResponse ->
             mappedResult.add(Contributor(
-                authorName = contributorResponse.contributor?.name?: "",
+                loginName = contributorResponse.contributor?.name?: "",
                 numberOfCommits = contributorResponse.numberOfCommits?: 0,
                 avatarUrl = contributorResponse.contributor?.avatarUrl?: ""))
         }

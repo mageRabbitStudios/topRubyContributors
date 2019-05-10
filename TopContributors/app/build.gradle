@@ -43,4 +43,6 @@ dependencies {
 
     implementation Dependencies.okhttpLogging
     implementation Dependencies.retrofit
+
+    implementation Dependencies.googleMaps
 }

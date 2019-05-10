@@ -2,4 +2,5 @@
     <string name="app_name">Top Contributors</string>
     <string name="network_error">Network Error</string>
     <string name="generic_error">Generic Error</string>
+    <string name="location_loading">Location Loading</string>
 </resources>

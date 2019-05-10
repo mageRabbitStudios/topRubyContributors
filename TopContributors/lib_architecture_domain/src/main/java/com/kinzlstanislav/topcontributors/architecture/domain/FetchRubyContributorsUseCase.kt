@@ -1,7 +1,7 @@
 package com.kinzlstanislav.topcontributors.architecture.domain
 
 import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCoroutineScope
-import com.kinzlstanislav.topcontributors.architecture.core.coroutines.BaseCoroutineUseCase
+import com.kinzlstanislav.topcontributors.architecture.core.usecase.BaseCoroutineUseCase
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.repository.ContributorsRepository
 import java.lang.Exception

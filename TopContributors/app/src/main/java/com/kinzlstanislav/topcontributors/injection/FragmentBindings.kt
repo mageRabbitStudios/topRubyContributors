@@ -1,6 +1,6 @@
 package com.kinzlstanislav.topcontributors.injection
 
-import com.kinzlstanislav.topcontributors.base.annotation.PerFragment
+import com.kinzlstanislav.topcontributors.architecture.core.dagger.scopes.PerFragment
 import com.kinzlstanislav.topcontributors.feature.list.view.FragmentContributorsList
 import com.kinzlstanislav.topcontributors.feature.map.view.FragmentContributorMap
 import dagger.Module

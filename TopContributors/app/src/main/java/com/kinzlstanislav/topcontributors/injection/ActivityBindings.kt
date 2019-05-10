@@ -1,6 +1,6 @@
 package com.kinzlstanislav.topcontributors.injection
 
-import com.kinzlstanislav.topcontributors.base.annotation.PerActivity
+import com.kinzlstanislav.topcontributors.architecture.core.dagger.scopes.PerActivity
 import com.kinzlstanislav.topcontributors.view.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

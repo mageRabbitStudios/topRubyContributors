@@ -8,6 +8,10 @@
               android:label="FragmentContributorsList"
               tools:layout="@layout/fragment_contributors_list">
         <action android:id="@+id/action_fragmentContributorsList_to_fragmentContributorMap"
+                app:enterAnim="@anim/fragment_slide_in_right"
+                app:exitAnim="@anim/fragment_slide_out_left"
+                app:popEnterAnim="@anim/fragment_slide_in_left"
+                app:popExitAnim="@anim/fragment_slide_out_right"
                 app:destination="@id/fragmentContributorMap"/>
     </fragment>
 
@@ -15,8 +19,10 @@
               android:name="com.kinzlstanislav.topcontributors.feature.map.view.FragmentContributorMap"
               android:label="FragmentContributorMap"
               tools:layout="@layout/fragment_contributor_map">
-    <argument android:name="arg_contributor"
-                  app:argType="com.kinzlstanislav.topcontributors.architecture.core.model.Contributor"/>
+        <argument android:name="user_arg"
+                  app:argType="com.kinzlstanislav.topcontributors.architecture.core.model.User"/>
+        <argument android:name="userlatlng_arg"
+                  app:argType="com.google.android.gms.maps.model.LatLng"/>
     </fragment>
 
 </navigation>

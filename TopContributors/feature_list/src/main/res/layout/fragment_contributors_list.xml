@@ -10,7 +10,11 @@
     <ViewFlipper
             android:id="@+id/contributors_list_flipper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
         <ProgressBar
                 android:id="@+id/contributors_list_loader"
@@ -19,7 +23,7 @@
                 android:indeterminate="true"
                 android:indeterminateTint="@color/app__black"
                 android:indeterminateTintMode="src_atop"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"/>
 
         <androidx.recyclerview.widget.RecyclerView
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -41,7 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/network_error"/>
-
     </ViewFlipper>
+
+    <include layout="@layout/view_location_loading"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

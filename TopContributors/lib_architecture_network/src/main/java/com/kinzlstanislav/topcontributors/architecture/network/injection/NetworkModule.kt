@@ -1,9 +1,9 @@
-package com.kinzlstanislav.topcontributors.architecture.injection
+package com.kinzlstanislav.topcontributors.architecture.network.injection
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.kinzlstanislav.topcontributors.architecture.BuildConfig
-import com.kinzlstanislav.topcontributors.architecture.GitHubRestData.REST_GITHUB_BASE_URL
-import com.kinzlstanislav.topcontributors.architecture.api.GithubApiService
+import com.kinzlstanislav.topcontributors.architecture.network.GitHubRestData.REST_GITHUB_BASE_URL
+import com.kinzlstanislav.topcontributors.architecture.network.api.GithubApiService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

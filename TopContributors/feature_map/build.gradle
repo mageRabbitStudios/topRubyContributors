@@ -1,1 +1,5 @@
 apply from: rootProject.file('common-feature.gradle')
+
+dependencies {
+    implementation Dependencies.googleMaps
+}

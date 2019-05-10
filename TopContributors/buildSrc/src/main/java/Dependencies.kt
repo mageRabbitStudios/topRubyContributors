@@ -10,10 +10,11 @@ object Versions {
     const val jarTest = "1.0.1"
     const val googleServices = "4.2.0"
 
+    const val constraintLayout2alphaVersion = "2.0.0-alpha3"
+
     const val javaxInjectVersion = "1"
     const val javaxAnnotationVersion = "1.0"
 
-    const val ktlintGradlePluginVersion = "1.20.1"
     const val androidXCore = "1.0.0"
     const val archComponentsVersion = "2.0.0"
     const val materialComponentsVersion = "1.0.0"
@@ -55,6 +56,8 @@ object Versions {
     const val retrofitVersion = "2.5.0"
     const val retrofitCoroutinesVersion = "0.9.2"
     const val okHttpVersion = "3.12.1"
+
+    const val googleMapsVersion = "16.1.0"
 }
 
 object DefaultConfigurations {
@@ -76,7 +79,6 @@ object ClasspathxDependencies {
     const val googleServicesGradlePlugin = "com.google.gms:google-services:${Versions.googleServices}"
     const val fabricGradlePlugin = "io.fabric.tools:gradle:${Versions.fabricGradlePluginVersion}"
     const val detektGradlePlugin = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${Versions.detektGradlePluginVersion}"
-    const val ktlintGradlePlugin = "org.jmailen.gradle:kotlinter-gradle:${Versions.ktlintGradlePluginVersion}"
 }
 
 @SuppressWarnings("MaxLineLength")
@@ -91,6 +93,7 @@ object Dependencies {
     const val appCompatsupportLibrary = "androidx.appcompat:appcompat:${Versions.supportLibraryVersion}"
     const val materialComponents = "com.google.android.material:material:${Versions.materialComponentsVersion}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayoutVersion}"
+    const val constraintLayout2Alpha = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout2alphaVersion}"
     const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerViewVersion}"
     const val androidXCoreKtx = "androidx.core:core-ktx:${Versions.androidXCore}"
 
@@ -129,6 +132,9 @@ object Dependencies {
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofitVersion}"
     const val retrofitCoroutineAdapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${Versions.retrofitCoroutinesVersion}"
     const val retrofitMoshiAdapter = "com.squareup.retrofit2:converter-moshi:${Versions.retrofitVersion}"
+
+    //Maps
+    const val googleMaps = "com.google.android.gms:play-services-maps:${Versions.googleMapsVersion}"
 }
 
 @SuppressWarnings("MaxLineLength")

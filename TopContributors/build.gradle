@@ -30,6 +30,6 @@ task clean(type: Delete) {
 
 /* Runs the detekt once for all modules with unified report after every build script evaluation.
  This is important, that it is not included in the modules scope, because otherwise it would run
- report for each module instead for the entire project */
-apply from: rootProject.file('code_quality/detekt.gradle')
-detektCheckProject.exec()
+// report for each module instead for the entire project */
+//apply from: rootProject.file('code_quality/detekt.gradle')
+//detektCheckProject.exec()

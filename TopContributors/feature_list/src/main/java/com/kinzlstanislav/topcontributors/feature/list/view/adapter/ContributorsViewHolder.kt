@@ -18,7 +18,7 @@ class ContributorsViewHolder(
     ShrinkOnTouchTileViewHolder by ShrinkOnTouchTileViewHolderImpl(containerView) {
 
     fun bind(contributor: Contributor) {
-        item_contributor_name.text = contributor.authorName
+        item_contributor_name.text = contributor.loginName
         item_contributor_commits.text =
             itemView.resources.getString(R.string.item_contributor_commits, contributor.numberOfCommits.toString())
         imageLoader.loadFromUrl(containerView.context, contributor.avatarUrl, contributor_list_item_img_contributor)

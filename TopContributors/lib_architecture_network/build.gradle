@@ -1,6 +1,8 @@
 apply from: rootProject.file('common-library.gradle')
 
 dependencies {
+    implementation project(':lib_architecture_core')
+
     implementation Dependencies.dagger
 
     implementation Dependencies.okhttpLogging

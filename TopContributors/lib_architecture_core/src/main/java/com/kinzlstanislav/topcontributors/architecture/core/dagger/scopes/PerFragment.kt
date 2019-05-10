@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.base.annotation
+package com.kinzlstanislav.topcontributors.architecture.core.dagger.scopes
 
 import javax.inject.Scope
 import kotlin.annotation.AnnotationRetention.RUNTIME

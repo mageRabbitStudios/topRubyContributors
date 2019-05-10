@@ -1,7 +1,7 @@
 package com.kinzlstanislav.topcontributors.architecture.repository
 
-import com.kinzlstanislav.topcontributors.architecture.api.GithubApiService
-import com.kinzlstanislav.topcontributors.architecture.mapper.ContributorsMapper
+import com.kinzlstanislav.topcontributors.architecture.network.api.GithubApiService
+import com.kinzlstanislav.topcontributors.architecture.network.mapper.ContributorsMapper
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
 import java.io.IOException
 import javax.inject.Inject

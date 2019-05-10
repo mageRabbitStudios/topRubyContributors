@@ -1,15 +1,9 @@
-package com.kinzlstanislav.topcontributors.architecture.response
+package com.kinzlstanislav.topcontributors.architecture.network.response
 
 import com.squareup.moshi.Json
 
-data class GithubRepositoryContributorResponse(
-    @field:Json(name = "author") val contributor: GithubRepositoryContributionAuthorResponse?,
-    @field:Json(name = "total") val numberOfCommits: Int?,
-    @field:Json(name = "weeks") val weeks: List<GithubRepositoryContributorWeeksResponse>?
-)
-
-data class GithubRepositoryContributionAuthorResponse(
-    @field:Json(name = "login") val name: String?,
+data class GithubUserResponse(
+    @field:Json(name = "login") val loginName: String?,
     @field:Json(name = "id") val id: Int?,
     @field:Json(name = "node_id") val nodeId: String?,
     @field:Json(name = "avatar_url") val avatarUrl: String?,
@@ -26,12 +20,18 @@ data class GithubRepositoryContributionAuthorResponse(
     @field:Json(name = "events_url") val eventsUrl: String?,
     @field:Json(name = "received_events_url") val receivedEventsUrl: String?,
     @field:Json(name = "type") val type: String?,
-    @field:Json(name = "site_admin") val isSiteAdmin: Boolean?
-)
-
-data class GithubRepositoryContributorWeeksResponse(
-    @field:Json(name = "w") val startOfTheWeek: Long?,
-    @field:Json(name = "a") val numberOfAdditions: Long?,
-    @field:Json(name = "d") val numberOfDeletions: Long?,
-    @field:Json(name = "c") val numberOfCommits: Int?
+    @field:Json(name = "site_admin") val isSiteAdmin: Boolean?,
+    @field:Json(name = "name") val realName: String?,
+    @field:Json(name = "company") val company: String?,
+    @field:Json(name = "blog") val blogUrl: String?,
+    @field:Json(name = "location") val location: String?,
+    @field:Json(name = "email") val email: String?,
+    @field:Json(name = "hireable") val hireable: Boolean?,
+    @field:Json(name = "bio") val bio: String?,
+    @field:Json(name = "public_repos") val numberOfPublicRepositories: Int?,
+    @field:Json(name = "public_gists") val numberOfPublicGists: Int?,
+    @field:Json(name = "followers") val numberOfFollowers: Int?,
+    @field:Json(name = "following") val numberOfFollowing: Int?,
+    @field:Json(name = "created_at") val timeCreated: String?,
+    @field:Json(name = "updated_at") val timeUpdated: String?
 )
