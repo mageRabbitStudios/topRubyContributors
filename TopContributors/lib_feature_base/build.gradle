@@ -1,6 +1,8 @@
 apply from: rootProject.file('common-library.gradle')
 
 dependencies {
+    implementation project(':lib_core')
+
     implementation Dependencies.appCompatsupportLibrary
 
     implementation Dependencies.dagger
@@ -8,6 +10,4 @@ dependencies {
     implementation Dependencies.daggerAndroidSupport
     kapt Dependencies.daggerCompiler
     kapt Dependencies.daggerAndroidCompiler
-
-    implementation project(':lib_architecture_core')
 }

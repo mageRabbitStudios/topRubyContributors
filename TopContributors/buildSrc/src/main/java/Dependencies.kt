@@ -3,7 +3,7 @@ import org.gradle.api.JavaVersion
 object Versions {
 
     const val kotlinVersion = "1.3.21"
-    const val coroutinesVersion = "1.0.0"
+    const val coroutinesVersion = "1.1.1"
 
     const val jacocoVersion = "0.8.1"
     const val androidJunit5Version = "1.2.0.0"
@@ -157,6 +157,7 @@ object TestDependencies {
     const val archCoreTesting = "androidx.arch.core:core-testing:${Versions.archComponentsVersion}"
     const val androidxFragmentTesting = "androidx.fragment:fragment-testing:${Versions.androidxFragmentTestingVersion}"
     const val barista = "com.schibsted.spain:barista:${Versions.baristaVersion}"
+    const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutinesVersion}"
 }
 
 @SuppressWarnings("MaxLineLength")
@@ -165,7 +166,6 @@ object AndroidTestDependencies {
     const val androidTestRunner = "androidx.test:runner:${Versions.androidTestRunnerVersion}"
     const val androidTestRules = "androidx.test:rules:${Versions.androidTestRunnerVersion}"
     const val uiAutomator = "androidx.test.uiautomator:uiautomator:${Versions.uiAutomatorVersion}"
-    const val lifecycleTestHelpers = "androidx.arch.core:core-testing:${Versions.archComponentsVersion}"
     const val mockitoAndroid = "org.mockito:mockito-android:${Versions.mockitoVersion}"
     const val dexOpener = "com.github.tmurakami:dexopener:${Versions.dexOpenerVersion}"
 }

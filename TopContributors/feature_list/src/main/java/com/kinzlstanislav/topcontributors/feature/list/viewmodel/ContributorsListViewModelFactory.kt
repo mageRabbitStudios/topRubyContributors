@@ -20,7 +20,7 @@ class ContributorsListViewModelFactory(
             appCoroutineScope = appCoroutineScope,
             fetchRubyContributorsUseCase = fetchRubyContributorsUseCase,
             fetchUserUseCase = fetchUserUseCase,
-            getLatLngFromUserAddressUseCase = getLatLngFromAddressUseCase) as T
+            getLatLngFromAddressUseCase = getLatLngFromAddressUseCase) as T
     }
 
 }

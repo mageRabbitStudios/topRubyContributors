@@ -12,13 +12,14 @@
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/feature_list" />
             <option value="$PROJECT_DIR$/feature_map" />
-            <option value="$PROJECT_DIR$/lib_architecture_core" />
             <option value="$PROJECT_DIR$/lib_architecture_domain" />
             <option value="$PROJECT_DIR$/lib_architecture_network" />
             <option value="$PROJECT_DIR$/lib_architecture_repository" />
+            <option value="$PROJECT_DIR$/lib_core" />
             <option value="$PROJECT_DIR$/lib_feature_base" />
             <option value="$PROJECT_DIR$/lib_ui" />
-            <option value="$PROJECT_DIR$/lib_viewtesting" />
+            <option value="$PROJECT_DIR$/lib_unit_testing" />
+            <option value="$PROJECT_DIR$/lib_view_testing" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

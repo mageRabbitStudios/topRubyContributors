@@ -1,9 +1,10 @@
 apply from: rootProject.file('common-library.gradle')
 
 dependencies {
+    implementation project(':lib_core')
+    implementation Dependencies.materialComponents
+    implementation Dependencies.appCompatsupportLibrary
     implementation Dependencies.dagger
     implementation Dependencies.glide
     kapt Dependencies.glideCompiler
-
-    implementation project(':lib_architecture_core')
 }

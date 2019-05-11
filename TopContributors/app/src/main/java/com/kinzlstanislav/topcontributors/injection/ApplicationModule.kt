@@ -2,6 +2,7 @@ package com.kinzlstanislav.topcontributors.injection
 
 import android.app.Application
 import android.content.Context
+import android.location.Geocoder
 import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AndroidDispatcherProvider
 import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCoroutineScope
 import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCoroutineScopeImpl
@@ -19,6 +20,8 @@ class ApplicationModule {
     @Provides
     fun provideDispatcherProvider(): DispatcherProvider = AndroidDispatcherProvider()
 
+    @Provides
+    fun provideGeocoder(@ForApplicationContext context: Context): Geocoder = Geocoder(context)
 
     @Provides
     @ForApplicationContext

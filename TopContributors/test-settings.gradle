@@ -1,12 +1,10 @@
 android {
-    defaultConfig {
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
     testOptions {
         unitTests {
             includeAndroidResources = true
             returnDefaultValues = true
             all {
+                // when you run ./gradlew tDUT, this will output nicely the test result
                 testLogging {
                     events 'passed', 'skipped', 'failed'
                     showStackTraces = true

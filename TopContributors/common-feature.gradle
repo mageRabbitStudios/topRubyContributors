@@ -4,8 +4,8 @@ apply from: rootProject.file('common-module.gradle')
 
 dependencies {
     implementation project(":lib_ui")
+    implementation project(':lib_core')
     implementation project(":lib_feature_base")
-    implementation project(":lib_architecture_core")
     implementation project(":lib_architecture_domain")
 
     implementation Dependencies.dagger
@@ -27,5 +27,5 @@ dependencies {
     // for ViewModelProviders.of (modules with ViewModelFactories), also contains lifecycle dependency for LiveData
     implementation Dependencies.lifecycleExtensions
 
-    testImplementation project(":lib_viewtesting")
+    testImplementation project(":lib_view_testing")
 }

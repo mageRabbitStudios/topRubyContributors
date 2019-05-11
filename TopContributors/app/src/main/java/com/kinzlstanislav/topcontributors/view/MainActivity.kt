@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        supportActionBar?.hide()
         fetchDataOnAppStart()
     }
 
