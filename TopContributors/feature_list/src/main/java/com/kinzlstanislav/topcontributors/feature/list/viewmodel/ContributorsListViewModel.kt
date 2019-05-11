@@ -1,6 +1,8 @@
 package com.kinzlstanislav.topcontributors.feature.list.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCoroutineScope
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
@@ -11,13 +13,10 @@ abstract class ContributorsListViewModel(appCoroutineScope: AppCoroutineScope) :
 
     abstract val contributorsListState: LiveData<ContributorsListState>
 
-    abstract val getUserLocationResultState: LiveData<GetUserLocationResult>
-
     sealed class ContributorsListState {
 
         // Fetching & sorting contributors
-        data class ContributorsFetched(val contributors: List<Contributor>) : ContributorsListState()
-        data class ContributorsSorted(val contributors: List<Contributor>) : ContributorsListState()
+        data class ContributorsLoaded(val contributors: List<Contributor>) : ContributorsListState()
         object LoadingContributors : ContributorsListState()
         object FetchingContributorsNetworkError : ContributorsListState()
         object FetchingContributorsGenericError : ContributorsListState()
@@ -26,7 +25,7 @@ abstract class ContributorsListViewModel(appCoroutineScope: AppCoroutineScope) :
     sealed class GetUserLocationResult {
 
         // Fetching & processing contributor's location
-        data class UserLocationFetched(val location: LatLng, val user: User) : GetUserLocationResult()
+        data class UserLocationLoaded(val location: LatLng, val user: User) : GetUserLocationResult()
         object FetchingUserLocationNetworkError: GetUserLocationResult()
         object FetchingUserLocationGenericError : GetUserLocationResult()
         object ParsingLocationError : GetUserLocationResult()
@@ -34,8 +33,5 @@ abstract class ContributorsListViewModel(appCoroutineScope: AppCoroutineScope) :
 
     abstract fun fetchRubyContributors()
 
-    abstract fun sortByCommitsFromTop(input: List<Contributor>, howMany: Int)
-
-    abstract fun fetchContributorLocation(contributor: Contributor)
-
+    abstract fun fetchContributorLocation(contributor: Contributor, observer: MediatorLiveData<GetUserLocationResult>)
 }

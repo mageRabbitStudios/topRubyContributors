@@ -1,12 +1,13 @@
 package com.kinzlstanislav.topcontributors.feature.list.viewmodel
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCoroutineScope
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.domain.FetchRubyContributorsUseCase
 import com.kinzlstanislav.topcontributors.architecture.domain.FetchUserUseCase
 import com.kinzlstanislav.topcontributors.architecture.domain.GetLatLngFromAddressUseCase
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsFetched
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsGenericError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsNetworkError
 
@@ -17,8 +18,6 @@ class ContributorsListViewModelImpl(
     private val getLatLngFromUserAddressUseCase: GetLatLngFromAddressUseCase
 ) : ContributorsListViewModel(appCoroutineScope) {
 
-    override val getUserLocationResultState = MutableLiveData<ContributorsListViewModel.GetUserLocationResult>()
-
     override val contributorsListState = MutableLiveData<ContributorsListViewModel.ContributorsListState>()
 
     override fun fetchRubyContributors() {
@@ -28,7 +27,7 @@ class ContributorsListViewModelImpl(
 
             when (result) {
                 is FetchRubyContributorsUseCase.Result.Success -> contributorsListState.postValue(
-                    ContributorsFetched(result.contributors)
+                    ContributorsLoaded(result.contributors)
                 )
                 is FetchRubyContributorsUseCase.Result.NetworkError ->
                     contributorsListState.postValue(FetchingContributorsNetworkError)
@@ -38,12 +37,7 @@ class ContributorsListViewModelImpl(
         }
     }
 
-    override fun sortByCommitsFromTop(input: List<Contributor>, howMany: Int) {
-        val result = input.sortedBy { -it.numberOfCommits }.subList(0, howMany)
-        contributorsListState.value = ContributorsListState.ContributorsSorted(result)
-    }
-
-    override fun fetchContributorLocation(contributor: Contributor) {
+    override fun fetchContributorLocation(contributor: Contributor, observer: MediatorLiveData<ContributorsListViewModel.GetUserLocationResult>) {
 
         // first fetch the complete user data where "location" information is based on loginId provided with
         // the contributor response
@@ -51,18 +45,18 @@ class ContributorsListViewModelImpl(
             val fetchUserResult = fetchUserUseCase.execute(contributor.loginName)
             when (fetchUserResult) {
                 is FetchUserUseCase.Result.GenericError ->
-                    getUserLocationResultState.postValue(GetUserLocationResult.FetchingUserLocationGenericError)
+                    observer.postValue(GetUserLocationResult.FetchingUserLocationGenericError)
                 is FetchUserUseCase.Result.NetworkError ->
-                    getUserLocationResultState.postValue(GetUserLocationResult.FetchingUserLocationNetworkError)
+                    observer.postValue(GetUserLocationResult.FetchingUserLocationNetworkError)
                 is FetchUserUseCase.Result.Success -> {
 
                     // then get latitude and longitude using Geocoder library
                     val getLatLngResult = getLatLngFromUserAddressUseCase.execute(fetchUserResult.user.address)
                     when (getLatLngResult) {
                         is GetLatLngFromAddressUseCase.Result.Error ->
-                            getUserLocationResultState.postValue(GetUserLocationResult.ParsingLocationError)
+                            observer.postValue(GetUserLocationResult.ParsingLocationError)
                         is GetLatLngFromAddressUseCase.Result.Success ->
-                            getUserLocationResultState.postValue(GetUserLocationResult.UserLocationFetched(
+                            observer.postValue(GetUserLocationResult.UserLocationLoaded(
                                 getLatLngResult.location,
                                 fetchUserResult.user))
                     }
