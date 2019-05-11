@@ -1,11 +1,8 @@
 package com.kinzlstanislav.topcontributors.feature.list.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCoroutineScope
-import com.kinzlstanislav.topcontributors.architecture.core.livedata.LiveEvent
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.core.model.User
 import com.kinzlstanislav.topcontributors.base.viewmodel.BaseViewModel
@@ -13,7 +10,8 @@ import com.kinzlstanislav.topcontributors.base.viewmodel.BaseViewModel
 abstract class ContributorsListViewModel(appCoroutineScope: AppCoroutineScope) : BaseViewModel(appCoroutineScope) {
 
     abstract val contributorsListState: LiveData<ContributorsListState>
-    
+
+    abstract val getUserLocationEvent: LiveData<GetUserLocationResult>
 
     sealed class ContributorsListState {
 
@@ -35,5 +33,5 @@ abstract class ContributorsListViewModel(appCoroutineScope: AppCoroutineScope) :
 
     abstract fun fetchRubyContributors()
 
-    abstract fun fetchContributorLocation(contributor: Contributor, observer: LiveEvent<GetUserLocationResult>)
+    abstract fun fetchContributorLocation(contributor: Contributor)
 }

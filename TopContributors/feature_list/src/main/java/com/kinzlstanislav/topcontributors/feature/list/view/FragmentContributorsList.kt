@@ -2,9 +2,7 @@ package com.kinzlstanislav.topcontributors.feature.list.view
 
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.kinzlstanislav.topcontributors.architecture.core.livedata.LiveEvent
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
 import com.kinzlstanislav.topcontributors.base.Constants
 import com.kinzlstanislav.topcontributors.base.view.BaseFragment
@@ -25,9 +23,9 @@ import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsLis
 import com.kinzlstanislav.topcontributors.list.R
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
 import kotlinx.android.synthetic.main.fragment_contributors_list.*
-import kotlinx.android.synthetic.main.fragment_contributors_list.contributors_list_flipper as flipper
 import kotlinx.android.synthetic.main.view_location_loading.*
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.fragment_contributors_list.contributors_list_flipper as flipper
 
 class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
 
@@ -51,13 +49,14 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
 
     private lateinit var contributorsAdapter: ContributorsAdapter
 
+    // TODO: I recommend checking unit test for this fragment, it's pretty cool
+    // TODO: FragmentContributorsListTest
     override fun onFragmentCreated() {
         contributorsAdapter = ContributorsAdapter(imageLoader, this)
         contributors_list_recycler_view.adapter = contributorsAdapter
     }
 
     override fun observeState() {
-        // Getting VM from activity scope, where the data is fetched on launch
         contributorsListViewModel.contributorsListState.observe(viewLifecycleOwner, Observer {
             handleContributorsState(it)
         })
@@ -75,9 +74,13 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
 
     override fun onContributorItemClicked(contributor: Contributor) {
         showLoadingLocationView()
-        contributorsListViewModel.fetchContributorLocation(contributor, LiveEvent<GetUserLocationResult>().also {
-            it.observe(viewLifecycleOwner, Observer { result -> handleGetUserLocationResult(result) })
-        })
+        contributorsListViewModel.apply {
+            getUserLocationEvent.observe(viewLifecycleOwner, Observer { result ->
+                getUserLocationEvent.removeObservers(viewLifecycleOwner)
+                handleGetUserLocationResult(result)
+            })
+            fetchContributorLocation(contributor)
+        }
     }
 
     private fun handleGetUserLocationResult(result: GetUserLocationResult) {

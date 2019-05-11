@@ -2,10 +2,12 @@ package com.kinzlstanislav.topcontributors.viewtesting.matchers
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.assertj.core.api.Assertions.assertThat
 
 /**Matchers that are not included with Barista*/
@@ -31,4 +33,12 @@ fun ViewInteraction.isInvisible() = getViewAssertion(ViewMatchers.Visibility.INV
 
 private fun getViewAssertion(visibility: ViewMatchers.Visibility): ViewAssertion? {
     return ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(visibility))
+}
+
+fun Int.isGone() {
+    onView(withId(this)).isGone()
+}
+
+fun Int.isVisible() {
+    onView(withId(this)).isVisible()
 }

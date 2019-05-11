@@ -1,7 +1,7 @@
 package com.kinzlstanislav.topcontributors.feature.list.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
-import com.kinzlstanislav.topcontributors.architecture.core.livedata.LiveEvent
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.core.model.User
 import com.kinzlstanislav.topcontributors.architecture.domain.FetchRubyContributorsUseCase
@@ -32,13 +32,14 @@ class ContributorsListViewModelImplTest : BaseViewModelTest<ContributorsListStat
     @Mock lateinit var mockGetLatLngFromAddressUseCase: GetLatLngFromAddressUseCase
 
     private lateinit var subject: ContributorsListViewModelImpl
-    private val fetchContributorLocationObserver = LiveEvent<GetUserLocationResult>()
+    private val getUserLocationEventState: MutableLiveData<ContributorsListViewModel.GetUserLocationResult> = MutableLiveData()
 
     @Before
     fun before() {
         subject = ContributorsListViewModelImpl(
             testAppCoroutineScope,
             testState,
+            getUserLocationEventState,
             mockFetchRubyContributorsUseCase,
             mockFetchUserUseCase,
             mockGetLatLngFromAddressUseCase) }
@@ -109,7 +110,7 @@ class ContributorsListViewModelImplTest : BaseViewModelTest<ContributorsListStat
     }
 
     private fun whenFetchContributorLocationCalled() {
-        subject.fetchContributorLocation(SOME_CONTRIBUTOR, fetchContributorLocationObserver)
+        subject.fetchContributorLocation(SOME_CONTRIBUTOR)
     }
 
     private fun whenFetchRubyContributorsCalled() {
@@ -117,7 +118,7 @@ class ContributorsListViewModelImplTest : BaseViewModelTest<ContributorsListStat
     }
 
     private fun thenGetUserLocationResultIs(result: GetUserLocationResult) {
-        assertThat(fetchContributorLocationObserver.value).isEqualTo(result)
+        assertThat(getUserLocationEventState.value).isEqualTo(result)
     }
 
 }
