@@ -46,7 +46,8 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
     @Inject
     lateinit var contributorsSorter: ContributorsSorter
 
-    private lateinit var contributorsListViewModel: ContributorsListViewModel
+    @Inject
+    lateinit var contributorsListViewModel: ContributorsListViewModel
 
     private lateinit var contributorsAdapter: ContributorsAdapter
 
@@ -57,11 +58,9 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
 
     override fun observeState() {
         // Getting VM from activity scope, where the data is fetched on launch
-        contributorsListViewModel = requireActivity().run {
-            ViewModelProviders.of(this).get(ContributorsListViewModel::class.java)
-        }.apply {
-            contributorsListState.observe(viewLifecycleOwner, Observer { handleContributorsState(it) })
-        }
+        contributorsListViewModel.contributorsListState.observe(viewLifecycleOwner, Observer {
+            handleContributorsState(it)
+        })
     }
 
     private fun handleContributorsState(state: ContributorsListState) = when (state) {

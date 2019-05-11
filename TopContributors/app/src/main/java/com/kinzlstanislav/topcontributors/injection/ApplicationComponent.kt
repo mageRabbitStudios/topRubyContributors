@@ -14,7 +14,6 @@ import dagger.android.support.DaggerApplication
     ActivityBindings::class,
     FragmentBindings::class,
     ApplicationModule::class,
-    MainActivityModule::class,
     NetworkModule::class
 ])
 interface ApplicationComponent : AndroidInjector<DaggerApplication> {
