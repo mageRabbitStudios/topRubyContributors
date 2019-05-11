@@ -13,6 +13,7 @@ import com.kinzlstanislav.topcontributors.base.viewmodel.BaseViewModel
 abstract class ContributorsListViewModel(appCoroutineScope: AppCoroutineScope) : BaseViewModel(appCoroutineScope) {
 
     abstract val contributorsListState: LiveData<ContributorsListState>
+    
 
     sealed class ContributorsListState {
 
