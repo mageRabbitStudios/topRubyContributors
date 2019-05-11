@@ -25,6 +25,7 @@ import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsLis
 import com.kinzlstanislav.topcontributors.list.R
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
 import kotlinx.android.synthetic.main.fragment_contributors_list.*
+import kotlinx.android.synthetic.main.fragment_contributors_list.contributors_list_flipper as flipper
 import kotlinx.android.synthetic.main.view_location_loading.*
 import javax.inject.Inject
 
@@ -55,6 +56,7 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
     }
 
     override fun observeState() {
+        // Getting VM from activity scope, where the data is fetched on launch
         contributorsListViewModel = requireActivity().run {
             ViewModelProviders.of(this).get(ContributorsListViewModel::class.java)
         }.apply {
@@ -63,11 +65,11 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
     }
 
     private fun handleContributorsState(state: ContributorsListState) = when (state) {
-        is LoadingContributors -> contributors_list_flipper.displayedChild = LOADING
-        is FetchingContributorsNetworkError -> contributors_list_flipper.displayedChild = NETWORK_ERROR
-        is FetchingContributorsGenericError -> contributors_list_flipper.displayedChild = GENERIC_ERROR
+        is LoadingContributors -> flipper.displayedChild = LOADING
+        is FetchingContributorsNetworkError -> flipper.displayedChild = NETWORK_ERROR
+        is FetchingContributorsGenericError -> flipper.displayedChild = GENERIC_ERROR
         is ContributorsLoaded -> {
-            contributors_list_flipper.displayedChild = LIST
+            flipper.displayedChild = LIST
             contributorsAdapter.updateItems(contributorsSorter.sortFromTopByCommits(state.contributors, 25))
         }
     }
@@ -75,15 +77,12 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
     override fun onContributorItemClicked(contributor: Contributor) {
         showLoadingLocationView()
         contributorsListViewModel.fetchContributorLocation(contributor, LiveEvent<GetUserLocationResult>().also {
-            it.observe(viewLifecycleOwner, Observer { result ->
-                // result of fetchContributorLocation received
-                hideLoadingLocationView()
-                handleGetUserLocationResult(result)
-            })
+            it.observe(viewLifecycleOwner, Observer { result -> handleGetUserLocationResult(result) })
         })
     }
 
     private fun handleGetUserLocationResult(result: GetUserLocationResult) {
+        hideLoadingLocationView()
         when (result) {
             is UserLocationLoaded -> findNavController().navigate(
                 R.id.action_fragmentContributorsList_to_fragmentContributorMap,
