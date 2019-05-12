@@ -16,6 +16,10 @@ import com.kinzlstanislav.topcontributors.feature.map.R
 
 class FragmentContributorMap : BaseFragment(), OnMapReadyCallback {
 
+    private companion object {
+        const val CAMERA_ZOOM = 15f
+    }
+
     override val layoutResourceId = R.layout.fragment_contributor_map
 
     private val user: User by bindArgument(EXTRAS_USER)
@@ -28,7 +32,7 @@ class FragmentContributorMap : BaseFragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap?) {
         val toUserLocation = CameraUpdateFactory.newLatLng(location)
-        val zoom = CameraUpdateFactory.zoomTo(15f)
+        val zoom = CameraUpdateFactory.zoomTo(CAMERA_ZOOM)
 
         googleMap?.apply {
             moveCamera(toUserLocation)

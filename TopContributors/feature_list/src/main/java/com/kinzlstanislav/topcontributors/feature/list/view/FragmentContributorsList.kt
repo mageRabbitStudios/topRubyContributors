@@ -34,6 +34,7 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
         const val LIST = 1
         const val GENERIC_ERROR = 2
         const val NETWORK_ERROR = 3
+        const val GETTING_USER_LOCATION_VIEW_ANIM_APP_DUR = 400L
     }
 
     override val layoutResourceId = R.layout.fragment_contributors_list
@@ -47,12 +48,9 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
     @Inject
     lateinit var contributorsListViewModel: ContributorsListViewModel
 
-    private lateinit var contributorsAdapter: ContributorsAdapter
+    private val contributorsAdapter by lazy { ContributorsAdapter(imageLoader, this) }
 
-    // TODO: I recommend checking unit test for this fragment, it's pretty cool
-    // TODO: FragmentContributorsListTest
     override fun onFragmentCreated() {
-        contributorsAdapter = ContributorsAdapter(imageLoader, this)
         contributors_list_recycler_view.adapter = contributorsAdapter
     }
 
@@ -98,11 +96,11 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
 
     private fun showLoadingLocationView() {
         disableTouch()
-        contributor_location_loading_view.animate().alpha(1f).duration = 400
+        contributor_location_loading_view.animate().alpha(1f).duration = GETTING_USER_LOCATION_VIEW_ANIM_APP_DUR
     }
 
     private fun hideLoadingLocationView() {
         enableTouch()
-        contributor_location_loading_view.animate().alpha(0f).duration = 400
+        contributor_location_loading_view.animate().alpha(0f).duration = GETTING_USER_LOCATION_VIEW_ANIM_APP_DUR
     }
 }

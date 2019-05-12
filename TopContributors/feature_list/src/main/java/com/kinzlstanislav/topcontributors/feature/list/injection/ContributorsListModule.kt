@@ -11,7 +11,8 @@ import dagger.Provides
 @Module
 class ContributorsListModule {
 
-    // loads the view model from fragment's activity (main activity) layer
+    // loads the view model from fragment's activity (main activity) layer.
+    // (the VM in MainActivity is the same as the one used in the fragment)
     @Provides
     @PerFragment
     fun provideContributorsListViewModel(

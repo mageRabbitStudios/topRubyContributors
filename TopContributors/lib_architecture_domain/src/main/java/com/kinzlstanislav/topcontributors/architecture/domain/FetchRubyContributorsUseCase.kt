@@ -12,6 +12,7 @@ class FetchRubyContributorsUseCase @Inject constructor(
     private val contributorsRepository: ContributorsRepository
 ) : BaseCoroutineUseCase(appCoroutineScope) {
 
+    @Suppress("TooGenericExceptionCaught")
     suspend fun execute(): Result = ioTask {
         try {
             val response = contributorsRepository.getRubyContributors()

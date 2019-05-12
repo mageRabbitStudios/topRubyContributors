@@ -91,24 +91,15 @@ class FragmentContributorsListTest : FragmentDaggerTest<FragmentContributorsList
         whenStateIs(ContributorsLoaded(SOME_CONTRIBUTORS))
         list.isVisible()
 
-        assertContributorItemDisplayed(
-            position = 0,
-            name = "Stanislav",
-            commits = 20
-        )
-
-        assertContributorItemDisplayed(
-            position = 1,
-            name = "Recruiter",
-            commits = 9000
-        )
+        assertContributorItemDisplayed(0, "Stanislav", 20)
+        assertContributorItemDisplayed(1, "Recruiter", 9000)
 
         clickListItem(list, 0)
         whenGetUserLocationEventResultIs(RESULT_LOCATION_LOADED)
         thenNavigateToMapFragment()
     }
 
-    // TODO: Could write more tests for more states when implemented (no time)
+    //TODO: Could write more tests for more states when implemented (no time)
 
     private fun whenStateIs(state: ContributorsListState) {
         subjectState.value = state

@@ -33,7 +33,7 @@ class FetchRubyContributorsUseCaseTest : BaseUseCaseTest<FetchRubyContributorsUs
         thenResultIs(Success(emptyList()))
     }
 
-    // TODO: Could have done next 3 with Parameterized
+    //TODO: Could have done next 3 with Parameterized
     @Test fun `execute() - NETWORK_ERROR for SocketTimeoutException`() {
         givenRepositoryThrows(SocketTimeoutException())
         whenExecute()

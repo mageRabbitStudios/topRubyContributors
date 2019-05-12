@@ -11,6 +11,7 @@ class FetchUserUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) : BaseCoroutineUseCase(appCoroutineScope) {
 
+    @Suppress("TooGenericExceptionCaught")
     suspend fun execute(userLoginName: String): Result = ioTask {
         try {
             val response = userRepository.getUserByLoginName(userLoginName)

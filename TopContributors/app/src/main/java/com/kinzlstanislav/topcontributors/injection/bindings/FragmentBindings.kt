@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.injection
+package com.kinzlstanislav.topcontributors.injection.bindings
 
 import com.kinzlstanislav.topcontributors.architecture.core.dagger.scopes.PerFragment
 import com.kinzlstanislav.topcontributors.feature.list.injection.ContributorsListModule

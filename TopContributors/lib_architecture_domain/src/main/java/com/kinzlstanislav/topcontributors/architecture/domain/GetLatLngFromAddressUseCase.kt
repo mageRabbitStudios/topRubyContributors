@@ -6,6 +6,7 @@ import javax.inject.Inject
 
 class GetLatLngFromAddressUseCase @Inject constructor(private val geocoder: Geocoder) {
 
+    @Suppress("TooGenericExceptionCaught")
     fun execute(address: String): Result = try {
         val foundAddresses = geocoder.getFromLocationName(address, 1)
         val priorityAddress = foundAddresses.first()
