@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:background="@color/app__white">
 
-    <ViewFlipper
+    <com.kinzlstanislav.topcontributors.base.view.StateViewFlipper
             android:id="@+id/contributors_list_flipper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,6 +34,7 @@
 
         <TextView
                 style="@style/MiniTheme.Text.Errors"
+                android:id="@+id/generic_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -41,11 +42,12 @@
 
         <TextView
                 style="@style/MiniTheme.Text.Errors"
+                android:id="@+id/network_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/network_error"/>
-    </ViewFlipper>
+    </com.kinzlstanislav.topcontributors.base.view.StateViewFlipper>
 
     <include layout="@layout/view_location_loading"/>
 

@@ -1,5 +1,6 @@
 package com.kinzlstanislav.topcontributors.feature.list.view
 
+import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
@@ -9,20 +10,27 @@ import com.kinzlstanislav.topcontributors.feature.list.view.sorter.ContributorsS
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsGenericError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsNetworkError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.LoadingContributors
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.FetchingUserLocationGenericError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.FetchingUserLocationNetworkError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.ParsingLocationError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.UserLocationLoaded
 import com.kinzlstanislav.topcontributors.list.R
 import com.kinzlstanislav.topcontributors.list.R.id.item_contributor_commits
 import com.kinzlstanislav.topcontributors.list.R.id.item_contributor_name
+import com.kinzlstanislav.topcontributors.list.R.id.generic_error
+import com.kinzlstanislav.topcontributors.list.R.id.network_error
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
 import com.kinzlstanislav.topcontributors.viewtesting.FragmentDaggerTest
 import com.kinzlstanislav.topcontributors.viewtesting.matchers.assertViewHolderOfItemAtPosition
-import com.kinzlstanislav.topcontributors.viewtesting.matchers.isGone
-import com.kinzlstanislav.topcontributors.viewtesting.matchers.isVisible
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.schibsted.spain.barista.assertion.BaristaListAssertions.assertDisplayedAtPosition
+import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
 import com.schibsted.spain.barista.interaction.BaristaListInteractions.clickListItem
 import org.junit.Test
 import org.mockito.BDDMockito.given
@@ -81,14 +89,23 @@ class FragmentContributorsListTest : FragmentDaggerTest<FragmentContributorsList
             .willReturn(SOME_CONTRIBUTORS)
     }
 
+
     @Test
     fun fragmentFlow() {
-        loader.isGone()
+
         whenStateIs(LoadingContributors)
         loader.isVisible()
 
-        list.isGone()
+        whenStateIs(FetchingContributorsNetworkError)
+        loader.isGone()
+        network_error.isVisible()
+
+        whenStateIs(FetchingContributorsGenericError)
+        network_error.isGone()
+        generic_error.isVisible()
+
         whenStateIs(ContributorsLoaded(SOME_CONTRIBUTORS))
+        generic_error.isGone()
         list.isVisible()
 
         assertContributorItemDisplayed(0, "Stanislav", 20)
@@ -98,8 +115,6 @@ class FragmentContributorsListTest : FragmentDaggerTest<FragmentContributorsList
         whenGetUserLocationEventResultIs(RESULT_LOCATION_LOADED)
         thenNavigateToMapFragment()
     }
-
-    //TODO: Could write more tests for more states when implemented (no time)
 
     private fun whenStateIs(state: ContributorsListState) {
         subjectState.value = state

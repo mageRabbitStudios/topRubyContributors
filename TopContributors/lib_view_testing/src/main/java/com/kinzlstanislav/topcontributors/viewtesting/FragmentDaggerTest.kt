@@ -1,8 +1,10 @@
 package com.kinzlstanislav.topcontributors.viewtesting
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.view.View
 import androidx.annotation.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.kinzlstanislav.topcontributors.viewtesting.helpers.InstrumentationTestsHelper
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Assert.fail
 import org.junit.Before
@@ -99,8 +102,8 @@ abstract class FragmentDaggerTest<FRAGMENT : Fragment> {
         return targetContext.resources.getDrawable(id)
     }
 
-    protected fun getActivity(): AppCompatActivity? {
-        var activity: AppCompatActivity? = null
+    protected fun getActivity(): Activity? {
+        var activity: Activity? = null
         activityScenario.onActivity { activity = it }
         return activity
     }
@@ -133,7 +136,34 @@ abstract class FragmentDaggerTest<FRAGMENT : Fragment> {
         getActivity()?.let {
             InstrumentationTestsHelper.printViewHierarchy(it)
         } ?: run {
-            println("Activity is null, can't print view hiearchy")
+            fail("Activity is null, can't print view hiearchy")
         }
     }
+
+    protected fun Int.isVisible() {
+        getViewFromActivityById(this)?.let {
+            assertThat(it.visibility).isEqualTo(View.VISIBLE)
+        }
+    }
+
+    protected fun Int.isGone() {
+        getViewFromActivityById(this)?.let {
+            assertThat(it.visibility).isEqualTo(View.GONE)
+        }
+    }
+
+    private fun getViewFromActivityById(id: Int): View? {
+        val activity = getActivity()
+        activity?.let {
+            it.findViewById<View>(id)?.let { view ->
+                return view
+            } ?: run {
+                fail("View is null and so no visibility check can take place on it")
+            }
+        } ?: run {
+            fail("Activity is null and so no view can be found")
+        }
+        return null
+    }
+
 }

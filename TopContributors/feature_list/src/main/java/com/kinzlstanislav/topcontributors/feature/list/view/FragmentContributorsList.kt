@@ -3,6 +3,7 @@ package com.kinzlstanislav.topcontributors.feature.list.view
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.kinzlstanislav.topcontributors.architecture.core.extension.observe
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
 import com.kinzlstanislav.topcontributors.base.Constants
 import com.kinzlstanislav.topcontributors.base.view.BaseFragment
@@ -30,10 +31,6 @@ import kotlinx.android.synthetic.main.fragment_contributors_list.contributors_li
 class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
 
     private companion object {
-        const val LOADING = 0
-        const val LIST = 1
-        const val GENERIC_ERROR = 2
-        const val NETWORK_ERROR = 3
         const val GETTING_USER_LOCATION_VIEW_ANIM_APP_DUR = 400L
     }
 
@@ -51,21 +48,16 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
     private val contributorsAdapter by lazy { ContributorsAdapter(imageLoader, this) }
 
     override fun onFragmentCreated() {
+        observe(contributorsListViewModel.contributorsListState, ::handleContributorsState)
         contributors_list_recycler_view.adapter = contributorsAdapter
     }
 
-    override fun observeState() {
-        contributorsListViewModel.contributorsListState.observe(viewLifecycleOwner, Observer {
-            handleContributorsState(it)
-        })
-    }
-
     private fun handleContributorsState(state: ContributorsListState) = when (state) {
-        is LoadingContributors -> flipper.displayedChild = LOADING
-        is FetchingContributorsNetworkError -> flipper.displayedChild = NETWORK_ERROR
-        is FetchingContributorsGenericError -> flipper.displayedChild = GENERIC_ERROR
+        is LoadingContributors -> flipper.showView(contributors_list_loader)
+        is FetchingContributorsNetworkError -> flipper.showView(network_error)
+        is FetchingContributorsGenericError -> flipper.showView(generic_error)
         is ContributorsLoaded -> {
-            flipper.displayedChild = LIST
+            flipper.showView(contributors_list_recycler_view)
             contributorsAdapter.updateItems(contributorsSorter.sortFromTopByCommits(state.contributors, 25))
         }
     }
