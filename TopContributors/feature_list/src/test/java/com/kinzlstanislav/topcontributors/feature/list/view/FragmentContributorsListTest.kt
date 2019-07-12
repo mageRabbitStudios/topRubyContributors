@@ -1,6 +1,5 @@
 package com.kinzlstanislav.topcontributors.feature.list.view
 
-import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
@@ -14,14 +13,11 @@ import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsLis
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsNetworkError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.LoadingContributors
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.FetchingUserLocationGenericError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.FetchingUserLocationNetworkError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.ParsingLocationError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.UserLocationLoaded
 import com.kinzlstanislav.topcontributors.list.R
+import com.kinzlstanislav.topcontributors.list.R.id.generic_error
 import com.kinzlstanislav.topcontributors.list.R.id.item_contributor_commits
 import com.kinzlstanislav.topcontributors.list.R.id.item_contributor_name
-import com.kinzlstanislav.topcontributors.list.R.id.generic_error
 import com.kinzlstanislav.topcontributors.list.R.id.network_error
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
 import com.kinzlstanislav.topcontributors.viewtesting.FragmentDaggerTest
@@ -29,8 +25,6 @@ import com.kinzlstanislav.topcontributors.viewtesting.matchers.assertViewHolderO
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.schibsted.spain.barista.assertion.BaristaListAssertions.assertDisplayedAtPosition
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
 import com.schibsted.spain.barista.interaction.BaristaListInteractions.clickListItem
 import org.junit.Test
 import org.mockito.BDDMockito.given
@@ -47,7 +41,7 @@ private val SOME_CONTRIBUTORS = listOf(
         numberOfCommits = 20
     ),
     Contributor(
-        loginName = "Recruiter",
+        loginName = "Blazko",
         avatarUrl = "url",
         numberOfCommits = 9000
     )
@@ -59,36 +53,34 @@ private val RESULT_LOCATION_LOADED = UserLocationLoaded(
     location = SOME_LAT_LNG,
     user = User(
         name = SOME_CONTRIBUTORS.first().loginName,
-        address = "New York")
+        address = "New York"
+    )
 )
 
 class FragmentContributorsListTest : FragmentDaggerTest<FragmentContributorsList>() {
 
-    @Mock lateinit var mockSorter: ContributorsSorter
+    @Mock
+    lateinit var mockSorter: ContributorsSorter
 
-    override var injector: (FragmentContributorsList) -> Unit = {
-        it.imageLoader = mock(GlideImageLoader::class.java)
-        it.contributorsSorter = mockSorter
-        it.contributorsListViewModel = mock(ContributorsListViewModel::class.java)
+    override var injector: (FragmentContributorsList) -> Unit = { fragment ->
+        with(fragment) {
+            imageLoader = mock(GlideImageLoader::class.java)
+            contributorsSorter = mockSorter
+            contributorsListViewModel = mock(ContributorsListViewModel::class.java)
 
-        given(it.contributorsListViewModel.contributorsListState)
-            .willReturn(subjectState)
-        given(it.contributorsListViewModel.getUserLocationEvent)
-            .willReturn(subjectGetUserLocationEvent)
+            given(contributorsListViewModel.contributorsListState)
+                .willReturn(subjectState)
+            given(contributorsListViewModel.getUserLocationEvent)
+                .willReturn(subjectGetUserLocationEvent)
+            given(mockSorter.sortFromTopByCommits(SOME_CONTRIBUTORS, 25))
+                .willReturn(SOME_CONTRIBUTORS)
+        }
     }
 
     private val subjectState = MutableLiveData<ContributorsListState>()
     private val subjectGetUserLocationEvent = MutableLiveData<GetUserLocationResult>()
 
     override val subject = FragmentContributorsList()
-
-    override fun setup() {
-        super.setup()
-        launchFragment(subject, injector)
-        given(mockSorter.sortFromTopByCommits(SOME_CONTRIBUTORS, 25))
-            .willReturn(SOME_CONTRIBUTORS)
-    }
-
 
     @Test
     fun fragmentFlow() {
@@ -109,7 +101,7 @@ class FragmentContributorsListTest : FragmentDaggerTest<FragmentContributorsList
         list.isVisible()
 
         assertContributorItemDisplayed(0, "Stanislav", 20)
-        assertContributorItemDisplayed(1, "Recruiter", 9000)
+        assertContributorItemDisplayed(1, "Blazko", 9000)
 
         clickListItem(list, 0)
         whenGetUserLocationEventResultIs(RESULT_LOCATION_LOADED)

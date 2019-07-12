@@ -9,12 +9,12 @@ dependencies {
     implementation project(":lib_feature_base")
     implementation project(":lib_architecture_domain")
 
-    implementation Dependencies.dagger
-    implementation Dependencies.daggerAndroid
-    implementation Dependencies.daggerAndroidSupport
-
-    kapt Dependencies.daggerCompiler
-    kapt Dependencies.daggerAndroidCompiler
+//    implementation Dependencies.dagger
+//    implementation Dependencies.daggerAndroid
+//    implementation Dependencies.daggerAndroidSupport
+//
+//    kapt Dependencies.daggerCompiler
+//    kapt Dependencies.daggerAndroidCompiler
 
     implementation Dependencies.materialComponents
     implementation Dependencies.appCompatsupportLibrary
@@ -29,4 +29,5 @@ dependencies {
     implementation Dependencies.lifecycleExtensions
 
     testImplementation project(":lib_view_testing")
+    implementation "org.koin:koin-android:2.0.1"
 }

@@ -2,9 +2,8 @@ package com.kinzlstanislav.topcontributors.architecture.domain
 
 import android.location.Geocoder
 import com.google.android.gms.maps.model.LatLng
-import javax.inject.Inject
 
-class GetLatLngFromAddressUseCase @Inject constructor(private val geocoder: Geocoder) {
+class GetLatLngFromAddressUseCase(private val geocoder: Geocoder) {
 
     @Suppress("TooGenericExceptionCaught")
     fun execute(address: String): Result = try {

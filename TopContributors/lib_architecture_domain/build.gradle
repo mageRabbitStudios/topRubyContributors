@@ -4,6 +4,5 @@ dependencies {
     implementation project(":lib_architecture_repository")
     implementation project(':lib_core')
 
-    implementation Dependencies.dagger
     implementation Dependencies.googleMaps
 }

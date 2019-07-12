@@ -21,6 +21,7 @@ dependencies {
     testImplementation(TestDependencies.mockito) { transitive = false  }
     testImplementation(TestDependencies.mockitoCore) { transitive = false  }
     testImplementation(TestDependencies.mockitoInline) { transitive = false  }
+    testImplementation "io.mockk:mockk:1.9.3"
 
     testImplementation ('net.bytebuddy:byte-buddy:1.8.22') {
         force = true

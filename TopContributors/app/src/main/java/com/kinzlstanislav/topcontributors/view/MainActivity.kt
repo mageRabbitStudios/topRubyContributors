@@ -2,27 +2,15 @@ package com.kinzlstanislav.topcontributors.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.kinzlstanislav.topcontributors.R
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
-class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
+class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var dispatchingFragmentInjector: DispatchingAndroidInjector<Fragment>
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingFragmentInjector
-
-    @Inject
-    lateinit var contributorsListViewModel: ContributorsListViewModel
+    private val contributorsListViewModel: ContributorsListViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         fetchDataOnAppStart()

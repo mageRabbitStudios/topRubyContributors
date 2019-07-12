@@ -1,27 +1,17 @@
 package com.kinzlstanislav.topcontributors
 
-import android.app.Activity
 import android.app.Application
-import com.kinzlstanislav.topcontributors.injection.DaggerApplicationComponent
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import javax.inject.Inject
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
-open class TopContributorsApp : Application(), HasActivityInjector {
-
-    @Inject
-    lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>
+open class TopContributorsApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initializeDagger()
+        startKoin {
+            modules(
+                appModule
+            ).androidContext(this@TopContributorsApp)
+        }
     }
-
-    open fun initializeDagger() {
-        DaggerApplicationComponent.builder().application(this).build().inject(this)
-    }
-
-    override fun activityInjector(): AndroidInjector<Activity> = dispatchingActivityInjector
-
 }

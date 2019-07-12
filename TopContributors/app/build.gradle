@@ -30,11 +30,11 @@ dependencies {
 
     implementation Dependencies.appCompatsupportLibrary
 
-    implementation Dependencies.dagger
-    implementation Dependencies.daggerAndroidSupport
-
-    kapt Dependencies.daggerCompiler
-    kapt Dependencies.daggerAndroidCompiler
+//    implementation Dependencies.dagger
+//    implementation Dependencies.daggerAndroidSupport
+//
+//    kapt Dependencies.daggerCompiler
+//    kapt Dependencies.daggerAndroidCompiler
 
     implementation Dependencies.navigationUI
     implementation Dependencies.navigationFragment
@@ -45,4 +45,13 @@ dependencies {
     implementation Dependencies.retrofit
 
     implementation Dependencies.googleMaps
+    implementation "org.koin:koin-android:2.0.1"
+
+
+    implementation Dependencies.okhttpLogging
+
+    implementation Dependencies.moshi
+    implementation Dependencies.retrofit
+    implementation Dependencies.retrofitCoroutineAdapter
+    implementation Dependencies.retrofitMoshiAdapter
 }

@@ -17,27 +17,25 @@ import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsLis
 class ContributorsListViewModelImpl(
     appCoroutineScope: AppCoroutineScope,
 
-    override val contributorsListState: MutableLiveData<ContributorsListViewModel.ContributorsListState> = MutableLiveData(),
+    override val contributorsListState: MutableLiveData<ContributorsListState> = MutableLiveData(),
     override val getUserLocationEvent: MutableLiveData<GetUserLocationResult> = MutableLiveData(),
 
     private val fetchRubyContributorsUseCase: FetchRubyContributorsUseCase,
     private val fetchUserUseCase: FetchUserUseCase,
     private val getLatLngFromAddressUseCase: GetLatLngFromAddressUseCase
-    ) : ContributorsListViewModel(appCoroutineScope) {
+) : ContributorsListViewModel(appCoroutineScope) {
 
     override fun fetchRubyContributors() {
         contributorsListState.value = ContributorsListState.LoadingContributors
-        ioJob {
-            val result = fetchRubyContributorsUseCase.execute()
-
-            when (result) {
+        uiJob {
+            when (val result = fetchRubyContributorsUseCase.execute()) {
                 is FetchRubyContributorsUseCase.Result.Success -> contributorsListState.postValue(
                     ContributorsLoaded(result.contributors)
                 )
                 is FetchRubyContributorsUseCase.Result.NetworkError ->
-                    contributorsListState.postValue(FetchingContributorsNetworkError)
+                    contributorsListState.value = FetchingContributorsNetworkError
                 is FetchRubyContributorsUseCase.Result.GenericError ->
-                    contributorsListState.postValue(FetchingContributorsGenericError)
+                    contributorsListState.value = FetchingContributorsGenericError
             }
         }
     }
@@ -46,24 +44,19 @@ class ContributorsListViewModelImpl(
 
         // first fetch the complete user data where "location" information is based on loginId provided with
         // the contributor response
-        ioJob {
-            val fetchUserResult = fetchUserUseCase.execute(contributor.loginName)
-            when (fetchUserResult) {
-                is FetchUserUseCase.Result.GenericError -> getUserLocationEvent.postValue(FetchingUserLocationGenericError)
-                is FetchUserUseCase.Result.NetworkError -> getUserLocationEvent.postValue(FetchingUserLocationNetworkError)
+        uiJob {
+            when (val fetchUserResult = fetchUserUseCase.execute(contributor.loginName)) {
+                is FetchUserUseCase.Result.GenericError -> getUserLocationEvent.value = FetchingUserLocationGenericError
+                is FetchUserUseCase.Result.NetworkError -> getUserLocationEvent.value = FetchingUserLocationNetworkError
                 is FetchUserUseCase.Result.Success -> {
 
                     // then get latitude and longitude using Geocoder library
-                    val getLatLngResult = getLatLngFromAddressUseCase.execute(fetchUserResult.user.address)
-                    when (getLatLngResult) {
-                        is GetLatLngFromAddressUseCase.Result.Error -> getUserLocationEvent.postValue(ParsingLocationError)
+                    when (val getLatLngResult = getLatLngFromAddressUseCase.execute(fetchUserResult.user.address)) {
+                        is GetLatLngFromAddressUseCase.Result.Error -> getUserLocationEvent.value = ParsingLocationError
                         is GetLatLngFromAddressUseCase.Result.Success ->
-                            getUserLocationEvent.postValue(
-                                UserLocationLoaded(
-                                    getLatLngResult.location,
-                                    fetchUserResult.user
-                                )
-                            )
+                            getUserLocationEvent.value = UserLocationLoaded(
+                                getLatLngResult.location,
+                                fetchUserResult.user)
                     }
                 }
             }

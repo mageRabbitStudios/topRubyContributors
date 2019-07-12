@@ -5,8 +5,12 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
-import androidx.annotation.*
-import androidx.appcompat.app.AppCompatActivity
+import androidx.annotation.CallSuper
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.IntegerRes
+import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -78,6 +82,7 @@ abstract class FragmentDaggerTest<FRAGMENT : Fragment> {
         InstrumentationRegistry.getInstrumentation().targetContext
                 .applicationContext.setTheme(TEST_ENVIRONMENT_THEME)
         MockitoAnnotations.initMocks(this)
+        launchFragment()
     }
 
     @CallSuper
@@ -108,15 +113,15 @@ abstract class FragmentDaggerTest<FRAGMENT : Fragment> {
         return activity
     }
 
-    protected fun launchFragment(fragment: Fragment, injector: (FRAGMENT) -> Unit) {
+    protected fun launchFragment() {
         activityScenario = launch(FragmentDaggerTestActivity::class.java).also {
             it.onActivity { activity ->
                 (activity as FragmentDaggerTestActivity).apply {
                     // First add injector to our container activity
-                    setInjector(injector)
+                    setInjector(this@FragmentDaggerTest.injector)
                     // Launch the fragment
                     supportFragmentManager.beginTransaction()
-                            .add(android.R.id.content, fragment, "TAG")
+                            .add(android.R.id.content, subject, "TAG")
                             .commit()
                 }
 

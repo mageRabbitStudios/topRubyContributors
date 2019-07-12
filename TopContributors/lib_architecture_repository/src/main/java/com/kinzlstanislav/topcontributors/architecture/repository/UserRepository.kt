@@ -4,9 +4,8 @@ import com.kinzlstanislav.topcontributors.architecture.core.model.User
 import com.kinzlstanislav.topcontributors.architecture.network.api.GithubApiService
 import com.kinzlstanislav.topcontributors.architecture.network.mapper.UserResponseMapper
 import java.io.IOException
-import javax.inject.Inject
 
-class UserRepository @Inject constructor(
+class UserRepository constructor(
     private val api: GithubApiService,
     private val mapper: UserResponseMapper
 ) {

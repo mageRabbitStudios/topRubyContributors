@@ -25,7 +25,7 @@ import com.kinzlstanislav.topcontributors.list.R
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
 import kotlinx.android.synthetic.main.fragment_contributors_list.*
 import kotlinx.android.synthetic.main.view_location_loading.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 import kotlinx.android.synthetic.main.fragment_contributors_list.contributors_list_flipper as flipper
 
 class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
@@ -36,16 +36,11 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
 
     override val layoutResourceId = R.layout.fragment_contributors_list
 
-    @Inject
-    lateinit var imageLoader: GlideImageLoader
+    val imageLoader: GlideImageLoader by inject()
+    val contributorsSorter: ContributorsSorter by inject()
+    val contributorsListViewModel: ContributorsListViewModel by inject()
 
-    @Inject
-    lateinit var contributorsSorter: ContributorsSorter
-
-    @Inject
-    lateinit var contributorsListViewModel: ContributorsListViewModel
-
-    private val contributorsAdapter by lazy { ContributorsAdapter(imageLoader, this) }
+    private val contributorsAdapter: ContributorsAdapter by lazy { ContributorsAdapter(imageLoader, this) }
 
     override fun onFragmentCreated() {
         observe(contributorsListViewModel.contributorsListState, ::handleContributorsState)

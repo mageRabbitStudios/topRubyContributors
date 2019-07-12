@@ -1,13 +1,11 @@
 package com.kinzlstanislav.topcontributors.architecture.domain
 
 import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCoroutineScope
-import com.kinzlstanislav.topcontributors.architecture.core.usecase.BaseCoroutineUseCase
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
+import com.kinzlstanislav.topcontributors.architecture.core.usecase.BaseCoroutineUseCase
 import com.kinzlstanislav.topcontributors.architecture.repository.ContributorsRepository
-import java.lang.Exception
-import javax.inject.Inject
 
-class FetchRubyContributorsUseCase @Inject constructor(
+class FetchRubyContributorsUseCase(
     appCoroutineScope: AppCoroutineScope,
     private val contributorsRepository: ContributorsRepository
 ) : BaseCoroutineUseCase(appCoroutineScope) {
@@ -27,5 +25,4 @@ class FetchRubyContributorsUseCase @Inject constructor(
         object NetworkError : Result()
         object GenericError : Result()
     }
-
 }

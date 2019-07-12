@@ -4,9 +4,8 @@ import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCorout
 import com.kinzlstanislav.topcontributors.architecture.core.usecase.BaseCoroutineUseCase
 import com.kinzlstanislav.topcontributors.architecture.core.model.User
 import com.kinzlstanislav.topcontributors.architecture.repository.UserRepository
-import javax.inject.Inject
 
-class FetchUserUseCase @Inject constructor(
+class FetchUserUseCase constructor(
     appCoroutineScope: AppCoroutineScope,
     private val userRepository: UserRepository
 ) : BaseCoroutineUseCase(appCoroutineScope) {

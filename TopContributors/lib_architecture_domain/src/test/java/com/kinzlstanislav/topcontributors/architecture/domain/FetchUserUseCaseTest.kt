@@ -5,11 +5,11 @@ import com.kinzlstanislav.topcontributors.architecture.domain.FetchUserUseCase.R
 import com.kinzlstanislav.topcontributors.architecture.domain.FetchUserUseCase.Result.Success
 import com.kinzlstanislav.topcontributors.architecture.repository.UserRepository
 import com.kinzlstanislav.topcontributors.unittesting.BaseUseCaseTest
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
-import org.mockito.BDDMockito.given
-import org.mockito.Mock
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -19,12 +19,13 @@ private val SOME_USER = User("", "")
 
 class FetchUserUseCaseTest : BaseUseCaseTest<FetchUserUseCase.Result>() {
 
-    @Mock lateinit var mockUserRepository: UserRepository
+    private val repository = mockk<UserRepository>()
 
     lateinit var subject: FetchUserUseCase
 
-    @Before fun before() {
-        subject = FetchUserUseCase(testAppCoroutineScope, mockUserRepository)
+    @Before
+    fun before() {
+        subject = FetchUserUseCase(testAppCoroutineScope, repository)
     }
 
     @Test
@@ -53,13 +54,12 @@ class FetchUserUseCaseTest : BaseUseCaseTest<FetchUserUseCase.Result>() {
         thenResultIs(NetworkError)
     }
 
-    private fun givenRepositoryReturns(response: User) = runBlocking {
-        given(mockUserRepository.getUserByLoginName(SOME_LOGIN)).willReturn(response)
-    }
+    private fun givenRepositoryReturns(response: User) =
+        coEvery { repository.getUserByLoginName(SOME_LOGIN) } returns response
 
-    private fun givenRepositoryThrows(exception: Exception) = runBlocking {
-        given(mockUserRepository.getUserByLoginName(SOME_LOGIN)).willThrow(exception)
-    }
+
+    private fun givenRepositoryThrows(exception: Exception) =
+        coEvery { repository.getUserByLoginName(SOME_LOGIN) } throws exception
 
     private fun whenExecute() = runBlocking { usecaseResult = subject.execute(SOME_LOGIN) }
 
