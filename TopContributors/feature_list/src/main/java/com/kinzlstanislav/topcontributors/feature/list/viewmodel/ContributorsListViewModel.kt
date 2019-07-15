@@ -1,16 +1,14 @@
 package com.kinzlstanislav.topcontributors.feature.list.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.core.model.User
-import com.kinzlstanislav.topcontributors.base.viewmodel.BaseViewModel
 
-abstract class ContributorsListViewModel : BaseViewModel() {
+abstract class ContributorsListViewModel : ViewModel() {
 
     abstract val contributorsListState: LiveData<ContributorsListState>
-
-    abstract val getUserLocationEvent: LiveData<GetUserLocationResult>
 
     sealed class ContributorsListState {
 
@@ -21,6 +19,12 @@ abstract class ContributorsListViewModel : BaseViewModel() {
         object FetchingContributorsGenericError : ContributorsListState()
     }
 
+    abstract fun fetchRubyContributors()
+
+    abstract fun fetchContributorLocation(
+        contributor: Contributor,
+        onUserLocationFetchedAction: (GetUserLocationResult) -> Unit)
+
     sealed class GetUserLocationResult {
 
         // Fetching & processing contributor's location
@@ -29,8 +33,4 @@ abstract class ContributorsListViewModel : BaseViewModel() {
         object FetchingUserLocationGenericError : GetUserLocationResult()
         object ParsingLocationError : GetUserLocationResult()
     }
-
-    abstract fun fetchRubyContributors()
-
-    abstract fun fetchContributorLocation(contributor: Contributor)
 }

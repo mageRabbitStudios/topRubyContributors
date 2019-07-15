@@ -24,7 +24,7 @@ class FetchRubyContributorsUseCaseTest : BaseUseCaseTest<FetchRubyContributorsUs
     lateinit var subject: FetchRubyContributorsUseCase
 
     @Before fun before() {
-        subject = FetchRubyContributorsUseCase(testAppCoroutineScope, mockContributorsRepository)
+        subject = FetchRubyContributorsUseCase(mockContributorsRepository)
     }
 
     @Test fun `execute() - repository returns list, result should be SUCCESS`() {

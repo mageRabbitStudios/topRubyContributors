@@ -1,7 +1,7 @@
 package com.kinzlstanislav.topcontributors.feature.list.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCoroutineScope
+import com.kinzlstanislav.topcontributors.architecture.core.coroutines.uiJob
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.domain.FetchRubyContributorsUseCase
 import com.kinzlstanislav.topcontributors.architecture.domain.FetchUserUseCase
@@ -17,7 +17,6 @@ import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsLis
 class ContributorsListViewModelImpl(
 
     override val contributorsListState: MutableLiveData<ContributorsListState> = MutableLiveData(),
-    override val getUserLocationEvent: MutableLiveData<GetUserLocationResult> = MutableLiveData(),
 
     private val fetchRubyContributorsUseCase: FetchRubyContributorsUseCase,
     private val fetchUserUseCase: FetchUserUseCase,
@@ -26,7 +25,7 @@ class ContributorsListViewModelImpl(
 
     override fun fetchRubyContributors() {
         contributorsListState.value = ContributorsListState.LoadingContributors
-        /*uiJob {
+        uiJob {
             when (val result = fetchRubyContributorsUseCase.execute()) {
                 is FetchRubyContributorsUseCase.Result.Success -> contributorsListState.postValue(
                     ContributorsLoaded(result.contributors)
@@ -36,29 +35,38 @@ class ContributorsListViewModelImpl(
                 is FetchRubyContributorsUseCase.Result.GenericError ->
                     contributorsListState.value = FetchingContributorsGenericError
             }
-        }*/
+        }
     }
 
-    override fun fetchContributorLocation(contributor: Contributor) {
+    override fun fetchContributorLocation(
+        contributor: Contributor,
+        onUserLocationFetchedAction: (GetUserLocationResult) -> Unit
+    ) {
 
         // first fetch the complete user data where "location" information is based on loginId provided with
         // the contributor response
-        /*uiJob {
+        uiJob {
             when (val fetchUserResult = fetchUserUseCase.execute(contributor.loginName)) {
-                is FetchUserUseCase.Result.GenericError -> getUserLocationEvent.value = FetchingUserLocationGenericError
-                is FetchUserUseCase.Result.NetworkError -> getUserLocationEvent.value = FetchingUserLocationNetworkError
+                is FetchUserUseCase.Result.GenericError ->
+                    onUserLocationFetchedAction(FetchingUserLocationGenericError)
+                is FetchUserUseCase.Result.NetworkError ->
+                    onUserLocationFetchedAction(FetchingUserLocationNetworkError)
                 is FetchUserUseCase.Result.Success -> {
 
                     // then get latitude and longitude using Geocoder library
                     when (val getLatLngResult = getLatLngFromAddressUseCase.execute(fetchUserResult.user.address)) {
-                        is GetLatLngFromAddressUseCase.Result.Error -> getUserLocationEvent.value = ParsingLocationError
+                        is GetLatLngFromAddressUseCase.Result.Error ->
+                            onUserLocationFetchedAction(ParsingLocationError)
                         is GetLatLngFromAddressUseCase.Result.Success ->
-                            getUserLocationEvent.value = UserLocationLoaded(
-                                getLatLngResult.location,
-                                fetchUserResult.user)
+                            onUserLocationFetchedAction(
+                                UserLocationLoaded(
+                                    getLatLngResult.location,
+                                    fetchUserResult.user
+                                )
+                            )
                     }
                 }
             }
-        }*/
+        }
     }
 }

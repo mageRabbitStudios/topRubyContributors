@@ -1,7 +1,6 @@
 package com.kinzlstanislav.topcontributors.feature.list.view
 
 import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.kinzlstanislav.topcontributors.architecture.core.extension.observe
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
@@ -36,9 +35,9 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
 
     override val layoutResourceId = R.layout.fragment_contributors_list
 
-    val imageLoader: GlideImageLoader by inject()
-    val contributorsSorter: ContributorsSorter by inject()
-    val contributorsListViewModel: ContributorsListViewModel by inject()
+    private val imageLoader: GlideImageLoader by inject()
+    private val contributorsSorter: ContributorsSorter by inject()
+    private val contributorsListViewModel: ContributorsListViewModel by inject()
 
     private val contributorsAdapter: ContributorsAdapter by lazy { ContributorsAdapter(imageLoader, this) }
 
@@ -59,13 +58,7 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
 
     override fun onContributorItemClicked(contributor: Contributor) {
         showLoadingLocationView()
-        contributorsListViewModel.apply {
-            getUserLocationEvent.observe(viewLifecycleOwner, Observer { result ->
-                getUserLocationEvent.removeObservers(viewLifecycleOwner)
-                handleGetUserLocationResult(result)
-            })
-            fetchContributorLocation(contributor)
-        }
+        contributorsListViewModel.fetchContributorLocation(contributor, ::handleGetUserLocationResult)
     }
 
     private fun handleGetUserLocationResult(result: GetUserLocationResult) {

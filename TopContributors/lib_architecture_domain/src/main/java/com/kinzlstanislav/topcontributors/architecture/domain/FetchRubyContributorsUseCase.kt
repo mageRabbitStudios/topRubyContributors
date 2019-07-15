@@ -1,17 +1,16 @@
 package com.kinzlstanislav.topcontributors.architecture.domain
 
-import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCoroutineScope
+import com.kinzlstanislav.topcontributors.architecture.core.coroutines.uiTask
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
-import com.kinzlstanislav.topcontributors.architecture.core.usecase.BaseCoroutineUseCase
+import com.kinzlstanislav.topcontributors.architecture.core.usecase.BaseUseCase
 import com.kinzlstanislav.topcontributors.architecture.repository.ContributorsRepository
 
 class FetchRubyContributorsUseCase(
-    appCoroutineScope: AppCoroutineScope,
     private val contributorsRepository: ContributorsRepository
-) : BaseCoroutineUseCase(appCoroutineScope) {
+) : BaseUseCase() {
 
     @Suppress("TooGenericExceptionCaught")
-    suspend fun execute(): Result = ioTask {
+    suspend fun execute(): Result = uiTask {
         try {
             val response = contributorsRepository.getRubyContributors()
             Result.Success(response)

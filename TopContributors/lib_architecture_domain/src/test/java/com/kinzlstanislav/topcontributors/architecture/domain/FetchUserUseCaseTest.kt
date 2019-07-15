@@ -8,7 +8,6 @@ import com.kinzlstanislav.topcontributors.unittesting.BaseUseCaseTest
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.Test
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -21,12 +20,7 @@ class FetchUserUseCaseTest : BaseUseCaseTest<FetchUserUseCase.Result>() {
 
     private val repository = mockk<UserRepository>()
 
-    lateinit var subject: FetchUserUseCase
-
-    @Before
-    fun before() {
-        subject = FetchUserUseCase(testAppCoroutineScope, repository)
-    }
+    private val subject: FetchUserUseCase = FetchUserUseCase(repository)
 
     @Test
     fun `execute() - repository returns user, result should be SUCCESS`() {

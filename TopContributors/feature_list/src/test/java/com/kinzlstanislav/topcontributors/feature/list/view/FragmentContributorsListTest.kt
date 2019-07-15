@@ -57,6 +57,7 @@ private val RESULT_LOCATION_LOADED = UserLocationLoaded(
     )
 )
 
+/*
 class FragmentContributorsListTest : FragmentDaggerTest<FragmentContributorsList>() {
 
     @Mock
@@ -134,4 +135,4 @@ class FragmentContributorsListTest : FragmentDaggerTest<FragmentContributorsList
         )
     }
 
-}
+}*/

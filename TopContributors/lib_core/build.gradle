@@ -6,5 +6,5 @@ dependencies {
 
     implementation Dependencies.appCompatsupportLibrary
     implementation Dependencies.androidXCoreKtx
-    implementation Dependencies.lifecycleExtensions
+    implementation Dependencies.lifecycleViewModel
 }

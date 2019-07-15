@@ -18,8 +18,8 @@ dependencies {
     implementation Dependencies.navigationUI
     implementation Dependencies.navigationFragment
 
-    // for ViewModelProviders.of (modules with ViewModelFactories), also contains lifecycle dependency for LiveData
-    implementation Dependencies.lifecycleExtensions
+    implementation Dependencies.lifecycleLiveData
+    implementation Dependencies.lifecycleViewModel
     implementation Dependencies.androidXCoreKtx
 
     testImplementation project(":lib_view_testing")

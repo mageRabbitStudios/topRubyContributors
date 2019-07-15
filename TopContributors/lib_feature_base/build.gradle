@@ -4,5 +4,4 @@ dependencies {
     implementation project(':lib_core')
 
     implementation Dependencies.appCompatsupportLibrary
-    implementation Dependencies.lifecycleExtensions
 }

@@ -1,14 +1,13 @@
 package com.kinzlstanislav.topcontributors.architecture.domain
 
-import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCoroutineScope
-import com.kinzlstanislav.topcontributors.architecture.core.usecase.BaseCoroutineUseCase
+import com.kinzlstanislav.topcontributors.architecture.core.coroutines.ioTask
 import com.kinzlstanislav.topcontributors.architecture.core.model.User
+import com.kinzlstanislav.topcontributors.architecture.core.usecase.BaseUseCase
 import com.kinzlstanislav.topcontributors.architecture.repository.UserRepository
 
 class FetchUserUseCase constructor(
-    appCoroutineScope: AppCoroutineScope,
     private val userRepository: UserRepository
-) : BaseCoroutineUseCase(appCoroutineScope) {
+) : BaseUseCase() {
 
     @Suppress("TooGenericExceptionCaught")
     suspend fun execute(userLoginName: String): Result = ioTask {
@@ -25,5 +24,4 @@ class FetchUserUseCase constructor(
         object NetworkError : Result()
         object GenericError : Result()
     }
-
 }

@@ -39,7 +39,7 @@ dependencies {
     implementation Dependencies.navigationUI
     implementation Dependencies.navigationFragment
 
-    implementation Dependencies.lifecycleExtensions
+    implementation Dependencies.lifecycleViewModel
 
     implementation Dependencies.okhttpLogging
     implementation Dependencies.retrofit

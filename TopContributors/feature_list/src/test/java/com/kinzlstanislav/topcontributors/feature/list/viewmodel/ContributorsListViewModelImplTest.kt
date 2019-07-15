@@ -1,6 +1,5 @@
 package com.kinzlstanislav.topcontributors.feature.list.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.core.model.User
@@ -15,10 +14,10 @@ import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsLis
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult
 import com.kinzlstanislav.topcontributors.unittesting.BaseViewModelTest
 import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.then
 import org.mockito.Mock
 
 private val SOME_CONTRIBUTOR = Contributor("Contributor", "", 5)
@@ -30,16 +29,14 @@ class ContributorsListViewModelImplTest : BaseViewModelTest<ContributorsListStat
     @Mock lateinit var mockFetchRubyContributorsUseCase: FetchRubyContributorsUseCase
     @Mock lateinit var mockFetchUserUseCase: FetchUserUseCase
     @Mock lateinit var mockGetLatLngFromAddressUseCase: GetLatLngFromAddressUseCase
+    @Mock lateinit var mockOnUserLocationFetchedAction: (GetUserLocationResult) -> Unit
 
     private lateinit var subject: ContributorsListViewModelImpl
-    private val getUserLocationEventState: MutableLiveData<ContributorsListViewModel.GetUserLocationResult> = MutableLiveData()
 
     @Before
     fun before() {
         subject = ContributorsListViewModelImpl(
-            testAppCoroutineScope,
             testState,
-            getUserLocationEventState,
             mockFetchRubyContributorsUseCase,
             mockFetchUserUseCase,
             mockGetLatLngFromAddressUseCase) }
@@ -110,7 +107,7 @@ class ContributorsListViewModelImplTest : BaseViewModelTest<ContributorsListStat
     }
 
     private fun whenFetchContributorLocationCalled() {
-        subject.fetchContributorLocation(SOME_CONTRIBUTOR)
+        subject.fetchContributorLocation(SOME_CONTRIBUTOR, mockOnUserLocationFetchedAction)
     }
 
     private fun whenFetchRubyContributorsCalled() {
@@ -118,7 +115,7 @@ class ContributorsListViewModelImplTest : BaseViewModelTest<ContributorsListStat
     }
 
     private fun thenGetUserLocationResultIs(result: GetUserLocationResult) {
-        assertThat(getUserLocationEventState.value).isEqualTo(result)
+        then(mockOnUserLocationFetchedAction).should().invoke(result)
     }
 
 }
