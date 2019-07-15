@@ -2,10 +2,6 @@ package com.kinzlstanislav.topcontributors
 
 import android.location.Geocoder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AndroidDispatcherProvider
-import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCoroutineScope
-import com.kinzlstanislav.topcontributors.architecture.core.coroutines.AppCoroutineScopeImpl
-import com.kinzlstanislav.topcontributors.architecture.core.coroutines.DispatcherProvider
 import com.kinzlstanislav.topcontributors.architecture.domain.FetchRubyContributorsUseCase
 import com.kinzlstanislav.topcontributors.architecture.domain.FetchUserUseCase
 import com.kinzlstanislav.topcontributors.architecture.domain.GetLatLngFromAddressUseCase
@@ -17,7 +13,6 @@ import com.kinzlstanislav.topcontributors.architecture.repository.ContributorsRe
 import com.kinzlstanislav.topcontributors.architecture.repository.UserRepository
 import com.kinzlstanislav.topcontributors.feature.list.view.sorter.ContributorsSorter
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModelImpl
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -30,15 +25,14 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 val appModule = module {
 
     // view model
-    single<ContributorsListViewModel> { ContributorsListViewModelImpl(
-        appCoroutineScope = get(),
+    single { ContributorsListViewModel(
         fetchRubyContributorsUseCase = get(),
         fetchUserUseCase = get(),
         getLatLngFromAddressUseCase = get()) }
 
     // use case
-    factory { FetchRubyContributorsUseCase(get(), get()) }
-    factory { FetchUserUseCase(get(), get()) }
+    factory { FetchRubyContributorsUseCase(get()) }
+    factory { FetchUserUseCase(get()) }
     factory { GetLatLngFromAddressUseCase(get()) }
 
     // repository
@@ -70,10 +64,6 @@ val appModule = module {
         }
         builder.build()
     }
-
-    // coroutine
-    single<AppCoroutineScope> { AppCoroutineScopeImpl(get()) }
-    single<DispatcherProvider> { AndroidDispatcherProvider() }
 
     // other
     single { Geocoder(androidContext()) }

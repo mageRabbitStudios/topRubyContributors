@@ -1,6 +1,7 @@
 package com.kinzlstanislav.topcontributors.feature.list.view
 
 import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.kinzlstanislav.topcontributors.architecture.core.extension.observe
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
@@ -10,12 +11,11 @@ import com.kinzlstanislav.topcontributors.feature.list.view.adapter.ContributorI
 import com.kinzlstanislav.topcontributors.feature.list.view.adapter.ContributorsAdapter
 import com.kinzlstanislav.topcontributors.feature.list.view.sorter.ContributorsSorter
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.*
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsGenericError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsNetworkError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.LoadingContributors
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.FetchingUserLocationGenericError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.FetchingUserLocationNetworkError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.ParsingLocationError
@@ -42,23 +42,25 @@ class FragmentContributorsList : BaseFragment(), ContributorItemClickListener {
     private val contributorsAdapter: ContributorsAdapter by lazy { ContributorsAdapter(imageLoader, this) }
 
     override fun onFragmentCreated() {
-        observe(contributorsListViewModel.contributorsListState, ::handleContributorsState)
+        contributorsListViewModel.contributorsListState.observe(viewLifecycleOwner, viewStateObserver)
         contributors_list_recycler_view.adapter = contributorsAdapter
-    }
-
-    private fun handleContributorsState(state: ContributorsListState) = when (state) {
-        is LoadingContributors -> flipper.showView(contributors_list_loader)
-        is FetchingContributorsNetworkError -> flipper.showView(network_error)
-        is FetchingContributorsGenericError -> flipper.showView(generic_error)
-        is ContributorsLoaded -> {
-            flipper.showView(contributors_list_recycler_view)
-            contributorsAdapter.updateItems(contributorsSorter.sortFromTopByCommits(state.contributors, 25))
-        }
     }
 
     override fun onContributorItemClicked(contributor: Contributor) {
         showLoadingLocationView()
         contributorsListViewModel.fetchContributorLocation(contributor, ::handleGetUserLocationResult)
+    }
+
+    private val viewStateObserver: Observer<ContributorsListState> = Observer { state ->
+        when (state) {
+            is LoadingContributors -> flipper.showView(contributors_list_loader)
+            is FetchingContributorsNetworkError -> flipper.showView(network_error)
+            is FetchingContributorsGenericError -> flipper.showView(generic_error)
+            is ContributorsLoaded -> {
+                flipper.showView(contributors_list_recycler_view)
+                contributorsAdapter.updateItems(contributorsSorter.sortFromTopByCommits(state.contributors, 25))
+            }
+        }
     }
 
     private fun handleGetUserLocationResult(result: GetUserLocationResult) {

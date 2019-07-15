@@ -6,12 +6,6 @@ import com.kinzlstanislav.topcontributors.architecture.core.model.User
 import com.kinzlstanislav.topcontributors.architecture.domain.FetchRubyContributorsUseCase
 import com.kinzlstanislav.topcontributors.architecture.domain.FetchUserUseCase
 import com.kinzlstanislav.topcontributors.architecture.domain.GetLatLngFromAddressUseCase
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsGenericError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsNetworkError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.LoadingContributors
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult
 import com.kinzlstanislav.topcontributors.unittesting.BaseViewModelTest
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -24,18 +18,18 @@ private val SOME_CONTRIBUTOR = Contributor("Contributor", "", 5)
 private val SOME_USER = User("User", "Miami")
 private val SOME_LATLNG = LatLng(10.toDouble(), 10.toDouble())
 
-class ContributorsListViewModelImplTest : BaseViewModelTest<ContributorsListState>() {
+class ContributorsListViewModelImplTest : BaseViewModelTest<ContributorsListViewModel.ContributorsListState>() {
 
     @Mock lateinit var mockFetchRubyContributorsUseCase: FetchRubyContributorsUseCase
     @Mock lateinit var mockFetchUserUseCase: FetchUserUseCase
     @Mock lateinit var mockGetLatLngFromAddressUseCase: GetLatLngFromAddressUseCase
-    @Mock lateinit var mockOnUserLocationFetchedAction: (GetUserLocationResult) -> Unit
+    @Mock lateinit var mockOnUserLocationFetchedAction: (ContributorsListViewModel.GetUserLocationResult) -> Unit
 
-    private lateinit var subject: ContributorsListViewModelImpl
+    private lateinit var subject: ContributorsListViewModel
 
     @Before
     fun before() {
-        subject = ContributorsListViewModelImpl(
+        subject = ContributorsListViewModel(
             testState,
             mockFetchRubyContributorsUseCase,
             mockFetchUserUseCase,
@@ -45,25 +39,25 @@ class ContributorsListViewModelImplTest : BaseViewModelTest<ContributorsListStat
 
     @Test fun `fetchRubyContributors() - LoadingContributors set`() {
         whenFetchRubyContributorsCalled()
-        thenStateShouldBe(LoadingContributors)
+        thenStateShouldBe(ContributorsListViewModel.ContributorsListState.LoadingContributors)
     }
 
     @Test fun `fetchRubyContributors() - ContributorsLoaded set`() {
         givenFetchRubyContributorsUseCaseReturns(FetchRubyContributorsUseCase.Result.Success(emptyList()))
         whenFetchRubyContributorsCalled()
-        thenStateShouldBe(ContributorsLoaded(emptyList()))
+        thenStateShouldBe(ContributorsListViewModel.ContributorsListState.ContributorsLoaded(emptyList()))
     }
 
     @Test fun `fetchRubyContributors() - FetchingContributorsNetworkError set`() {
         givenFetchRubyContributorsUseCaseReturns(FetchRubyContributorsUseCase.Result.NetworkError)
         whenFetchRubyContributorsCalled()
-        thenStateShouldBe(FetchingContributorsNetworkError)
+        thenStateShouldBe(ContributorsListViewModel.ContributorsListState.FetchingContributorsNetworkError)
     }
 
     @Test fun `fetchRubyContributors() - FetchingContributorsGenericError set`() {
         givenFetchRubyContributorsUseCaseReturns(FetchRubyContributorsUseCase.Result.GenericError)
         whenFetchRubyContributorsCalled()
-        thenStateShouldBe(FetchingContributorsGenericError)
+        thenStateShouldBe(ContributorsListViewModel.ContributorsListState.FetchingContributorsGenericError)
     }
 
     // fetchContributorLocation()
@@ -71,27 +65,27 @@ class ContributorsListViewModelImplTest : BaseViewModelTest<ContributorsListStat
     @Test fun `fetchContributorLocation() - should post FetchingUserLocationGenericError on observer`() {
         givenFetchUserUseCaseReturns(FetchUserUseCase.Result.GenericError)
         whenFetchContributorLocationCalled()
-        thenGetUserLocationResultIs(GetUserLocationResult.FetchingUserLocationGenericError)
+        thenGetUserLocationResultIs(ContributorsListViewModel.GetUserLocationResult.FetchingUserLocationGenericError)
     }
 
     @Test fun `fetchContributorLocation() - should post FetchingUserLocationNetworkError on observer`() {
         givenFetchUserUseCaseReturns(FetchUserUseCase.Result.NetworkError)
         whenFetchContributorLocationCalled()
-        thenGetUserLocationResultIs(GetUserLocationResult.FetchingUserLocationNetworkError)
+        thenGetUserLocationResultIs(ContributorsListViewModel.GetUserLocationResult.FetchingUserLocationNetworkError)
     }
 
     @Test fun `fetchContributorLocation() - should post ParsingLocationError on observer`() {
         givenFetchUserUseCaseReturns(FetchUserUseCase.Result.Success(SOME_USER))
         givenGetLatLngFromAddressUseCaseReturns(GetLatLngFromAddressUseCase.Result.Error)
         whenFetchContributorLocationCalled()
-        thenGetUserLocationResultIs(GetUserLocationResult.ParsingLocationError)
+        thenGetUserLocationResultIs(ContributorsListViewModel.GetUserLocationResult.ParsingLocationError)
     }
 
     @Test fun `fetchContributorLocation() - should post UserLocationLoaded on observer`() {
         givenFetchUserUseCaseReturns(FetchUserUseCase.Result.Success(SOME_USER))
         givenGetLatLngFromAddressUseCaseReturns(GetLatLngFromAddressUseCase.Result.Success(SOME_LATLNG))
         whenFetchContributorLocationCalled()
-        thenGetUserLocationResultIs(GetUserLocationResult.UserLocationLoaded(SOME_LATLNG, SOME_USER))
+        thenGetUserLocationResultIs(ContributorsListViewModel.GetUserLocationResult.UserLocationLoaded(SOME_LATLNG, SOME_USER))
     }
 
     private fun givenFetchRubyContributorsUseCaseReturns(result: FetchRubyContributorsUseCase.Result) {
@@ -114,7 +108,7 @@ class ContributorsListViewModelImplTest : BaseViewModelTest<ContributorsListStat
         subject.fetchRubyContributors()
     }
 
-    private fun thenGetUserLocationResultIs(result: GetUserLocationResult) {
+    private fun thenGetUserLocationResultIs(result: ContributorsListViewModel.GetUserLocationResult) {
         then(mockOnUserLocationFetchedAction).should().invoke(result)
     }
 

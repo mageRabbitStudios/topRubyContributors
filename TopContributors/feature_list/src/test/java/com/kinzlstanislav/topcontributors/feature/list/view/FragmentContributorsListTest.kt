@@ -1,36 +1,9 @@
 package com.kinzlstanislav.topcontributors.feature.list.view
 
-import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.core.model.User
-import com.kinzlstanislav.topcontributors.feature.list.view.adapter.ContributorsViewHolder
-import com.kinzlstanislav.topcontributors.feature.list.view.sorter.ContributorsSorter
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsGenericError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsNetworkError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.LoadingContributors
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.UserLocationLoaded
-import com.kinzlstanislav.topcontributors.list.R
-import com.kinzlstanislav.topcontributors.list.R.id.generic_error
-import com.kinzlstanislav.topcontributors.list.R.id.item_contributor_commits
-import com.kinzlstanislav.topcontributors.list.R.id.item_contributor_name
-import com.kinzlstanislav.topcontributors.list.R.id.network_error
-import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
-import com.kinzlstanislav.topcontributors.viewtesting.FragmentDaggerTest
-import com.kinzlstanislav.topcontributors.viewtesting.matchers.assertViewHolderOfItemAtPosition
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.eq
-import com.schibsted.spain.barista.assertion.BaristaListAssertions.assertDisplayedAtPosition
-import com.schibsted.spain.barista.interaction.BaristaListInteractions.clickListItem
-import org.junit.Test
-import org.mockito.BDDMockito.given
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.mock
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModelads.GetUserLocationResult.UserLocationLoaded
 import com.kinzlstanislav.topcontributors.list.R.id.contributors_list_loader as loader
 import com.kinzlstanislav.topcontributors.list.R.id.contributors_list_recycler_view as list
 
