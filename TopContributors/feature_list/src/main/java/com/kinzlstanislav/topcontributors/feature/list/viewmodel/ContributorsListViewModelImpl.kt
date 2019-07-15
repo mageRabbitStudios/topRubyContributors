@@ -15,7 +15,6 @@ import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsLis
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.UserLocationLoaded
 
 class ContributorsListViewModelImpl(
-    appCoroutineScope: AppCoroutineScope,
 
     override val contributorsListState: MutableLiveData<ContributorsListState> = MutableLiveData(),
     override val getUserLocationEvent: MutableLiveData<GetUserLocationResult> = MutableLiveData(),
@@ -23,11 +22,11 @@ class ContributorsListViewModelImpl(
     private val fetchRubyContributorsUseCase: FetchRubyContributorsUseCase,
     private val fetchUserUseCase: FetchUserUseCase,
     private val getLatLngFromAddressUseCase: GetLatLngFromAddressUseCase
-) : ContributorsListViewModel(appCoroutineScope) {
+) : ContributorsListViewModel() {
 
     override fun fetchRubyContributors() {
         contributorsListState.value = ContributorsListState.LoadingContributors
-        uiJob {
+        /*uiJob {
             when (val result = fetchRubyContributorsUseCase.execute()) {
                 is FetchRubyContributorsUseCase.Result.Success -> contributorsListState.postValue(
                     ContributorsLoaded(result.contributors)
@@ -37,14 +36,14 @@ class ContributorsListViewModelImpl(
                 is FetchRubyContributorsUseCase.Result.GenericError ->
                     contributorsListState.value = FetchingContributorsGenericError
             }
-        }
+        }*/
     }
 
     override fun fetchContributorLocation(contributor: Contributor) {
 
         // first fetch the complete user data where "location" information is based on loginId provided with
         // the contributor response
-        uiJob {
+        /*uiJob {
             when (val fetchUserResult = fetchUserUseCase.execute(contributor.loginName)) {
                 is FetchUserUseCase.Result.GenericError -> getUserLocationEvent.value = FetchingUserLocationGenericError
                 is FetchUserUseCase.Result.NetworkError -> getUserLocationEvent.value = FetchingUserLocationNetworkError
@@ -60,6 +59,6 @@ class ContributorsListViewModelImpl(
                     }
                 }
             }
-        }
+        }*/
     }
 }

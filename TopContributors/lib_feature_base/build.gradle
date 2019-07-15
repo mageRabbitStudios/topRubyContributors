@@ -4,10 +4,5 @@ dependencies {
     implementation project(':lib_core')
 
     implementation Dependencies.appCompatsupportLibrary
-
-    implementation Dependencies.dagger
-    implementation Dependencies.daggerAndroid
-    implementation Dependencies.daggerAndroidSupport
-    kapt Dependencies.daggerCompiler
-    kapt Dependencies.daggerAndroidCompiler
+    implementation Dependencies.lifecycleExtensions
 }

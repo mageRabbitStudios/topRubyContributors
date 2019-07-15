@@ -1,9 +1,10 @@
 apply from: rootProject.file('common-library.gradle')
 
 dependencies {
-    implementation Dependencies.dagger
     // For ViewHolder extensions
     implementation Dependencies.recyclerView
 
     implementation Dependencies.appCompatsupportLibrary
+    implementation Dependencies.androidXCoreKtx
+    implementation Dependencies.lifecycleExtensions
 }

@@ -100,7 +100,7 @@ object Dependencies {
     // Architecture Components
     const val lifecycleCommonJava8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.archComponentsVersion}"
     // lifeCycleExtension already contains LiveData & ViewModel dependencies
-    const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.archComponentsVersion}"
+    const val lifecycleExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-rc01"
 
     const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigationVersion}"
     const val navigationUI = "androidx.navigation:navigation-ui-ktx:${Versions.navigationVersion}"
