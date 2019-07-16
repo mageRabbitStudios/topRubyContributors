@@ -5,7 +5,5 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 
-fun inflateViewForHolder(
-    parent: ViewGroup,
-    @LayoutRes itemViewLayout: Int
-): View = LayoutInflater.from(parent.context).inflate(itemViewLayout, parent, false)
+fun ViewGroup.inflateViewHolder(@LayoutRes itemViewLayout: Int): View =
+        LayoutInflater.from(context).inflate(itemViewLayout, this, false)

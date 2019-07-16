@@ -3,6 +3,12 @@ apply plugin: 'com.android.feature'
 apply from: rootProject.file('common-module.gradle')
 apply from: rootProject.file('test-settings-feature.gradle')
 
+android {
+    dataBinding {
+        enabled = true
+    }
+}
+
 dependencies {
     implementation project(":lib_ui")
     implementation project(':lib_core')

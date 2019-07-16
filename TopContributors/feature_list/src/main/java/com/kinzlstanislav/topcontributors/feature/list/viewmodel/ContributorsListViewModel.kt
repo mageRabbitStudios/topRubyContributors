@@ -26,6 +26,7 @@ class ContributorsListViewModel(
 ) : ViewModel() {
 
     /**  Results and states */
+
     sealed class ContributorsListState {
 
         // Fetching & sorting contributors

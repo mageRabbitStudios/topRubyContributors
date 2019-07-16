@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kinzlstanislav.topcontributors.R
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val contributorsListViewModel: ContributorsListViewModel by inject()
+    private val contributorsListViewModel: ContributorsListViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

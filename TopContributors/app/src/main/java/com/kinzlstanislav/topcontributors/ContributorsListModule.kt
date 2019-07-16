@@ -54,7 +54,7 @@ val appModule = module {
     }
 
     factory<Interceptor> { // logger
-        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
+        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
     factory { // okhttp client

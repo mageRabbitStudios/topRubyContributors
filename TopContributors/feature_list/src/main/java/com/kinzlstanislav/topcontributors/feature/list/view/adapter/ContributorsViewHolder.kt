@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_contributor_tile.*
 class ContributorsViewHolder(
     override val containerView: View,
     private val imageLoader: GlideImageLoader,
-    private val itemOnClickListener: ContributorItemClickListener
+    private val onItemClickAction: (Contributor) -> Unit
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer,
     ShrinkOnTouchTileViewHolder by ShrinkOnTouchTileViewHolderImpl(containerView) {
 
@@ -22,7 +22,8 @@ class ContributorsViewHolder(
         item_contributor_commits.text =
             itemView.resources.getString(R.string.item_contributor_commits, contributor.numberOfCommits.toString())
         imageLoader.loadFromUrl(containerView.context, contributor.avatarUrl, contributor_list_item_img_contributor)
-        touchUpAction = { itemOnClickListener.onContributorItemClicked(contributor) }
+        touchUpAction = {
+            onItemClickAction(contributor)
+        }
     }
-
 }
