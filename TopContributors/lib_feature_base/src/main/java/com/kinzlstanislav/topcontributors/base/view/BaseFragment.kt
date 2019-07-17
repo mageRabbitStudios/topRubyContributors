@@ -8,8 +8,14 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
 abstract class BaseFragment : Fragment() {
+
+    private val job: Job = Job()
+    val fragmentScope: CoroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     @get:LayoutRes
     abstract val layoutResourceId: Int

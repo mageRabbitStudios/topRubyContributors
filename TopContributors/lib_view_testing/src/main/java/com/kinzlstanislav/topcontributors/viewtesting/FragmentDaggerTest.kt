@@ -54,7 +54,7 @@ import org.mockito.MockitoAnnotations
  *        it.yourViewModel = mock(YourViewModel::class.java)
  *        given(it.yourViewModel.state).willReturn(subjectState)
  *     }
- *     and then launch fragment with: launchFragment(subject, injector)
+ *     and then launch fragment with: launchFragment(fragmentInstance, injector)
  * */
 @RunWith(AndroidJUnit4::class)
 abstract class FragmentDaggerTest<FRAGMENT : Fragment> {

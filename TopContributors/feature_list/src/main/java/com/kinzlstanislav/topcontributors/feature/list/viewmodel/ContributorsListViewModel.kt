@@ -11,10 +11,6 @@ import com.kinzlstanislav.topcontributors.architecture.domain.FetchUserUseCase
 import com.kinzlstanislav.topcontributors.architecture.domain.GetLatLngFromAddressUseCase
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsGenericError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsNetworkError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.FetchingUserLocationGenericError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.FetchingUserLocationNetworkError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.ParsingLocationError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult.UserLocationLoaded
 
 class ContributorsListViewModel(
 
@@ -37,14 +33,9 @@ class ContributorsListViewModel(
         object FetchingContributorsGenericError : ContributorsListState()
     }
 
-    sealed class GetUserLocationResult {
-
-        // Fetching & processing contributor's location
-        data class UserLocationLoaded(val location: LatLng, val user: User) : GetUserLocationResult()
-
-        object FetchingUserLocationNetworkError : GetUserLocationResult()
-        object FetchingUserLocationGenericError : GetUserLocationResult()
-        object ParsingLocationError : GetUserLocationResult()
+    sealed class ContributorLocationResult {
+        data class Received(val location: LatLng, val user: User) : ContributorLocationResult()
+        object Error : ContributorLocationResult()
     }
 
     /**  functions */
@@ -65,30 +56,28 @@ class ContributorsListViewModel(
 
     fun fetchContributorLocation(
         contributor: Contributor,
-        onUserLocationFetchedAction: (GetUserLocationResult) -> Unit
+        onFetched: (ContributorLocationResult) -> Unit
     ) {
-
-        // first fetch the complete user data where "location" information is based on loginId provided with
-        // the contributor response
         uiJob {
+            // first fetch the complete user data where "location" information is based on loginId provided with
+            // the contributor response
             when (val fetchUserResult = fetchUserUseCase.execute(contributor.loginName)) {
-                is FetchUserUseCase.Result.GenericError ->
-                    onUserLocationFetchedAction(FetchingUserLocationGenericError)
-                is FetchUserUseCase.Result.NetworkError ->
-                    onUserLocationFetchedAction(FetchingUserLocationNetworkError)
+                is FetchUserUseCase.Result.GenericError -> { /*...*/
+                }
+                is FetchUserUseCase.Result.NetworkError -> { /*...*/
+                }
                 is FetchUserUseCase.Result.Success -> {
 
                     // then get latitude and longitude using Geocoder library
                     when (val getLatLngResult = getLatLngFromAddressUseCase.execute(fetchUserResult.user.address)) {
-                        is GetLatLngFromAddressUseCase.Result.Error ->
-                            onUserLocationFetchedAction(ParsingLocationError)
-                        is GetLatLngFromAddressUseCase.Result.Success ->
-                            onUserLocationFetchedAction(
-                                UserLocationLoaded(
-                                    getLatLngResult.location,
-                                    fetchUserResult.user
-                                )
+                        is GetLatLngFromAddressUseCase.Result.Error -> { /*...*/
+                        }
+                        is GetLatLngFromAddressUseCase.Result.Success -> onFetched(
+                            ContributorLocationResult.Received(
+                                getLatLngResult.location,
+                                fetchUserResult.user
                             )
+                        )
                     }
                 }
             }
