@@ -12,8 +12,8 @@ import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsLis
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorLocationResult.Received
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsGenericError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsNetworkError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.GenericError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.NetworkError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.LoadingContributors
 import com.kinzlstanislav.topcontributors.list.R
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
@@ -48,8 +48,8 @@ class FragmentContributorsList : BaseFragment() {
     private val viewStateObserver: Observer<ContributorsListState> = Observer { state ->
         when (state) {
             is LoadingContributors -> flipper.showView(contributors_list_loader)
-            is FetchingContributorsNetworkError -> flipper.showView(network_error)
-            is FetchingContributorsGenericError -> flipper.showView(generic_error)
+            is NetworkError -> flipper.showView(network_error)
+            is GenericError -> flipper.showView(generic_error)
             is ContributorsLoaded -> {
                 flipper.showView(contributors_list_recycler_view)
                 contributorsAdapter.updateItems(contributorsSorter.sortFromTopByCommits(state.contributors, 25))

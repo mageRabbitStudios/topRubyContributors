@@ -27,17 +27,10 @@ dependencies {
     implementation project(":lib_ui")
     implementation project(":lib_core")
     implementation project(':lib_feature_base')
-    implementation project(":lib_architecture_domain")
     implementation project(":lib_architecture_repository")
     implementation project(":lib_architecture_network")
 
     implementation Dependencies.appCompatsupportLibrary
-
-//    implementation Dependencies.dagger
-//    implementation Dependencies.daggerAndroidSupport
-//
-//    kapt Dependencies.daggerCompiler
-//    kapt Dependencies.daggerAndroidCompiler
 
     implementation Dependencies.navigationUI
     implementation Dependencies.navigationFragment

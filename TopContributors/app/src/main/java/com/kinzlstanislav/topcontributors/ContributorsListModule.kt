@@ -2,9 +2,6 @@ package com.kinzlstanislav.topcontributors
 
 import android.location.Geocoder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.kinzlstanislav.topcontributors.architecture.domain.FetchRubyContributorsUseCase
-import com.kinzlstanislav.topcontributors.architecture.domain.FetchUserUseCase
-import com.kinzlstanislav.topcontributors.architecture.domain.GetLatLngFromAddressUseCase
 import com.kinzlstanislav.topcontributors.architecture.network.GitHubRestData
 import com.kinzlstanislav.topcontributors.architecture.network.api.GithubApiService
 import com.kinzlstanislav.topcontributors.architecture.network.mapper.ContributorsResponseMapper
@@ -26,14 +23,9 @@ val appModule = module {
 
     // view model
     single { ContributorsListViewModel(
-        fetchRubyContributorsUseCase = get(),
-        fetchUserUseCase = get(),
-        getLatLngFromAddressUseCase = get()) }
-
-    // use case
-    factory { FetchRubyContributorsUseCase(get()) }
-    factory { FetchUserUseCase(get()) }
-    factory { GetLatLngFromAddressUseCase(get()) }
+        geocoder = get(),
+        userRepository = get(),
+        contributorsRepository = get()) }
 
     // repository
     factory { ContributorsRepository(get(), get()) }

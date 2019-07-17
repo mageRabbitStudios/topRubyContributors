@@ -9,8 +9,8 @@ import com.kinzlstanislav.topcontributors.feature.list.view.sorter.ContributorsS
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsGenericError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.FetchingContributorsNetworkError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.GenericError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.NetworkError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.LoadingContributors
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult
 import com.kinzlstanislav.topcontributors.list.R
@@ -92,11 +92,11 @@ class FragmentContributorsListTest : FragmentKoinTest<FragmentContributorsList>(
         whenStateIs(LoadingContributors)
         loader.isVisible()
 
-        whenStateIs(FetchingContributorsNetworkError)
+        whenStateIs(NetworkError)
         loader.isGone()
         network_error.isVisible()
 
-        whenStateIs(FetchingContributorsGenericError)
+        whenStateIs(GenericError)
         network_error.isGone()
         generic_error.isVisible()
 

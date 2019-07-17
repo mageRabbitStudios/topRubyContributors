@@ -13,7 +13,7 @@ dependencies {
     implementation project(":lib_ui")
     implementation project(':lib_core')
     implementation project(":lib_feature_base")
-    implementation project(":lib_architecture_domain")
+    implementation project(":lib_architecture_repository")
 
     implementation Dependencies.materialComponents
     implementation Dependencies.appCompatsupportLibrary
