@@ -1,6 +1,7 @@
 package com.kinzlstanislav.topcontributors.feature.list.viewmodel
 
 import android.location.Geocoder
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
@@ -12,18 +13,16 @@ import com.kinzlstanislav.topcontributors.architecture.repository.ContributorsRe
 import com.kinzlstanislav.topcontributors.architecture.repository.UserRepository
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorLocationResult.Error
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorLocationResult.Received
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.*
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.GenericError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.LoadingContributors
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.NetworkError
 
 class ContributorsListViewModel(
-
-    internal val contributorsListState: MutableLiveData<ContributorsListState> = MutableLiveData(),
-
     private val contributorsRepository: ContributorsRepository,
     private val userRepository: UserRepository,
     private val geocoder: Geocoder
 ) : ViewModel() {
-
-    /**  Results and states */
 
     sealed class ContributorsListState {
 
@@ -40,21 +39,17 @@ class ContributorsListViewModel(
         object Error : ContributorLocationResult()
     }
 
-    /**  functions */
+    private val _contributorsListState: MutableLiveData<ContributorsListState> = MutableLiveData()
+    val contributorsListState: LiveData<ContributorsListState> = _contributorsListState
 
     fun fetchRubyContributors() {
-        contributorsListState.value = LoadingContributors
+        _contributorsListState.value = LoadingContributors
         uiJob {
-            try {
+            _contributorsListState.value = try {
                 val contributors = contributorsRepository.getRubyContributors()
-                contributorsListState.value =
-                    ContributorsLoaded(contributors)
+                ContributorsLoaded(contributors)
             } catch (exception: Exception) {
-                if (exception.isConnectionError()) {
-                    contributorsListState.value = NetworkError
-                } else {
-                    contributorsListState.value = GenericError
-                }
+                if (exception.isConnectionError()) NetworkError else GenericError
             }
         }
     }
@@ -67,7 +62,7 @@ class ContributorsListViewModel(
             try {
                 val user = userRepository.getUserByLoginName(contributor.loginName)
                 val foundAddresses = geocoder.getFromLocationName(user.address, 1)
-                val location = LatLng(foundAddresses.first().latitude, foundAddresses.first().longitude)
+                val location = LatLng(foundAddresses[0].latitude, foundAddresses[0].longitude)
                 onFetched(Received(location, user))
 
             } catch (exception: Exception) {

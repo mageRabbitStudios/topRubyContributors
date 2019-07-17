@@ -1,23 +1,17 @@
 package com.kinzlstanislav.topcontributors.feature.list.view
 
-import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.maps.model.LatLng
+import android.location.Address
+import android.location.Geocoder
 import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.core.model.User
+import com.kinzlstanislav.topcontributors.architecture.repository.ContributorsRepository
+import com.kinzlstanislav.topcontributors.architecture.repository.UserRepository
 import com.kinzlstanislav.topcontributors.feature.list.view.adapter.ContributorsViewHolder
 import com.kinzlstanislav.topcontributors.feature.list.view.sorter.ContributorsSorter
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.GenericError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.NetworkError
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.LoadingContributors
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.GetUserLocationResult
 import com.kinzlstanislav.topcontributors.list.R
-import com.kinzlstanislav.topcontributors.list.R.id.generic_error
 import com.kinzlstanislav.topcontributors.list.R.id.item_contributor_commits
 import com.kinzlstanislav.topcontributors.list.R.id.item_contributor_name
-import com.kinzlstanislav.topcontributors.list.R.id.network_error
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
 import com.kinzlstanislav.topcontributors.viewtesting.FragmentKoinTest
 import com.kinzlstanislav.topcontributors.viewtesting.matchers.assertViewHolderOfItemAtPosition
@@ -25,10 +19,10 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.schibsted.spain.barista.assertion.BaristaListAssertions.assertDisplayedAtPosition
 import com.schibsted.spain.barista.interaction.BaristaListInteractions.clickListItem
-import kotlinx.coroutines.runBlocking
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.Test
-import org.mockito.BDDMockito.given
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import com.kinzlstanislav.topcontributors.list.R.id.contributors_list_loader as loader
@@ -47,81 +41,58 @@ private val SOME_CONTRIBUTORS = listOf(
     )
 )
 
-private val SOME_LAT_LNG = LatLng(0.toDouble(), 0.toDouble())
-
-private val RESULT_LOCATION_LOADED = GetUserLocationResult.UserLocationLoaded(
-    location = SOME_LAT_LNG,
-    user = User(
-        name = SOME_CONTRIBUTORS.first().loginName,
-        address = "New York"
-    )
-)
-
 class FragmentContributorsListTest : FragmentKoinTest<FragmentContributorsList>() {
 
-    @Mock
-    lateinit var mockSorter: ContributorsSorter
+    private val mockSorter = mockk<ContributorsSorter>()
+    private val mockContributorsRepository = mockk<ContributorsRepository>()
+    private val mockUserRepository = mockk<UserRepository>()
+    private val mockGeocoder = mockk<Geocoder>()
+    private val mockUser = mockk<User>()
+    private val mockAddresses = mockk<List<Address>>()
 
-    @Mock
-    lateinit var mockViewModel: ContributorsListViewModel
+    private val viewModel = ContributorsListViewModel(
+        mockContributorsRepository,
+        mockUserRepository,
+        mockGeocoder
+    )
 
     override fun setup() {
         super.setup()
         mockKoinForFragment {
-            single { mockViewModel }
+            single { viewModel }
             single { mockSorter }
             single<GlideImageLoader> { mock(GlideImageLoader::class.java) }
         }
 
-        given(mockSorter.sortFromTopByCommits(SOME_CONTRIBUTORS, 25))
-            .willReturn(SOME_CONTRIBUTORS)
-
-        given(mockViewModel.contributorsListState)
-            .willReturn(subjectState)
+        every { mockSorter.sortFromTopByCommits(SOME_CONTRIBUTORS, 25) } returns SOME_CONTRIBUTORS
+        coEvery { mockContributorsRepository.getRubyContributors() } returns SOME_CONTRIBUTORS
+        coEvery { mockUserRepository.getUserByLoginName(any()) } returns mockUser
+        every { mockUser.address } returns "some string"
+        every { mockGeocoder.getFromLocationName("some string", 1) } returns mockAddresses
+        every { mockAddresses[0].latitude } returns 0.0
+        every { mockAddresses[0].longitude } returns 0.0
 
         launchFragment()
     }
-
-    private val subjectState = MutableLiveData<ContributorsListState>()
 
     override val fragmentInstance = FragmentContributorsList()
 
     @Test
     fun fragmentFlow() {
 
-        whenStateIs(LoadingContributors)
         loader.isVisible()
 
-        whenStateIs(NetworkError)
+        viewModel.fetchRubyContributors()
+
         loader.isGone()
-        network_error.isVisible()
-
-        whenStateIs(GenericError)
-        network_error.isGone()
-        generic_error.isVisible()
-
-        whenStateIs(ContributorsLoaded(SOME_CONTRIBUTORS))
-        generic_error.isGone()
-        list.isVisible()
 
         assertContributorItemDisplayed(0, "Stanislav", 20)
         assertContributorItemDisplayed(1, "Blazko", 9000)
 
-        givenGetUserLocationEventResultIs(RESULT_LOCATION_LOADED)
         clickListItem(list, 0)
         thenNavigateToMapFragment()
     }
 
-    private fun whenStateIs(state: ContributorsListState) {
-        subjectState.value = state
-    }
-
-    private fun givenGetUserLocationEventResultIs(result: GetUserLocationResult) {
-        runBlocking {
-            given(mockViewModel.fetchContributorLocation(any()))
-                .willReturn(result)
-        }
-    }
 
     private fun thenNavigateToMapFragment() {
         Mockito.verify(mockNavController)

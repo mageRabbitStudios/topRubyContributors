@@ -25,7 +25,6 @@ import kotlinx.android.synthetic.main.fragment_contributors_list.contributors_li
 
 class FragmentContributorsList : BaseFragment() {
 
-
     private companion object {
         const val GETTING_USER_LOCATION_VIEW_ANIM_APP_DUR = 400L
     }
