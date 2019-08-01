@@ -1,7 +1,8 @@
-package com.kinzlstanislav.topcontributors.architecture.network.mapper
+package com.kinzlstanislav.topcontributors.architecture
 
-import com.kinzlstanislav.topcontributors.architecture.core.model.User
+import com.kinzlstanislav.topcontributors.architecture.repository.model.User
 import com.kinzlstanislav.topcontributors.architecture.network.response.GithubUserResponse
+import com.kinzlstanislav.topcontributors.architecture.repository.mapper.UserResponseMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -20,7 +21,12 @@ class UserResponseMapperTest {
     fun `mapFromUserResponse()`() {
         // not null values
         assertThat(subject.mapFromUserResponse(INPUT))
-            .isEqualTo(User(INPUT.loginName!!, INPUT.location!!))
+            .isEqualTo(
+                User(
+                    INPUT.loginName!!,
+                    INPUT.location!!
+                )
+            )
         // null values
         assertThat(subject.mapFromUserResponse(GithubUserResponse()))
             .isEqualTo(User("", ""))

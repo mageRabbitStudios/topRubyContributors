@@ -1,8 +1,8 @@
 package com.kinzlstanislav.topcontributors.architecture.repository
 
-import com.kinzlstanislav.topcontributors.architecture.core.model.User
+import com.kinzlstanislav.topcontributors.architecture.repository.model.User
 import com.kinzlstanislav.topcontributors.architecture.network.api.GithubApiService
-import com.kinzlstanislav.topcontributors.architecture.network.mapper.UserResponseMapper
+import com.kinzlstanislav.topcontributors.architecture.repository.mapper.UserResponseMapper
 import java.io.IOException
 
 class UserRepository constructor(
@@ -11,7 +11,7 @@ class UserRepository constructor(
 ) {
 
     @Throws(IOException::class)
-    suspend fun getUserByLoginName(userLoginName: String): User {
+    suspend fun fetchUserByLoginName(userLoginName: String): User {
         val response = api.getUserByNameAsync(userLoginName).await()
         return mapper.mapFromUserResponse(response)
     }

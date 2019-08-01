@@ -2,7 +2,7 @@ package com.kinzlstanislav.topcontributors.feature.list.view.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
+import com.kinzlstanislav.topcontributors.architecture.repository.model.Contributor
 import com.kinzlstanislav.topcontributors.list.R
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
 import com.kinzlstanislav.topcontributors.ui.viewholder.ShrinkOnTouchTileViewHolder

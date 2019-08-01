@@ -12,6 +12,7 @@ buildscript {
         classpath ClasspathxDependencies.kotlinGradlePlugin
         classpath ClasspathxDependencies.androidGradlePlugin
         classpath ClasspathxDependencies.detektGradlePlugin
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.0.0"
     }
 }
 

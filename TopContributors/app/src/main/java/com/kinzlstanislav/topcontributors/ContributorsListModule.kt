@@ -4,11 +4,10 @@ import android.location.Geocoder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.kinzlstanislav.topcontributors.architecture.network.GitHubRestData
 import com.kinzlstanislav.topcontributors.architecture.network.api.GithubApiService
-import com.kinzlstanislav.topcontributors.architecture.network.mapper.ContributorsResponseMapper
-import com.kinzlstanislav.topcontributors.architecture.network.mapper.UserResponseMapper
 import com.kinzlstanislav.topcontributors.architecture.repository.ContributorsRepository
 import com.kinzlstanislav.topcontributors.architecture.repository.UserRepository
-import com.kinzlstanislav.topcontributors.feature.list.view.sorter.ContributorsSorter
+import com.kinzlstanislav.topcontributors.architecture.repository.mapper.ContributorsResponseMapper
+import com.kinzlstanislav.topcontributors.architecture.repository.mapper.UserResponseMapper
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
 import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
 import okhttp3.Interceptor
@@ -60,5 +59,4 @@ val appModule = module {
     // other
     single { Geocoder(androidContext()) }
     single { GlideImageLoader() }
-    single { ContributorsSorter() }
 }

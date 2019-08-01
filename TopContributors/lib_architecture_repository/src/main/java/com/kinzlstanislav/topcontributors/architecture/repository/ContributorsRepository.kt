@@ -1,8 +1,8 @@
 package com.kinzlstanislav.topcontributors.architecture.repository
 
-import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
+import com.kinzlstanislav.topcontributors.architecture.repository.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.network.api.GithubApiService
-import com.kinzlstanislav.topcontributors.architecture.network.mapper.ContributorsResponseMapper
+import com.kinzlstanislav.topcontributors.architecture.repository.mapper.ContributorsResponseMapper
 import java.io.IOException
 
 class ContributorsRepository constructor(
@@ -11,7 +11,7 @@ class ContributorsRepository constructor(
 ) {
 
     @Throws(IOException::class)
-    suspend fun getRubyContributors(): List<Contributor> {
+    suspend fun fetchRubyContributors(): List<Contributor> {
         val response = api.getContributorsForRubyAsync().await()
         return mapper.mapFromContributorsResponse(response)
     }

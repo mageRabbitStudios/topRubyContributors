@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.architecture.core.model
+package com.kinzlstanislav.topcontributors.architecture.repository.model
 
 data class Contributor(
     val loginName: String,

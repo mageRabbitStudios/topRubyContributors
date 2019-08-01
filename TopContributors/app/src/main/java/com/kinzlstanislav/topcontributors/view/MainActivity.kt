@@ -17,6 +17,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchDataOnAppStart() {
-        contributorsListViewModel.fetchRubyContributors()
+        contributorsListViewModel.getRubyContributors()
     }
 }

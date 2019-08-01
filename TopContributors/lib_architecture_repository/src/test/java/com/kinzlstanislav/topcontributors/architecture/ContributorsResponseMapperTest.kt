@@ -1,8 +1,9 @@
-package com.kinzlstanislav.topcontributors.architecture.network.mapper
+package com.kinzlstanislav.topcontributors.architecture
 
-import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
+import com.kinzlstanislav.topcontributors.architecture.repository.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.network.response.GithubRepositoryContributionAuthorResponse
 import com.kinzlstanislav.topcontributors.architecture.network.response.GithubRepositoryContributorResponse
+import com.kinzlstanislav.topcontributors.architecture.repository.mapper.ContributorsResponseMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -53,6 +54,8 @@ class ContributorsResponseMapperTest {
 
     @Test
     fun `mapFromContributorsResponse()`() {
-        assertThat(subject.mapFromContributorsResponse(INPUT)).isEqualTo(EXPECTED_RESULT)
+        assertThat(subject.mapFromContributorsResponse(INPUT)).isEqualTo(
+            EXPECTED_RESULT
+        )
     }
 }

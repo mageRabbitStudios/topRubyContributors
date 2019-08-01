@@ -7,12 +7,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.kinzlstanislav.topcontributors.architecture.core.extension.bindArgument
-import com.kinzlstanislav.topcontributors.architecture.core.model.User
+import com.kinzlstanislav.topcontributors.architecture.repository.model.User
 import com.kinzlstanislav.topcontributors.base.Constants.EXTRAS_LOCATION
 import com.kinzlstanislav.topcontributors.base.Constants.EXTRAS_USER
 import com.kinzlstanislav.topcontributors.base.view.BaseFragment
 import com.kinzlstanislav.topcontributors.feature.map.R
-
 
 class FragmentContributorMap : BaseFragment(), OnMapReadyCallback {
 

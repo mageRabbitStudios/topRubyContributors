@@ -5,24 +5,38 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
-import com.kinzlstanislav.topcontributors.architecture.core.coroutines.uiJob
+import com.kinzlstanislav.topcontributors.architecture.core.coroutines.coroutine
 import com.kinzlstanislav.topcontributors.architecture.core.extension.isConnectionError
-import com.kinzlstanislav.topcontributors.architecture.core.model.Contributor
-import com.kinzlstanislav.topcontributors.architecture.core.model.User
 import com.kinzlstanislav.topcontributors.architecture.repository.ContributorsRepository
 import com.kinzlstanislav.topcontributors.architecture.repository.UserRepository
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorLocationResult.Error
-import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorLocationResult.Received
+import com.kinzlstanislav.topcontributors.architecture.repository.model.Contributor
+import com.kinzlstanislav.topcontributors.architecture.repository.model.User
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.GenericError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.LoadingContributors
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.NetworkError
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.OnUserLocationReceivedCallback.ContributorLocationResult.Error
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.OnUserLocationReceivedCallback.ContributorLocationResult.Received
 
 class ContributorsListViewModel(
     private val contributorsRepository: ContributorsRepository,
     private val userRepository: UserRepository,
     private val geocoder: Geocoder
 ) : ViewModel() {
+
+    companion object {
+        private const val MAX_SORTED_USERS = 25
+    }
+
+    interface OnUserLocationReceivedCallback {
+
+        fun onUserLocationResultReceived(result: ContributorLocationResult)
+
+        sealed class ContributorLocationResult {
+            data class Received(val location: LatLng, val user: User) : ContributorLocationResult()
+            object Error : ContributorLocationResult()
+        }
+    }
 
     sealed class ContributorsListState {
 
@@ -34,39 +48,34 @@ class ContributorsListViewModel(
         object GenericError : ContributorsListState()
     }
 
-    sealed class ContributorLocationResult {
-        data class Received(val location: LatLng, val user: User) : ContributorLocationResult()
-        object Error : ContributorLocationResult()
-    }
+    private var _state = MutableLiveData<ContributorsListState>()
+    val state: LiveData<ContributorsListState> get() = _state
 
-    private val _contributorsListState: MutableLiveData<ContributorsListState> = MutableLiveData()
-    val contributorsListState: LiveData<ContributorsListState> = _contributorsListState
-
-    fun fetchRubyContributors() {
-        _contributorsListState.value = LoadingContributors
-        uiJob {
-            _contributorsListState.value = try {
-                val contributors = contributorsRepository.getRubyContributors()
-                ContributorsLoaded(contributors)
+    fun getRubyContributors() {
+        _state.value = LoadingContributors
+        coroutine {
+            try {
+                val contributors = contributorsRepository.fetchRubyContributors()
+                val sortedContributors = contributors.sortedBy { -it.numberOfCommits }.subList(0, MAX_SORTED_USERS)
+                _state.value = ContributorsLoaded(sortedContributors)
             } catch (exception: Exception) {
-                if (exception.isConnectionError()) NetworkError else GenericError
+                _state.value = if (exception.isConnectionError()) NetworkError else GenericError
             }
         }
     }
 
-    fun fetchContributorLocation(
+    fun getUserLocation(
         contributor: Contributor,
-        onFetched: (ContributorLocationResult) -> Unit
+        callback: OnUserLocationReceivedCallback
     ) {
-        uiJob {
+        coroutine {
             try {
-                val user = userRepository.getUserByLoginName(contributor.loginName)
+                val user = userRepository.fetchUserByLoginName(contributor.loginName)
                 val foundAddresses = geocoder.getFromLocationName(user.address, 1)
                 val location = LatLng(foundAddresses[0].latitude, foundAddresses[0].longitude)
-                onFetched(Received(location, user))
-
+                callback.onUserLocationResultReceived(Received(location, user))
             } catch (exception: Exception) {
-                onFetched(Error)
+                callback.onUserLocationResultReceived(Error)
             }
         }
     }

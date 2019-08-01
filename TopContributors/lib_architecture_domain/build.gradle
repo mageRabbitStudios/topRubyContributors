@@ -1,8 +1,0 @@
-apply from: rootProject.file('common-library.gradle')
-
-dependencies {
-    implementation project(":lib_architecture_repository")
-    implementation project(':lib_core')
-
-    implementation Dependencies.googleMaps
-}

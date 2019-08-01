@@ -20,7 +20,7 @@
               android:label="FragmentContributorMap"
               tools:layout="@layout/fragment_contributor_map">
         <argument android:name="user_arg"
-                  app:argType="com.kinzlstanislav.topcontributors.architecture.core.model.User"/>
+                  app:argType="com.kinzlstanislav.topcontributors.architecture.repository.model.User"/>
         <argument android:name="userlatlng_arg"
                   app:argType="com.google.android.gms.maps.model.LatLng"/>
     </fragment>
