@@ -13,6 +13,7 @@ import com.kinzlstanislav.topcontributors.list.R
 import com.kinzlstanislav.topcontributors.list.R.id.item_contributor_commits
 import com.kinzlstanislav.topcontributors.list.R.id.item_contributor_name
 import com.kinzlstanislav.topcontributors.base.imageloading.GlideImageLoader
+import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
 import com.kinzlstanislav.topcontributors.viewtesting.FragmentKoinTest
 import com.kinzlstanislav.topcontributors.viewtesting.matchers.assertViewHolderOfItemAtPosition
 import com.nhaarman.mockitokotlin2.any
@@ -62,10 +63,11 @@ class FragmentContributorsListTest : FragmentKoinTest<FragmentContributorsList>(
     @Test
     fun fragmentFlow() {
 
-        loader.isVisible()
+        loader.assertItsVisible()
 
-        whenStateIs(ContributorsListState.ContributorsLoaded(SOME_CONTRIBUTORS))
-        loader.isGone()
+        whenStateChangesTo(ContributorsLoaded(SOME_CONTRIBUTORS))
+
+        loader.assertItsGone()
 
         assertContributorItemDisplayed(0, "Stanislav", 20)
         assertContributorItemDisplayed(1, "Blazko", 9000)
@@ -75,13 +77,14 @@ class FragmentContributorsListTest : FragmentKoinTest<FragmentContributorsList>(
                 LatLng(5.0, 5.0),
                 User("", "")
             )
-        )
+        ) // could test the error too potentially
+
         clickListItem(list, 0)
         thenNavigateToMapFragment()
     }
 
 
-    private fun whenStateIs(state: ContributorsListState) {
+    private fun whenStateChangesTo(state: ContributorsListState) {
         subjectState.value = state
     }
 

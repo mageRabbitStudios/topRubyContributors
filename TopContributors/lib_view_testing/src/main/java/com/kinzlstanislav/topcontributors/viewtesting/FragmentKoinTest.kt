@@ -99,13 +99,13 @@ abstract class FragmentKoinTest<FRAGMENT : Fragment> {
         InstrumentationTestsHelper.printViewHierarchy(subject.requireActivity())
     }
 
-    protected fun Int.isVisible() {
+    protected fun Int.assertItsVisible() {
         getViewFromActivityById(this)?.let {
             assertThat(it.visibility).isEqualTo(View.VISIBLE)
         }
     }
 
-    protected fun Int.isGone() {
+    protected fun Int.assertItsGone() {
         getViewFromActivityById(this)?.let {
             assertThat(it.visibility).isEqualTo(View.GONE)
         }
