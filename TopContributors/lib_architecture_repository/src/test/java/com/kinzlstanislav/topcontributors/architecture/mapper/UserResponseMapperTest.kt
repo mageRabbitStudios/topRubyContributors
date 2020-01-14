@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.architecture
+package com.kinzlstanislav.topcontributors.architecture.mapper
 
 import com.kinzlstanislav.topcontributors.architecture.repository.model.User
 import com.kinzlstanislav.topcontributors.architecture.network.response.GithubUserResponse

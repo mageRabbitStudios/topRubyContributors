@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.architecture
+package com.kinzlstanislav.topcontributors.architecture.mapper
 
 import com.kinzlstanislav.topcontributors.architecture.repository.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.network.response.GithubRepositoryContributionAuthorResponse
@@ -54,6 +54,8 @@ class ContributorsResponseMapperTest {
 
     @Test
     fun `mapFromContributorsResponse()`() {
-        assertThat(subject.mapFromContributorsResponse(INPUT)).isEqualTo(EXPECTED_RESULT)
+        assertThat(subject.mapFromContributorsResponse(INPUT)).isEqualTo(
+            EXPECTED_RESULT
+        )
     }
 }
