@@ -5,6 +5,7 @@ import android.location.Geocoder
 import com.google.android.gms.maps.model.LatLng
 import com.kinzlstanislav.topcontributors.architecture.repository.ContributorsRepository
 import com.kinzlstanislav.topcontributors.architecture.repository.UserRepository
+import com.kinzlstanislav.topcontributors.base.extensions.isConnectionError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.GenericError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.NetworkError
@@ -15,8 +16,10 @@ import com.kinzlstanislav.topcontributors.unittesting.BaseViewModelTest
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Before
 import org.junit.Test
 import java.net.ConnectException
 
@@ -34,6 +37,11 @@ class ContributorsListViewModelTest : BaseViewModelTest() {
         mockGeocoder
     )
 
+    @Before
+    fun setup() {
+        mockkStatic("com.kinzlstanislav.topcontributors.base.extensions.ExceptionKtxKt")
+    }
+
     @Test
     fun `getRubyContributors() - ContributorsLoaded`() {
         coEvery { mockContributorsRepository.fetchRubyContributors() } returns TEST_CONTRIBUTORS_25
@@ -43,6 +51,7 @@ class ContributorsListViewModelTest : BaseViewModelTest() {
 
     @Test
     fun `getRubyContributors() - NetworkError`() {
+        every { Exception().isConnectionError() } returns true
         coEvery { mockContributorsRepository.fetchRubyContributors() } throws ConnectException()
         subject.getRubyContributors()
         assertThat(subject.state.value).isEqualTo(NetworkError)
@@ -50,6 +59,7 @@ class ContributorsListViewModelTest : BaseViewModelTest() {
 
     @Test
     fun `getRubyContributors() - GenericError`() {
+        every { Exception().isConnectionError() } returns false
         coEvery { mockContributorsRepository.fetchRubyContributors() } throws NullPointerException()
         subject.getRubyContributors()
         assertThat(subject.state.value).isEqualTo(GenericError)
