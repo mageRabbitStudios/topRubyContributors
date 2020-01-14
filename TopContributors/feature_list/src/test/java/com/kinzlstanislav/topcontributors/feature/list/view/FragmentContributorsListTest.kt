@@ -60,6 +60,7 @@ class FragmentContributorsListTest : FragmentKoinTest<FragmentContributorsList>(
     override val fragmentInstance = FragmentContributorsList()
     private val subjectState = MutableLiveData<ContributorsListState>()
 
+    // You might have to change console output for Junit "JAR Manifest" in order to run this
     @Test
     fun fragmentFlow() {
 

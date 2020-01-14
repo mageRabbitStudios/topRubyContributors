@@ -25,7 +25,7 @@ class ContributorsListViewModel(
 ) : ViewModel() {
 
     companion object {
-        private const val MAX_SORTED_USERS = 25
+        private const val MAX_SORTED_USERS = 20
     }
 
     interface OnUserLocationReceivedCallback {

@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Rule
 import org.junit.rules.TestRule
 
-abstract class BaseViewModelTest<VM_STATE : Any> : BaseMockitoTest() {
+abstract class BaseViewModelTest : BaseMockitoTest() {
 
     @get:Rule
     internal var instantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
@@ -15,10 +15,4 @@ abstract class BaseViewModelTest<VM_STATE : Any> : BaseMockitoTest() {
     @ExperimentalCoroutinesApi
     @get:Rule
     internal var coroutinesTestRule: CoroutinesTestRule = CoroutinesTestRule()
-
-    protected val testState: MutableLiveData<VM_STATE> = MutableLiveData()
-
-    protected fun thenStateShouldBe(state: VM_STATE) {
-        assertThat(testState.value).isEqualTo(state)
-    }
 }

@@ -1,6 +1,7 @@
 apply from: rootProject.file('common-library.gradle')
 
 dependencies {
+    implementation project(":lib_ui")
 
     implementation Dependencies.appCompatsupportLibrary
 
@@ -8,6 +9,7 @@ dependencies {
 
     implementation Dependencies.androidXCoreKtx
     implementation Dependencies.lifecycleViewModel
+    implementation Dependencies.materialComponents
 
     implementation Dependencies.glide
     kapt Dependencies.glideCompiler
