@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity() {
         fetchDataOnAppStart()
     }
 
+    // Sometimes it is preferable to load data on the start of the application so
+    // there is no need to wait at further places in the app for the data to fetch.
     private fun fetchDataOnAppStart() {
         contributorsListViewModel.getRubyContributors()
     }

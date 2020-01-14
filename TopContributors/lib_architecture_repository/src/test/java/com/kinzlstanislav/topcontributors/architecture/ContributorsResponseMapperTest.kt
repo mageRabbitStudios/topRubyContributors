@@ -54,8 +54,6 @@ class ContributorsResponseMapperTest {
 
     @Test
     fun `mapFromContributorsResponse()`() {
-        assertThat(subject.mapFromContributorsResponse(INPUT)).isEqualTo(
-            EXPECTED_RESULT
-        )
+        assertThat(subject.mapFromContributorsResponse(INPUT)).isEqualTo(EXPECTED_RESULT)
     }
 }

@@ -19,5 +19,4 @@ class ContributorsResponseMapper @Inject constructor() {
         }
         return mappedResult
     }
-
 }

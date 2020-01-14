@@ -4,9 +4,9 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.kinzlstanislav.topcontributors.architecture.repository.model.Contributor
 import com.kinzlstanislav.topcontributors.list.R
-import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
-import com.kinzlstanislav.topcontributors.ui.viewholder.ShrinkOnTouchTileViewHolder
-import com.kinzlstanislav.topcontributors.ui.viewholder.ShrinkOnTouchTileViewHolderImpl
+import com.kinzlstanislav.topcontributors.base.imageloading.GlideImageLoader
+import com.kinzlstanislav.topcontributors.base.viewholder.ShrinkOnTouchTileViewHolder
+import com.kinzlstanislav.topcontributors.base.viewholder.ShrinkOnTouchTileViewHolderImpl
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_contributor_tile.*
 

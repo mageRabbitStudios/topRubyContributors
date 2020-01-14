@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.ui.viewholder
+package com.kinzlstanislav.topcontributors.base.viewholder
 
 interface ShrinkOnTouchTileViewHolder {
 

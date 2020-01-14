@@ -15,5 +15,4 @@ class ContributorsRepository constructor(
         val response = api.getContributorsForRubyAsync().await()
         return mapper.mapFromContributorsResponse(response)
     }
-
 }

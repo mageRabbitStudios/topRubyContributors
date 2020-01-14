@@ -9,7 +9,7 @@ import com.kinzlstanislav.topcontributors.architecture.repository.UserRepository
 import com.kinzlstanislav.topcontributors.architecture.repository.mapper.ContributorsResponseMapper
 import com.kinzlstanislav.topcontributors.architecture.repository.mapper.UserResponseMapper
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
-import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
+import com.kinzlstanislav.topcontributors.base.imageloading.GlideImageLoader
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -39,16 +39,16 @@ val appModule = module {
         .baseUrl(GitHubRestData.REST_GITHUB_BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
-        .client(get()) //okhttp client
+        .client(get())
         .build()
         .create(GithubApiService::class.java)
     }
 
-    factory<Interceptor> { // logger
+    factory<Interceptor> {
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
-    factory { // okhttp client
+    factory {
         val builder = OkHttpClient.Builder()
         if (BuildConfig.DEBUG) {
             builder.addNetworkInterceptor(get())

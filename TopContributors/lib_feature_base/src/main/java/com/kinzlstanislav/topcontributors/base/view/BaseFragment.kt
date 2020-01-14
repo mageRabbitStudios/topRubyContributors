@@ -4,18 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 
 abstract class BaseFragment : Fragment() {
-
-    private val job: Job = Job()
-    val fragmentScope: CoroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     @get:LayoutRes
     abstract val layoutResourceId: Int
@@ -30,26 +22,8 @@ abstract class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeState()
         onFragmentCreated()
     }
 
     open fun onFragmentCreated() {}
-
-    open fun observeState() {}
-
-    protected fun showToast(message: String, length: Int = Toast.LENGTH_SHORT) {
-        Toast.makeText(requireContext(), message, length).show()
-    }
-
-    protected fun disableTouch() {
-        requireActivity().window.setFlags(
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-    }
-
-    protected fun enableTouch() {
-        requireActivity().window.clearFlags(
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-    }
 }

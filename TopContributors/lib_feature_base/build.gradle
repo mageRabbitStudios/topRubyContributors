@@ -1,7 +1,14 @@
 apply from: rootProject.file('common-library.gradle')
 
 dependencies {
-    implementation project(':lib_core')
 
     implementation Dependencies.appCompatsupportLibrary
+
+    implementation Dependencies.recyclerView // For ViewHolder extensions
+
+    implementation Dependencies.androidXCoreKtx
+    implementation Dependencies.lifecycleViewModel
+
+    implementation Dependencies.glide
+    kapt Dependencies.glideCompiler
 }

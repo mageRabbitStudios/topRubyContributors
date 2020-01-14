@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.viewtesting
+package com.kinzlstanislav.topcontributors.viewtesting.incasewewouldusedagger
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

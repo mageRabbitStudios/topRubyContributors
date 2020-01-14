@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
-import com.kinzlstanislav.topcontributors.architecture.core.coroutines.coroutine
-import com.kinzlstanislav.topcontributors.architecture.core.extension.isConnectionError
+import com.kinzlstanislav.topcontributors.base.extensions.coroutine
+import com.kinzlstanislav.topcontributors.base.extensions.isConnectionError
 import com.kinzlstanislav.topcontributors.architecture.repository.ContributorsRepository
 import com.kinzlstanislav.topcontributors.architecture.repository.UserRepository
 import com.kinzlstanislav.topcontributors.architecture.repository.model.Contributor

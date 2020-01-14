@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.viewtesting
+package com.kinzlstanislav.topcontributors.viewtesting.incasewewouldusedagger
 
 import android.app.Activity
 import android.content.Context
@@ -19,6 +19,7 @@ import androidx.test.core.app.ActivityScenario.launch
 import androidx.test.espresso.intent.Intents
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.kinzlstanislav.topcontributors.viewtesting.R
 import com.kinzlstanislav.topcontributors.viewtesting.helpers.InstrumentationTestsHelper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -60,7 +61,8 @@ import org.mockito.MockitoAnnotations
 abstract class FragmentDaggerTest<FRAGMENT : Fragment> {
 
     private companion object {
-        val TEST_ENVIRONMENT_THEME = R.style.Theme_AppCompat
+        val TEST_ENVIRONMENT_THEME =
+            R.style.Theme_AppCompat
     }
 
     private lateinit var activityScenario: ActivityScenario<FragmentDaggerTestActivity>

@@ -15,5 +15,4 @@ class UserRepository constructor(
         val response = api.getUserByNameAsync(userLoginName).await()
         return mapper.mapFromUserResponse(response)
     }
-
 }

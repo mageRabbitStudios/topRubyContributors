@@ -3,9 +3,9 @@ package com.kinzlstanislav.topcontributors.feature.list.view.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kinzlstanislav.topcontributors.architecture.repository.model.Contributor
-import com.kinzlstanislav.topcontributors.base.static.inflateViewHolder
+import com.kinzlstanislav.topcontributors.base.extensions.inflateViewHolder
 import com.kinzlstanislav.topcontributors.list.R
-import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
+import com.kinzlstanislav.topcontributors.base.imageloading.GlideImageLoader
 
 class ContributorsAdapter(
     private val imageLoader: GlideImageLoader,

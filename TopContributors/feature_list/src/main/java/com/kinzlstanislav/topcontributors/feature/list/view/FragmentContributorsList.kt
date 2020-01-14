@@ -3,8 +3,10 @@ package com.kinzlstanislav.topcontributors.feature.list.view
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.kinzlstanislav.topcontributors.architecture.core.extension.observe
+import com.kinzlstanislav.topcontributors.base.extensions.observe
 import com.kinzlstanislav.topcontributors.base.Constants
+import com.kinzlstanislav.topcontributors.base.extensions.disableTouchGestures
+import com.kinzlstanislav.topcontributors.base.extensions.enableTouchGestures
 import com.kinzlstanislav.topcontributors.base.view.BaseFragment
 import com.kinzlstanislav.topcontributors.feature.list.view.adapter.ContributorsAdapter
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
@@ -15,7 +17,7 @@ import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsLis
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.NetworkError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.OnUserLocationReceivedCallback.ContributorLocationResult
 import com.kinzlstanislav.topcontributors.list.R
-import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
+import com.kinzlstanislav.topcontributors.base.imageloading.GlideImageLoader
 import kotlinx.android.synthetic.main.fragment_contributors_list.*
 import kotlinx.android.synthetic.main.view_location_loading.*
 import org.koin.android.ext.android.inject
@@ -70,16 +72,19 @@ class FragmentContributorsList : BaseFragment(),
                 R.id.action_fragmentContributorsList_to_fragmentContributorMap,
                 bundleOf(Constants.EXTRAS_LOCATION to result.location, Constants.EXTRAS_USER to result.user)
             )
+            else -> {
+                // handle error, perhaps show generic error message or something.
+            }
         }
     }
 
     private fun showLoadingLocationView() {
-        disableTouch()
+        disableTouchGestures()
         contributor_location_loading_view.animate().alpha(1f).duration = GETTING_USER_LOCATION_VIEW_ANIM_APP_DUR
     }
 
     private fun hideLoadingLocationView() {
-        enableTouch()
+        enableTouchGestures()
         contributor_location_loading_view.animate().alpha(0f).duration = GETTING_USER_LOCATION_VIEW_ANIM_APP_DUR
     }
 }

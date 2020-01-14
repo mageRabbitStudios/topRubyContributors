@@ -1,4 +1,4 @@
-package com.kinzlstanislav.topcontributors.architecture.core.coroutines
+package com.kinzlstanislav.topcontributors.base.extensions
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,8 +13,4 @@ typealias Coroutine = Job
 fun ViewModel.coroutine(
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
     block: suspend CoroutineScope.() -> Unit
-): Coroutine {
-    return viewModelScope.launch(dispatcher) {
-        block()
-    }
-}
+): Coroutine = viewModelScope.launch(dispatcher) { block() }

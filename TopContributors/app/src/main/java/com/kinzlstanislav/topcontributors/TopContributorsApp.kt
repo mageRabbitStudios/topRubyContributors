@@ -9,9 +9,7 @@ open class TopContributorsApp : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            modules(
-                appModule
-            ).androidContext(this@TopContributorsApp)
+            modules(appModule).androidContext(this@TopContributorsApp)
         }
     }
 }

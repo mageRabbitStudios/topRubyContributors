@@ -1,8 +1,8 @@
-package com.kinzlstanislav.topcontributors.ui.viewholder
+package com.kinzlstanislav.topcontributors.base.viewholder
 
 import android.view.View
-import com.kinzlstanislav.topcontributors.architecture.core.extension.cancelOngoingAnimation
-import com.kinzlstanislav.topcontributors.architecture.core.extension.setOnClickListener
+import com.kinzlstanislav.topcontributors.base.extensions.cancelOngoingAnimation
+import com.kinzlstanislav.topcontributors.base.extensions.setOnClickListener
 
 class ShrinkOnTouchTileViewHolderImpl(private val itemView: View) : ShrinkOnTouchTileViewHolder {
 

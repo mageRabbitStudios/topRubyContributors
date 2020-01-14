@@ -12,7 +12,7 @@ import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsLis
 import com.kinzlstanislav.topcontributors.list.R
 import com.kinzlstanislav.topcontributors.list.R.id.item_contributor_commits
 import com.kinzlstanislav.topcontributors.list.R.id.item_contributor_name
-import com.kinzlstanislav.topcontributors.ui.imageloading.GlideImageLoader
+import com.kinzlstanislav.topcontributors.base.imageloading.GlideImageLoader
 import com.kinzlstanislav.topcontributors.viewtesting.FragmentKoinTest
 import com.kinzlstanislav.topcontributors.viewtesting.matchers.assertViewHolderOfItemAtPosition
 import com.nhaarman.mockitokotlin2.any

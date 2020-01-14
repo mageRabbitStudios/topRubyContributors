@@ -8,7 +8,6 @@ import retrofit2.http.Path
 
 interface GithubApiService {
 
-    //TODO: I could've made more generalized and multifunctional function called "getContributorsForRepository" (time)
     @GET("repos/ruby/ruby/stats/contributors")
     @Throws(Exception::class)
     fun getContributorsForRubyAsync(): Deferred<List<GithubRepositoryContributorResponse>>

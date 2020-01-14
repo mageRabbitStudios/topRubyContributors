@@ -14,7 +14,6 @@
             <option value="$PROJECT_DIR$/feature_map" />
             <option value="$PROJECT_DIR$/lib_architecture_network" />
             <option value="$PROJECT_DIR$/lib_architecture_repository" />
-            <option value="$PROJECT_DIR$/lib_core" />
             <option value="$PROJECT_DIR$/lib_feature_base" />
             <option value="$PROJECT_DIR$/lib_ui" />
             <option value="$PROJECT_DIR$/lib_unit_testing" />
@@ -22,6 +21,7 @@
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
+        <option name="testRunner" value="PLATFORM" />
       </GradleProjectSettings>
     </option>
   </component>
