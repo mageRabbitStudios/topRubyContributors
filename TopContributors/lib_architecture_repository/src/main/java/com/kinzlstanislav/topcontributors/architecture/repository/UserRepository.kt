@@ -4,7 +4,7 @@ import com.kinzlstanislav.topcontributors.architecture.network.api.GithubApiServ
 import com.kinzlstanislav.topcontributors.architecture.repository.mapper.UserResponseMapper
 import java.io.IOException
 
-class UserRepository constructor(
+class UserRepository(
     private val api: GithubApiService,
     private val mapper: UserResponseMapper
 ) {

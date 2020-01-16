@@ -2,9 +2,8 @@ package com.kinzlstanislav.topcontributors.architecture.repository.mapper
 
 import com.kinzlstanislav.topcontributors.architecture.repository.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.network.response.GithubRepositoryContributorResponse
-import javax.inject.Inject
 
-class ContributorsResponseMapper @Inject constructor() {
+class ContributorsResponseMapper {
 
     fun mapFromContributorsResponse(response: List<GithubRepositoryContributorResponse>): List<Contributor> {
         val mappedResult: MutableList<Contributor> = mutableListOf()
