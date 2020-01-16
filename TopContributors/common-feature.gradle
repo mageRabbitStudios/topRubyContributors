@@ -5,12 +5,6 @@ apply plugin: "androidx.navigation.safeargs"
 apply from: rootProject.file('common-module.gradle')
 apply from: rootProject.file('test-settings-feature.gradle')
 
-android {
-    dataBinding {
-        enabled = true
-    }
-}
-
 dependencies {
     implementation project(":lib_ui")
     implementation project(":lib_feature_base")
@@ -28,10 +22,9 @@ dependencies {
     implementation Dependencies.lifecycleViewModel
     implementation Dependencies.androidXCoreKtx
 
-    testImplementation project(":lib_view_testing")
+    implementation Dependencies.koin
+    implementation Dependencies.koinViewModel
 
-    // TODO: move to Dependencies
-    implementation "org.koin:koin-android:2.0.1"
-    implementation 'org.koin:koin-android-viewmodel:2.0.1'
-    testImplementation "io.mockk:mockk:1.9.3"
+    testImplementation project(":lib_view_testing")
+    testImplementation TestDependencies.mockk
 }

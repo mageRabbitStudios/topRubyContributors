@@ -58,6 +58,8 @@ object Versions {
     const val okHttpVersion = "3.12.1"
 
     const val googleMapsVersion = "16.1.0"
+
+    const val koinVersion = "2.0.1"
 }
 
 object DefaultConfigurations {
@@ -113,6 +115,10 @@ object Dependencies {
     const val daggerAndroidSupport = "com.google.dagger:dagger-android-support:${Versions.daggerVersion}"
     const val daggerAndroidCompiler = "com.google.dagger:dagger-android-processor:${Versions.daggerVersion}"
 
+    // Koin
+    const val koin = "org.koin:koin-android:${Versions.koinVersion}"
+    const val koinViewModel = "org.koin:koin-android-viewmodel:${Versions.koinVersion}"
+
     // JavaX
     const val javaxInject = "javax.inject:javax.inject:${Versions.javaxInjectVersion}"
     const val javaxAnnotation = "javax.annotation:jsr250-api:${Versions.javaxAnnotationVersion}"
@@ -159,6 +165,7 @@ object TestDependencies {
     const val androidxFragmentTesting = "androidx.fragment:fragment-testing:${Versions.androidxFragmentTestingVersion}"
     const val barista = "com.schibsted.spain:barista:${Versions.baristaVersion}"
     const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutinesVersion}"
+    const val mockk = "io.mockk:mockk:1.9.3"
 }
 
 @SuppressWarnings("MaxLineLength")
