@@ -7,6 +7,7 @@ import com.kinzlstanislav.topcontributors.base.extensions.observe
 import com.kinzlstanislav.topcontributors.base.Constants
 import com.kinzlstanislav.topcontributors.base.extensions.disableTouchGestures
 import com.kinzlstanislav.topcontributors.base.extensions.enableTouchGestures
+import com.kinzlstanislav.topcontributors.base.extensions.showToast
 import com.kinzlstanislav.topcontributors.base.view.BaseFragment
 import com.kinzlstanislav.topcontributors.feature.list.view.adapter.ContributorsAdapter
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel
@@ -47,22 +48,20 @@ class FragmentContributorsList : BaseFragment(),
     }
 
     override fun onFragmentCreated() {
-        observe(contributorsListViewModel.state, viewStateObserver)
-        contributors_list_recycler_view.adapter = contributorsAdapter
-    }
-
-    private val viewStateObserver: Observer<ContributorsListState> = Observer { state ->
-        with(flipper) {
-            when (state) {
-                is LoadingContributors -> showView(contributors_list_loader)
-                is NetworkError -> showView(network_error)
-                is GenericError -> showView(generic_error)
-                is ContributorsLoaded -> {
-                    showView(contributors_list_recycler_view)
-                    contributorsAdapter.updateItems(state.contributors)
+        observe(contributorsListViewModel.state, Observer { state ->
+            with(flipper) {
+                when (state) {
+                    is LoadingContributors -> showView(contributors_list_loader)
+                    is NetworkError -> showView(network_error)
+                    is GenericError -> showView(generic_error)
+                    is ContributorsLoaded -> {
+                        showView(contributors_list_recycler_view)
+                        contributorsAdapter.updateItems(state.contributors)
+                    }
                 }
             }
-        }
+        })
+        contributors_list_recycler_view.adapter = contributorsAdapter
     }
 
     override fun onUserLocationResultReceived(result: ContributorLocationResult) {
@@ -72,9 +71,7 @@ class FragmentContributorsList : BaseFragment(),
                 R.id.action_fragmentContributorsList_to_fragmentContributorMap,
                 bundleOf(Constants.EXTRAS_LOCATION to result.location, Constants.EXTRAS_USER to result.user)
             )
-            else -> {
-                // handle error, perhaps show generic error message or something.
-            }
+            else -> showToast("No address for this one")
         }
     }
 

@@ -11,6 +11,7 @@ import com.kinzlstanislav.topcontributors.architecture.repository.ContributorsRe
 import com.kinzlstanislav.topcontributors.architecture.repository.UserRepository
 import com.kinzlstanislav.topcontributors.architecture.repository.model.Contributor
 import com.kinzlstanislav.topcontributors.architecture.repository.model.User
+import com.kinzlstanislav.topcontributors.base.extensions.set
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.ContributorsLoaded
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.GenericError
 import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsListViewModel.ContributorsListState.LoadingContributors
@@ -21,7 +22,8 @@ import com.kinzlstanislav.topcontributors.feature.list.viewmodel.ContributorsLis
 class ContributorsListViewModel(
     private val contributorsRepository: ContributorsRepository,
     private val userRepository: UserRepository,
-    private val geocoder: Geocoder
+    private val geocoder: Geocoder,
+    val state: MutableLiveData<ContributorsListState> = MutableLiveData()
 ) : ViewModel() {
 
     companion object {
@@ -48,18 +50,16 @@ class ContributorsListViewModel(
         object GenericError : ContributorsListState()
     }
 
-    private var _state = MutableLiveData<ContributorsListState>()
-    val state: LiveData<ContributorsListState> get() = _state
-
     fun getRubyContributors() {
-        _state.value = LoadingContributors
+        state.set(LoadingContributors)
         coroutine {
             try {
                 val contributors = contributorsRepository.fetchRubyContributors()
-                val sortedContributors = contributors.sortedBy { -it.numberOfCommits }.subList(0, MAX_SORTED_USERS)
-                _state.value = ContributorsLoaded(sortedContributors)
+                val sortedContributors = contributors.sortedBy { -it.numberOfCommits }
+                    .subList(0, MAX_SORTED_USERS)
+                state.set(ContributorsLoaded(sortedContributors))
             } catch (exception: Exception) {
-                _state.value = if (exception.isConnectionError()) NetworkError else GenericError
+                state.set(if (exception.isConnectionError()) NetworkError else GenericError)
             }
         }
     }

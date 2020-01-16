@@ -21,7 +21,6 @@ dependencies {
 
     implementation Dependencies.constraintLayout2Alpha
     implementation Dependencies.recyclerView
-
     implementation Dependencies.navigationUI
     implementation Dependencies.navigationFragment
 
