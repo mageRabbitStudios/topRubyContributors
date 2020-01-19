@@ -21,7 +21,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 val appModule = module {
 
     // view model
-    single { ContributorsListViewModel(
+    factory { ContributorsListViewModel(
         geocoder = get(),
         userRepository = get(),
         contributorsRepository = get()) }
@@ -39,21 +39,17 @@ val appModule = module {
         .baseUrl(GitHubRestData.REST_GITHUB_BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
-        .client(get())
+        .client(
+            OkHttpClient.Builder().apply {
+                if (BuildConfig.DEBUG) {
+                    addNetworkInterceptor(
+                        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+                    )
+                }
+            }.build()
+        )
         .build()
         .create(GithubApiService::class.java)
-    }
-
-    factory<Interceptor> {
-        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    }
-
-    factory {
-        val builder = OkHttpClient.Builder()
-        if (BuildConfig.DEBUG) {
-            builder.addNetworkInterceptor(get())
-        }
-        builder.build()
     }
 
     // other

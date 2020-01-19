@@ -1,15 +1,10 @@
 apply from: rootProject.file('common-library.gradle')
 
 dependencies {
-
-    implementation Dependencies.dagger
-
     implementation Dependencies.okhttpLogging
 
     implementation Dependencies.moshi
     implementation Dependencies.retrofit
     implementation Dependencies.retrofitCoroutineAdapter
     implementation Dependencies.retrofitMoshiAdapter
-
-    kapt Dependencies.daggerCompiler
 }

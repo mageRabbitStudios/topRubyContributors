@@ -1,6 +1,5 @@
 apply plugin: 'com.android.feature'
 apply plugin: 'kotlin-android'
-apply plugin: "androidx.navigation.safeargs"
 
 apply from: rootProject.file('common-module.gradle')
 apply from: rootProject.file('test-settings-feature.gradle')
